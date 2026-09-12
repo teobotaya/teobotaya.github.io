@@ -211,6 +211,7 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
     <div class="nav-links">
       <a href="#proyecto">Proyecto</a>
       <a href="#arquitectura">Arquitectura</a>
+      <a href="#plugin">Plugin</a>
       <a href="#stack">Stack</a>
       <a href="#contacto">Contacto</a>
     </div>
@@ -222,8 +223,9 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
   <h1>Construyo sistemas que <span class="accent">resuelven un problema real</span> de principio a fin.</h1>
   <p class="hero-lede">
     Del modelo de datos a la interfaz: API REST en .NET, base de datos relacional con reglas
-    de integridad, y frontend en React con TypeScript. Me interesa que el software sea correcto,
-    no solo que funcione en la demo.
+    de integridad, y frontend en React con TypeScript. También escribo herramientas: un plugin
+    de Obsidian en TypeScript, con su propio motor de clustering y búsqueda semántica. Me interesa
+    que el software sea correcto, no solo que funcione en la demo.
   </p>
   <div class="hero-meta">
     <span><i class="dot"></i>Malvinas Argentinas, Buenos Aires</span>
@@ -231,7 +233,8 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
     <span><i class="dot"></i>Disponible para trabajar</span>
   </div>
   <div class="cta-row">
-    <a class="btn btn-primary" href="#proyecto">Ver el proyecto</a>
+    <a class="btn btn-primary" href="#proyecto">Ver el sistema</a>
+    <a class="btn btn-ghost" href="#plugin">Ver el plugin</a>
     <a class="btn btn-ghost" href="https://github.com/teobotaya" target="_blank" rel="noopener">GitHub</a>
     <a class="btn btn-ghost" href="mailto:teobotaya@gmail.com">teobotaya@gmail.com</a>
   </div>
@@ -331,7 +334,7 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
     <div class="arch">
       <div class="layer">
         <div class="layer-name">Frontend <small>React 17 · TypeScript</small></div>
-        <div class="layer-desc">SPA con 17 páginas, ruteo con React Router, contexto de autenticación con JWT y un sistema de diseño propio en CSS con tokens, sin framework de componentes.</div>
+        <div class="layer-desc">SPA con 19 páginas, ruteo con React Router, contexto de autenticación con JWT y un sistema de diseño propio en CSS con tokens, sin framework de componentes.</div>
       </div>
       <div class="layer">
         <div class="layer-name">API <small>ASP.NET Core 8</small></div>
@@ -382,7 +385,60 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
   </div>
 </section>
 
-<section id="stack">
+<section id="plugin">
+  <div class="wrap">
+    <p class="eyebrow">Segundo proyecto</p>
+    <h2 class="sec-title">Smart Atlas — plugin de Obsidian</h2>
+    <p class="sec-intro">
+      Plugin en TypeScript que convierte los embeddings de Smart Connections en un mapa semántico
+      navegable: proyecta la bóveda entera a dos dimensiones, la agrupa por temas y deja explorarla
+      sin salir del editor. Cero dependencias en tiempo de ejecución — el álgebra lineal, el
+      clustering y el renderizado SVG están escritos a mano.
+    </p>
+
+    <div class="grid-3">
+      <article class="card">
+        <span class="tag tag-i">Decisión de diseño</span>
+        <h3>Nunca asume que la dependencia está</h3>
+        <p>
+          El puente detecta el entorno de Smart Connections y normaliza las tres formas de respuesta
+          de sus distintas versiones. Si no está instalado o falla, degrada a un índice TF-IDF propio
+          construido en memoria. El plugin no queda inutilizable por una dependencia ausente.
+        </p>
+      </article>
+      <article class="card">
+        <span class="tag tag-g">Rendimiento</span>
+        <h3>Reducir dimensiones antes de comparar</h3>
+        <p>
+          Agrupar y buscar vecinos es O(n²). Una proyección Johnson–Lindenstrauss lleva 384 o 4096
+          dimensiones a 64 conservando las distancias coseno: 180 notas se procesan en ~60 ms
+          en lugar de varios segundos.
+        </p>
+      </article>
+      <article class="card">
+        <span class="tag tag-b">Interfaz</span>
+        <h3>Cinco superficies, una sola lógica</h3>
+        <p>
+          Vista lateral con mapa SVG (zoom, paneo, clústeres), modal de búsqueda con vista previa y
+          atajos de teclado, pestaña de ajustes, icono de ribbon, barra de estado y menú contextual.
+          Todas consumen el mismo bridge.
+        </p>
+      </article>
+    </div>
+
+    <h3 style="font-size:19px;margin:52px 0 14px">El umbral se adapta a la escala del motor</h3>
+    <pre class="codeblock"><code><span class="c">// La similitud coseno de TF-IDF y la de los embeddings no viven en la misma escala.</span>
+<span class="c">// Si el grafo queda disperso, el umbral se relaja solo en vez de dibujar un mapa vacío.</span>
+<span class="k">if</span> (this.edges.length &gt;= n * <span class="s">0.6</span> || floor &lt;= <span class="s">0.08</span>) <span class="k">return</span>;
+floor *= <span class="s">0.6</span>;</code></pre>
+
+    <div class="cta-row" style="margin-top:34px">
+      <a class="btn btn-ghost" href="https://github.com/teobotaya/smart-atlas" target="_blank" rel="noopener">Código en GitHub</a>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="stack">
   <div class="wrap">
     <p class="eyebrow">Herramientas</p>
     <h2 class="sec-title">Stack</h2>
@@ -400,13 +456,17 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
       <div class="chips"><span class="chip">SQL Server</span><span class="chip">Modelado relacional</span><span class="chip">Docker · Compose</span><span class="chip">GitHub Actions</span><span class="chip">Git</span></div>
     </div>
     <div class="stack-group">
+      <h4>Herramientas propias</h4>
+      <div class="chips"><span class="chip">Obsidian Plugin API</span><span class="chip">esbuild</span><span class="chip">Node.js</span><span class="chip">SVG</span><span class="chip">Álgebra lineal aplicada</span><span class="chip">k-means · PCA</span></div>
+    </div>
+    <div class="stack-group">
       <h4>Análisis y diseño</h4>
       <div class="chips"><span class="chip">UML</span><span class="chip">Casos de uso</span><span class="chip">Diagramas de secuencia</span><span class="chip">Mermaid</span><span class="chip">Planificación y Gantt</span></div>
     </div>
   </div>
 </section>
 
-<section class="alt" id="formacion">
+<section id="formacion">
   <div class="wrap">
     <p class="eyebrow">Formación</p>
     <h2 class="sec-title">Estudios</h2>
@@ -426,7 +486,7 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
   </div>
 </section>
 
-<section id="contacto">
+<section class="alt" id="contacto">
   <div class="wrap">
     <div class="contact">
       <h2>¿Buscás un desarrollador junior que entienda el problema antes de escribir código?</h2>
