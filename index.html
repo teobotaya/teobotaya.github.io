@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teo Matías Botaya — Desarrollador Full Stack</title>
+<meta name="description" content="Desarrollador full stack. .NET, C#, React y TypeScript. Portfolio y caso de estudio de un sistema de gestión integral para complejos deportivos.">
+<meta property="og:title" content="Teo Matías Botaya — Desarrollador Full Stack">
+<meta property="og:description" content="Caso de estudio: sistema de gestión integral full stack con ASP.NET Core 8, EF Core, SQL Server y React + TypeScript.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF; --bg-alt:#F5F8F7; --bg-deep:#0C2A21;
+  --surface:#FFFFFF; --border:#E2E8E6; --border-strong:#CBD6D3;
+  --text:#10201B; --muted:#5C6E68; --light:#8A9A94;
+  --green:#0E8A55; --green-dark:#0A6B42; --green-soft:#E7F5EE;
+  --blue:#1F62C4; --blue-soft:#E9F0FC; --indigo:#5A4BD1; --indigo-soft:#EDEBFB;
+  --amber:#C0700B; --amber-soft:#FBF1E1;
+  --r:12px; --r-lg:18px;
+  --shadow:0 1px 2px rgba(15,34,28,.05),0 2px 8px rgba(15,34,28,.05);
+  --shadow-lg:0 12px 40px rgba(15,34,28,.12);
+  --ease:cubic-bezier(.32,.72,.35,1);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#0B1512; --bg-alt:#101E19; --surface:#132420; --border:#1E332C;
+    --border-strong:#2A453C; --text:#E8F0EC; --muted:#9BB0A8; --light:#7A9088;
+    --green:#2CB878; --green-dark:#17A468; --green-soft:#12312476;
+    --blue:#5B93E8; --blue-soft:#12233c76; --indigo:#8F82F0; --indigo-soft:#1e1a3c76;
+    --amber:#E0A24A; --amber-soft:#32240f76;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 2px 8px rgba(0,0,0,.2);
+    --shadow-lg:0 12px 40px rgba(0,0,0,.45);
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{margin:0;letter-spacing:-.03em;line-height:1.15;font-weight:700}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+code,.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+img{max-width:100%;display:block}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding-inline:24px}
+.eyebrow{
+  font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--green);margin-bottom:14px;
+}
+section{padding-block:88px;scroll-margin-top:72px}
+section.alt{background:var(--bg-alt);border-block:1px solid var(--border)}
+.sec-title{font-size:clamp(26px,3.4vw,34px);margin-bottom:14px}
+.sec-intro{color:var(--muted);font-size:17px;max-width:62ch;margin-bottom:44px}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--border);
+}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:62px;gap:16px}
+.nav-brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px}
+.nav-mark{
+  width:30px;height:30px;border-radius:8px;background:var(--green);color:#fff;
+  display:grid;place-items:center;font-size:12px;font-weight:700;flex-shrink:0;
+}
+.nav-links{display:flex;gap:28px;font-size:14.5px;color:var(--muted);font-weight:500}
+.nav-links a{transition:color .15s var(--ease)}
+.nav-links a:hover{color:var(--green)}
+
+/* HERO */
+.hero{padding-block:104px 76px}
+.hero h1{font-size:clamp(38px,6.2vw,62px);margin-bottom:20px}
+.hero h1 .accent{color:var(--green)}
+.hero-lede{font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:60ch;margin-bottom:14px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px 22px;color:var(--light);font-size:14.5px;margin-bottom:34px}
+.hero-meta span{display:inline-flex;align-items:center;gap:7px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;padding:11px 20px;border-radius:10px;
+  font-size:14.5px;font-weight:600;border:1px solid transparent;cursor:pointer;
+  transition:transform .15s var(--ease),box-shadow .15s var(--ease),background .15s var(--ease),border-color .15s var(--ease);
+}
+.btn-primary{background:var(--green);color:#fff}
+.btn-primary:hover{background:var(--green-dark);transform:translateY(-1px);box-shadow:0 6px 18px rgba(14,138,85,.3)}
+.btn-ghost{border-color:var(--border-strong);color:var(--text);background:var(--surface)}
+.btn-ghost:hover{border-color:var(--green);color:var(--green);transform:translateY(-1px)}
+
+/* STATS */
+.stats{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;background:var(--border);border:1px solid var(--border);
+  border-radius:var(--r-lg);overflow:hidden;margin-top:60px;
+}
+.stat{background:var(--surface);padding:22px 20px}
+.stat-n{font-size:30px;font-weight:700;letter-spacing:-.04em;color:var(--green);line-height:1}
+.stat-l{font-size:13px;color:var(--muted);margin-top:6px}
+
+/* CARDS */
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:26px;transition:transform .2s var(--ease),box-shadow .2s var(--ease),border-color .2s var(--ease);
+}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--border-strong)}
+.card h3{font-size:17px;margin-bottom:10px}
+.card p{color:var(--muted);font-size:15px}
+.tag{
+  display:inline-block;font-size:11.5px;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:14px;
+}
+.tag-g{background:var(--green-soft);color:var(--green-dark)}
+.tag-b{background:var(--blue-soft);color:var(--blue)}
+.tag-i{background:var(--indigo-soft);color:var(--indigo)}
+@media (prefers-color-scheme:dark){.tag-g{color:var(--green)}}
+
+/* PROBLEMA / SOLUCION */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.panel{border-radius:var(--r-lg);padding:30px;border:1px solid var(--border)}
+.panel-before{background:var(--bg-alt)}
+.panel-after{background:var(--green-soft);border-color:color-mix(in srgb,var(--green) 26%,transparent)}
+.panel h3{font-size:15px;margin-bottom:16px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-size:12.5px}
+.panel ul{margin:0;padding-left:18px;color:var(--muted);font-size:15.5px;display:grid;gap:9px}
+.panel-after ul{color:var(--text)}
+
+/* CODE */
+.codeblock{
+  background:var(--bg-deep);color:#CFE2D8;border-radius:var(--r);padding:20px 22px;
+  overflow-x:auto;font-size:13.5px;line-height:1.7;border:1px solid #17402F;
+}
+.codeblock .k{color:#7FD8A8}.codeblock .s{color:#9EC5F5}.codeblock .c{color:#6E8A7D}
+
+/* ARQUITECTURA */
+.arch{display:grid;gap:14px;margin-top:8px}
+.layer{
+  display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  padding:18px 22px;border-left:4px solid var(--green);
+}
+.layer:nth-child(2){border-left-color:var(--blue)}
+.layer:nth-child(3){border-left-color:var(--indigo)}
+.layer:nth-child(4){border-left-color:var(--amber)}
+.layer-name{font-weight:650;font-size:15px}
+.layer-name small{display:block;color:var(--light);font-weight:500;font-size:12.5px;margin-top:2px}
+.layer-desc{color:var(--muted);font-size:14.5px}
+
+/* GALERIA */
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:18px}
+@media (max-width:520px){.gallery{grid-template-columns:1fr}.shot img{height:190px}}
+.shot{
+  border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--surface);
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.shot:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.shot img{width:100%;height:250px;object-fit:cover;object-position:top left;background:#fff;border-bottom:1px solid var(--border)}
+.shot figcaption .zoom{display:block;margin-top:6px;font-size:12.5px;color:var(--green);font-weight:600}
+.shot figcaption{padding:13px 16px;font-size:13.5px;color:var(--muted)}
+.shot figcaption b{display:block;color:var(--text);font-weight:600;font-size:14.5px;margin-bottom:2px}
+
+/* STACK */
+.stack-group{margin-bottom:26px}
+.stack-group h4{font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--light);margin-bottom:12px;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:9px}
+.chip{
+  background:var(--surface);border:1px solid var(--border);border-radius:999px;
+  padding:7px 15px;font-size:14px;font-weight:500;
+  transition:border-color .15s var(--ease),color .15s var(--ease);
+}
+.chip:hover{border-color:var(--green);color:var(--green)}
+
+/* FORMACION */
+.edu{display:flex;gap:20px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:26px}
+.edu-mark{width:46px;height:46px;border-radius:12px;background:var(--green-soft);color:var(--green-dark);display:grid;place-items:center;flex-shrink:0}
+@media (prefers-color-scheme:dark){.edu-mark{color:var(--green)}}
+.edu h3{font-size:17px;margin-bottom:4px}
+.edu p{color:var(--muted);font-size:15px}
+
+/* CONTACTO */
+.contact{background:var(--bg-deep);color:#fff;border-radius:var(--r-lg);padding:52px 40px;text-align:center}
+.contact h2{font-size:clamp(24px,3.4vw,32px);margin-bottom:12px}
+.contact p{color:#A9C4B7;max-width:48ch;margin:0 auto 28px;font-size:16.5px}
+.contact .btn-ghost{background:transparent;border-color:#2B5A48;color:#fff}
+.contact .btn-ghost:hover{border-color:var(--green);color:#7FD8A8}
+
+footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);font-size:14px}
+.foot-in{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
+
+@media (max-width:820px){
+  section{padding-block:64px}
+  .split{grid-template-columns:1fr}
+  .layer{grid-template-columns:1fr;gap:8px;padding:16px 18px}
+  .nav-links{display:none}
+  .hero{padding-block:72px 56px}
+  .contact{padding:40px 24px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-in">
+    <a class="nav-brand" href="#top"><span class="nav-mark">TB</span> Teo Botaya</a>
+    <div class="nav-links">
+      <a href="#proyecto">Proyecto</a>
+      <a href="#arquitectura">Arquitectura</a>
+      <a href="#stack">Stack</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </div>
+</nav>
+
+<header class="wrap hero" id="top">
+  <p class="eyebrow">Desarrollador Full Stack</p>
+  <h1>Construyo sistemas que <span class="accent">resuelven un problema real</span> de principio a fin.</h1>
+  <p class="hero-lede">
+    Del modelo de datos a la interfaz: API REST en .NET, base de datos relacional con reglas
+    de integridad, y frontend en React con TypeScript. Me interesa que el software sea correcto,
+    no solo que funcione en la demo.
+  </p>
+  <div class="hero-meta">
+    <span><i class="dot"></i>Malvinas Argentinas, Buenos Aires</span>
+    <span><i class="dot"></i>Lic. en Sistemas de Información (en curso)</span>
+    <span><i class="dot"></i>Disponible para trabajar</span>
+  </div>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#proyecto">Ver el proyecto</a>
+    <a class="btn btn-ghost" href="https://github.com/teobotaya" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn btn-ghost" href="mailto:teobotaya@gmail.com">teobotaya@gmail.com</a>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-n">~9.200</div><div class="stat-l">líneas de código</div></div>
+    <div class="stat"><div class="stat-n">48</div><div class="stat-l">endpoints REST</div></div>
+    <div class="stat"><div class="stat-n">12</div><div class="stat-l">tablas relacionales</div></div>
+    <div class="stat"><div class="stat-n">24</div><div class="stat-l">pruebas unitarias</div></div>
+  </div>
+</header>
+
+<section class="alt" id="proyecto">
+  <div class="wrap">
+    <p class="eyebrow">Proyecto destacado</p>
+    <h2 class="sec-title">Sports Complex Admin</h2>
+    <p class="sec-intro">
+      Sistema de gestión integral para un complejo deportivo: canchas, reservas, clientes,
+      pagos, cancelaciones, torneos, equipos y partidos en un único backoffice, con control
+      de acceso por rol. Desarrollado de forma individual, incluyendo el modelado de datos,
+      la API, el frontend y la documentación técnica.
+    </p>
+
+    <div class="split" style="margin-bottom:44px">
+      <div class="panel panel-before">
+        <h3>Antes</h3>
+        <ul>
+          <li>El turnero se lleva en cuaderno y planillas sueltas.</li>
+          <li>Una misma cancha puede terminar reservada dos veces en el mismo horario.</li>
+          <li>No hay forma rápida de saber qué está cobrado y qué no.</li>
+          <li>Las cancelaciones y devoluciones no quedan trazadas.</li>
+        </ul>
+      </div>
+      <div class="panel panel-after">
+        <h3>Después</h3>
+        <ul>
+          <li>Alta de reservas con verificación de disponibilidad en el momento.</li>
+          <li>La superposición es imposible: lo garantiza la base de datos.</li>
+          <li>Cada reserva arrastra su estado de pago y su historial.</li>
+          <li>Cancelación y devolución quedan registradas y auditables.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <article class="card">
+        <span class="tag tag-g">Decisión de diseño</span>
+        <h3>La regla vive en la base, no en el formulario</h3>
+        <p>
+          La no superposición de reservas se garantiza con un índice único filtrado, de modo que
+          una reserva cancelada libera el horario pero una vigente lo bloquea. Validar solo en el
+          frontend habría dejado la puerta abierta a cualquier otra vía de entrada.
+        </p>
+      </article>
+      <article class="card">
+        <span class="tag tag-b">Modelo de dominio</span>
+        <h3>El cliente no es un usuario del sistema</h3>
+        <p>
+          En un complejo deportivo el cliente reserva por teléfono o en el mostrador. Por eso es
+          una entidad que el personal da de alta y administra, y no una cuenta con login. El modelo
+          sigue al negocio, no al revés.
+        </p>
+      </article>
+      <article class="card">
+        <span class="tag tag-i">Arquitectura</span>
+        <h3>Lógica en servicios, no en controllers</h3>
+        <p>
+          Los controllers solo validan la entrada y traducen DTOs. Las reglas viven en 16 servicios
+          de dominio, que son además los que están cubiertos por pruebas unitarias con base en memoria.
+        </p>
+      </article>
+    </div>
+
+    <h3 style="font-size:19px;margin:52px 0 14px">Integridad garantizada en el motor</h3>
+    <pre class="codeblock"><code><span class="c">-- Una cancha no puede tener dos reservas vigentes en el mismo horario.</span>
+<span class="c">-- El filtro deja libre el turno cuando la reserva fue cancelada.</span>
+<span class="k">CREATE UNIQUE INDEX</span> UX_Reserva_Cancha_Fecha_Horario
+    <span class="k">ON</span> dbo.Reserva (id_cancha, fecha, hora_inicio)
+    <span class="k">WHERE</span> estado_reserva &lt;&gt; <span class="s">'Cancelada'</span>;</code></pre>
+    <p style="color:var(--muted);font-size:15px;margin-top:14px;max-width:70ch">
+      Se complementa con restricciones <code>CHECK</code> sobre horarios, montos y estados, y claves
+      foráneas en todas las relaciones. El servicio de disponibilidad hace la verificación previa
+      para dar un mensaje claro al usuario; la base es la última línea de defensa.
+    </p>
+  </div>
+</section>
+
+<section id="arquitectura">
+  <div class="wrap">
+    <p class="eyebrow">Cómo está construido</p>
+    <h2 class="sec-title">Arquitectura en tres capas</h2>
+    <p class="sec-intro">
+      Responsabilidades separadas y contratos explícitos entre capas. Todo el entorno se levanta
+      con un solo comando mediante Docker Compose, y cada push corre compilación, chequeo de tipos
+      y las dos suites de pruebas en GitHub Actions.
+    </p>
+    <div class="arch">
+      <div class="layer">
+        <div class="layer-name">Frontend <small>React 17 · TypeScript</small></div>
+        <div class="layer-desc">SPA con 17 páginas, ruteo con React Router, contexto de autenticación con JWT y un sistema de diseño propio en CSS con tokens, sin framework de componentes.</div>
+      </div>
+      <div class="layer">
+        <div class="layer-name">API <small>ASP.NET Core 8</small></div>
+        <div class="layer-desc">12 controllers y 48 endpoints REST. Autenticación JWT Bearer, autorización por rol, CORS configurado por origen y documentación automática con Swagger.</div>
+      </div>
+      <div class="layer">
+        <div class="layer-name">Dominio <small>16 servicios</small></div>
+        <div class="layer-desc">Disponibilidad, reservas, pagos, cancelaciones, devoluciones, torneos, partidos, estadísticas y reportes. Es donde viven las reglas del negocio.</div>
+      </div>
+      <div class="layer">
+        <div class="layer-name">Datos <small>EF Core 8 · SQL Server</small></div>
+        <div class="layer-desc">12 entidades mapeadas, migraciones versionadas, índices y constraints declarados en el schema, y scripts de creación y carga inicial en el repositorio.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="diagramas">
+  <div class="wrap">
+    <p class="eyebrow">Documentación</p>
+    <h2 class="sec-title">El sistema, documentado</h2>
+    <p class="sec-intro">
+      Los diagramas están versionados como código fuente Mermaid junto al repositorio, no como
+      imágenes sueltas: se regeneran y evolucionan con el sistema.
+    </p>
+    <div class="gallery">
+      <figure class="shot">
+        <a href="assets/diagrama-relacional.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-relacional-thumb.jpg" alt="Diagrama relacional de la base de datos" loading="lazy"></a>
+        <figcaption><b>Diagrama relacional</b>12 tablas con claves, índices y restricciones<span class="zoom">Ver en tamaño completo →</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="assets/diagrama-der.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-der-thumb.jpg" alt="Diagrama entidad-relación" loading="lazy"></a>
+        <figcaption><b>Entidad-Relación</b>Entidades del dominio y sus cardinalidades<span class="zoom">Ver en tamaño completo →</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="assets/diagrama-clases.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-clases-thumb.jpg" alt="Diagrama de clases" loading="lazy"></a>
+        <figcaption><b>Diagrama de clases</b>Entidades, servicios y sus dependencias<span class="zoom">Ver en tamaño completo →</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="assets/diagrama-secuencia-reserva.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-secuencia-reserva-thumb.jpg" alt="Diagrama de secuencia del alta de reserva" loading="lazy"></a>
+        <figcaption><b>Secuencia: alta de reserva</b>Del formulario a la validación en la base<span class="zoom">Ver en tamaño completo →</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="assets/diagrama-casos-uso.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-casos-uso-thumb.jpg" alt="Diagrama de casos de uso" loading="lazy"></a>
+        <figcaption><b>Casos de uso</b>Qué puede hacer cada rol en el sistema<span class="zoom">Ver en tamaño completo →</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="wrap">
+    <p class="eyebrow">Herramientas</p>
+    <h2 class="sec-title">Stack</h2>
+    <p class="sec-intro">Tecnologías que usé para construir y sostener este proyecto de punta a punta.</p>
+    <div class="stack-group">
+      <h4>Backend</h4>
+      <div class="chips"><span class="chip">C#</span><span class="chip">ASP.NET Core 8</span><span class="chip">Entity Framework Core</span><span class="chip">API REST</span><span class="chip">JWT</span><span class="chip">xUnit</span><span class="chip">Swagger</span></div>
+    </div>
+    <div class="stack-group">
+      <h4>Frontend</h4>
+      <div class="chips"><span class="chip">TypeScript</span><span class="chip">React</span><span class="chip">React Router</span><span class="chip">Vite</span><span class="chip">CSS / Diseño responsive</span><span class="chip">Vitest</span></div>
+    </div>
+    <div class="stack-group">
+      <h4>Datos e infraestructura</h4>
+      <div class="chips"><span class="chip">SQL Server</span><span class="chip">Modelado relacional</span><span class="chip">Docker · Compose</span><span class="chip">GitHub Actions</span><span class="chip">Git</span></div>
+    </div>
+    <div class="stack-group">
+      <h4>Análisis y diseño</h4>
+      <div class="chips"><span class="chip">UML</span><span class="chip">Casos de uso</span><span class="chip">Diagramas de secuencia</span><span class="chip">Mermaid</span><span class="chip">Planificación y Gantt</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="formacion">
+  <div class="wrap">
+    <p class="eyebrow">Formación</p>
+    <h2 class="sec-title">Estudios</h2>
+    <div class="edu">
+      <div class="edu-mark">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/></svg>
+      </div>
+      <div>
+        <h3>Licenciatura en Sistemas de Información</h3>
+        <p>Universidad del Salvador (USAL), sede Pilar — en curso.</p>
+        <p style="margin-top:10px;font-size:14.5px">
+          Este sistema fue desarrollado en el marco de la carrera, cubriendo el ciclo completo:
+          relevamiento, modelado de datos, desarrollo, pruebas y documentación técnica.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contacto">
+  <div class="wrap">
+    <div class="contact">
+      <h2>¿Buscás un desarrollador junior que entienda el problema antes de escribir código?</h2>
+      <p>Estoy disponible para posiciones junior o pasantías, presencial en zona norte de Buenos Aires o remoto.</p>
+      <div class="cta-row" style="justify-content:center">
+        <a class="btn btn-primary" href="mailto:teobotaya@gmail.com">Escribirme</a>
+        <a class="btn btn-ghost" href="https://github.com/teobotaya" target="_blank" rel="noopener">Ver mi GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <span>© 2026 Teo Matías Botaya</span>
+    <span>Hecho a mano con HTML y CSS, sin frameworks.</span>
+  </div>
+</footer>
+
+</body>
+</html>
