@@ -221,12 +221,13 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Teo Matías Botaya","jobTitle":"Desarrollador Full Stack","email":"teobotaya@gmail.com","url":"https://teobotaya.github.io/","sameAs":["https://github.com/teobotaya"],"address":{"@type":"PostalAddress","addressLocality":"Malvinas Argentinas","addressRegion":"Buenos Aires","addressCountry":"AR"},"alumniOf":{"@type":"CollegeOrUniversity","name":"Universidad del Salvador"},"knowsAbout":["C#","ASP.NET Core","TypeScript","React","SQL Server","Node.js","Docker"]}
 </script>
+<link rel="stylesheet" href="assets/3d.css">
 </head>
 <body>
 
 <nav class="nav">
   <div class="wrap nav-in">
-    <a class="nav-brand" href="#top"><span class="nav-mark">TB</span> Teo Botaya</a>
+    <a class="nav-brand" href="#top"><span class="nav-mark"><span class="nav-cube"><span>TB</span><span>TB</span></span></span> Teo Botaya</a>
     <div class="nav-links">
       <a href="#vistazo">Proyectos</a>
       <a href="#proyecto">Sistema</a>
@@ -240,6 +241,7 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
 </nav>
 
 <header class="wrap hero" id="top">
+  <div class="hero-aura" aria-hidden="true"></div>
   <p class="eyebrow">Desarrollador Full Stack</p>
   <h1>Construyo sistemas que <span class="accent">resuelven un problema real</span> de principio a fin.</h1>
   <p class="hero-lede">
@@ -565,8 +567,29 @@ floor *= <span class="s">0.6</span>;</code></pre>
   <div class="wrap">
     <p class="eyebrow">Herramientas</p>
     <h2 class="sec-title">Stack</h2>
-    <p class="sec-intro">Tecnologías que usé para construir y sostener este proyecto de punta a punta.</p>
-    <div class="stack-group">
+    <p class="sec-intro">
+      Cada tecla es algo que uso de verdad en estos tres proyectos. Apretá una tecla
+      de tu teclado —o hacé clic en una— y te cuento para qué la usé.
+    </p>
+    <div class="kbd-wrap">
+      <div class="kbd-stage">
+        <div class="kbd" id="kbd" role="group" aria-label="Teclado interactivo con el stack"></div>
+      </div>
+      <aside class="kbd-info" id="kbd-info" aria-live="polite">
+        <div class="kbd-dot"></div>
+        <h3>Cero dependencias</h3>
+        <span class="kbd-grp">Decisión de diseño</span>
+        <p>
+          Un plugin de 29 kB con el álgebra lineal escrita a mano —k-means, PCA, proyección
+          aleatoria— y un servidor Node que no instala nada. Menos superficie que mantener
+          y nada que se rompa solo.
+        </p>
+        <p class="kbd-hint">Probá con <kbd>C</kbd>, <kbd>S</kbd> o la <kbd>barra espaciadora</kbd>.</p>
+      </aside>
+    </div>
+    <details class="stack-rest">
+      <summary>Ver la lista completa, en texto</summary>
+      <div class="stack-group">
       <h4>Backend</h4>
       <div class="chips"><span class="chip">C#</span><span class="chip">ASP.NET Core 8</span><span class="chip">Entity Framework Core</span><span class="chip">API REST</span><span class="chip">JWT</span><span class="chip">xUnit</span><span class="chip">Swagger</span></div>
     </div>
@@ -585,7 +608,7 @@ floor *= <span class="s">0.6</span>;</code></pre>
     <div class="stack-group">
       <h4>Análisis y diseño</h4>
       <div class="chips"><span class="chip">UML</span><span class="chip">Casos de uso</span><span class="chip">Diagramas de secuencia</span><span class="chip">Mermaid</span><span class="chip">Planificación y Gantt</span></div>
-    </div>
+    </details>
   </div>
 </section>
 
@@ -626,9 +649,10 @@ floor *= <span class="s">0.6</span>;</code></pre>
 <footer>
   <div class="wrap foot-in">
     <span>© 2026 Teo Matías Botaya</span>
-    <span>Hecho a mano con HTML y CSS, sin frameworks.</span>
+    <span>Hecho a mano con HTML y CSS. El teclado es 3D nativo del navegador, sin librerías.</span>
   </div>
 </footer>
 
+<script src="assets/3d.js" defer></script>
 </body>
 </html>
