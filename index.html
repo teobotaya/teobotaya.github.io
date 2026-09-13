@@ -202,6 +202,24 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
   *{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
 </style>
+<meta name="description" content="Teo Matías Botaya — desarrollador full stack. Sistema de gestión en .NET y React, plugin de Obsidian en TypeScript y mesa de análisis financiero en Node. Código y decisiones de diseño.">
+<meta name="author" content="Teo Matías Botaya">
+<link rel="canonical" href="https://teobotaya.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://teobotaya.github.io/">
+<meta property="og:title" content="Teo Matías Botaya — Desarrollador Full Stack">
+<meta property="og:description" content="Tres sistemas construidos de punta a punta: backoffice en .NET y React, plugin de Obsidian con motor de clustering propio, y análisis financiero sobre filings de la SEC.">
+<meta property="og:image" content="https://teobotaya.github.io/assets/diagrama-relacional-thumb.jpg">
+<meta property="og:locale" content="es_AR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Teo Matías Botaya — Desarrollador Full Stack">
+<meta name="twitter:description" content="Tres sistemas construidos de punta a punta, con las decisiones de diseño explicadas.">
+<meta name="twitter:image" content="https://teobotaya.github.io/assets/diagrama-relacional-thumb.jpg">
+<meta name="theme-color" content="#1a1e25">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232f5fd0'/><text y='68' x='50' text-anchor='middle' font-size='52' font-family='system-ui' font-weight='700' fill='white'>TB</text></svg>">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Teo Matías Botaya","jobTitle":"Desarrollador Full Stack","email":"teobotaya@gmail.com","url":"https://teobotaya.github.io/","sameAs":["https://github.com/teobotaya"],"address":{"@type":"PostalAddress","addressLocality":"Malvinas Argentinas","addressRegion":"Buenos Aires","addressCountry":"AR"},"alumniOf":{"@type":"CollegeOrUniversity","name":"Universidad del Salvador"},"knowsAbout":["C#","ASP.NET Core","TypeScript","React","SQL Server","Node.js","Docker"]}
+</script>
 </head>
 <body>
 
@@ -209,7 +227,8 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
   <div class="wrap nav-in">
     <a class="nav-brand" href="#top"><span class="nav-mark">TB</span> Teo Botaya</a>
     <div class="nav-links">
-      <a href="#proyecto">Proyecto</a>
+      <a href="#vistazo">Proyectos</a>
+      <a href="#proyecto">Sistema</a>
       <a href="#arquitectura">Arquitectura</a>
       <a href="#plugin">Plugin</a>
       <a href="#mesa">Mesa de análisis</a>
@@ -238,16 +257,36 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
     <a class="btn btn-primary" href="#proyecto">Ver el sistema</a>
     <a class="btn btn-ghost" href="#plugin">Ver el plugin</a>
     <a class="btn btn-ghost" href="https://github.com/teobotaya" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn btn-ghost" href="assets/CV-Teo-Botaya.pdf" target="_blank" rel="noopener">Descargar CV (PDF)</a>
     <a class="btn btn-ghost" href="mailto:teobotaya@gmail.com">teobotaya@gmail.com</a>
   </div>
-
-  <div class="stats">
-    <div class="stat"><div class="stat-n">~9.200</div><div class="stat-l">líneas de código</div></div>
-    <div class="stat"><div class="stat-n">48</div><div class="stat-l">endpoints REST</div></div>
-    <div class="stat"><div class="stat-n">12</div><div class="stat-l">tablas relacionales</div></div>
-    <div class="stat"><div class="stat-n">24</div><div class="stat-l">pruebas unitarias</div></div>
-  </div>
 </header>
+
+<section id="vistazo">
+  <div class="wrap">
+    <p class="eyebrow">Los tres, de un vistazo</p>
+    <div class="grid-3">
+      <article class="card">
+        <span class="tag tag-g">Sistema completo</span>
+        <h3><a href="#proyecto">Sports Complex Admin</a></h3>
+        <p>Backoffice de gestión: 48 endpoints REST, 12 tablas y 24 pruebas. La integridad de las reservas está garantizada en el motor de base de datos, no en el formulario.</p>
+        <p style="margin-top:10px;font-size:13.5px;color:var(--muted)"><b>ASP.NET Core 8 · React · SQL Server</b></p>
+      </article>
+      <article class="card">
+        <span class="tag tag-i">Herramienta</span>
+        <h3><a href="#plugin">Smart Atlas</a></h3>
+        <p>Plugin de Obsidian que proyecta una bóveda de notas a dos dimensiones y la agrupa por temas. Álgebra lineal y clustering escritos a mano, sin dependencias.</p>
+        <p style="margin-top:10px;font-size:13.5px;color:var(--muted)"><b>TypeScript · esbuild · SVG</b></p>
+      </article>
+      <article class="card">
+        <span class="tag tag-b">Datos</span>
+        <h3><a href="#mesa">Market Desk</a></h3>
+        <p>Análisis financiero sobre estados contables de la SEC: márgenes, ROIC, flujo de caja y valuación. Sin una sola clave de API, y por eso publicable.</p>
+        <p style="margin-top:10px;font-size:13.5px;color:var(--muted)"><b>Node sin dependencias · XBRL · APIs públicas</b></p>
+      </article>
+    </div>
+  </div>
+</section>
 
 <section class="alt" id="proyecto">
   <div class="wrap">
@@ -259,6 +298,13 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
       de acceso por rol. Desarrollado de forma individual, incluyendo el modelado de datos,
       la API, el frontend y la documentación técnica.
     </p>
+
+    <div class="stats" style="margin-top:0;margin-bottom:44px">
+      <div class="stat"><div class="stat-n">~9.700</div><div class="stat-l">líneas de código</div></div>
+      <div class="stat"><div class="stat-n">48</div><div class="stat-l">endpoints REST</div></div>
+      <div class="stat"><div class="stat-n">12</div><div class="stat-l">tablas relacionales</div></div>
+      <div class="stat"><div class="stat-n">24</div><div class="stat-l">pruebas unitarias</div></div>
+    </div>
 
     <div class="split" style="margin-bottom:44px">
       <div class="panel panel-before">
@@ -554,6 +600,7 @@ floor *= <span class="s">0.6</span>;</code></pre>
       <div class="cta-row" style="justify-content:center">
         <a class="btn btn-primary" href="mailto:teobotaya@gmail.com">Escribirme</a>
         <a class="btn btn-ghost" href="https://github.com/teobotaya" target="_blank" rel="noopener">Ver mi GitHub</a>
+        <a class="btn btn-ghost" href="assets/CV-Teo-Botaya.pdf" target="_blank" rel="noopener">Descargar CV</a>
       </div>
     </div>
   </div>
