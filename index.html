@@ -212,6 +212,7 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
       <a href="#proyecto">Proyecto</a>
       <a href="#arquitectura">Arquitectura</a>
       <a href="#plugin">Plugin</a>
+      <a href="#mesa">Mesa de análisis</a>
       <a href="#stack">Stack</a>
       <a href="#contacto">Contacto</a>
     </div>
@@ -224,7 +225,8 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
   <p class="hero-lede">
     Del modelo de datos a la interfaz: API REST en .NET, base de datos relacional con reglas
     de integridad, y frontend en React con TypeScript. También escribo herramientas: un plugin
-    de Obsidian en TypeScript, con su propio motor de clustering y búsqueda semántica. Me interesa
+    de Obsidian con su propio motor de clustering semántico, y una mesa de análisis financiero que
+    procesa filings y series de precios sin depender de servicios de pago. Me interesa
     que el software sea correcto, no solo que funcione en la demo.
   </p>
   <div class="hero-meta">
@@ -438,7 +440,65 @@ floor *= <span class="s">0.6</span>;</code></pre>
   </div>
 </section>
 
-<section class="alt" id="stack">
+<section class="alt" id="mesa">
+  <div class="wrap">
+    <p class="eyebrow">Tercer proyecto</p>
+    <h2 class="sec-title">Market Desk — mesa de análisis financiero</h2>
+    <p class="sec-intro">
+      Aplicación web local que reúne datos públicos de mercado, filings de la SEC y noticias
+      recientes, calcula las métricas cuantitativas en la máquina del usuario y arma dossieres
+      estructurados para análisis cualitativo. Node sin dependencias, y sin una sola clave de API.
+    </p>
+
+    <div class="grid-3">
+      <article class="card">
+        <span class="tag tag-g">Decisión de diseño</span>
+        <h3>Publicable porque no tiene secretos</h3>
+        <p>
+          Una clave de API en un repositorio público es una clave comprometida, y en una app con
+          frontend queda expuesta aunque el repo sea privado. En vez de incrustar una, la app
+          estructura los datos y genera el prompt: el análisis cualitativo se hace afuera.
+        </p>
+      </article>
+      <article class="card">
+        <span class="tag tag-b">Arquitectura</span>
+        <h3>El servidor existe por el navegador</h3>
+        <p>
+          Stooq, SEC EDGAR y Google News no admiten peticiones desde el navegador. El servidor
+          Node hace de proxy, parsea y calcula — y es también lo que identifica la app ante la
+          SEC, que exige un User-Agent con contacto.
+        </p>
+      </article>
+      <article class="card">
+        <span class="tag tag-i">Procesamiento</span>
+        <h3>Reglas antes que modelo</h3>
+        <p>
+          Retornos, volatilidad anualizada, ATR, drawdown y volumen relativo salen de la serie de
+          precios. Los factores de riesgo del 10-K se separan entre específicos de la empresa y
+          boilerplate con heurísticas léxicas. Nada de eso necesita inferencia.
+        </p>
+      </article>
+    </div>
+
+    <h3 style="font-size:19px;margin:52px 0 14px">Separar el riesgo real del relleno</h3>
+    <pre class="codeblock"><code><span class="c">// Todo 10-K advierte sobre "volatilidad del mercado". Pocos declaran</span>
+<span class="c">// que un solo cliente explica el 40% de los ingresos.</span>
+<span class="k">const</span> SPECIFIC = [
+  /\b\d{1,3}(\.\d)?%\s+of\s+(our\s+)?(total\s+)?(revenue|net sales)/i,
+  /\bone customer\b|\ba single customer\b/i,
+  /\bsole source\b|\bsingle supplier\b/i,
+  /\bexport control|\bentity list\b|\bsanction/i
+];
+<span class="k">const</span> kind = signals &gt;= <span class="s">1</span> ? <span class="s">"especifico"</span>
+  : genericHits &gt;= <span class="s">2</span> ? <span class="s">"generico"</span> : <span class="s">"mixto"</span>;</code></pre>
+
+    <div class="cta-row" style="margin-top:34px">
+      <a class="btn btn-ghost" href="https://github.com/teobotaya/market-desk" target="_blank" rel="noopener">Código en GitHub</a>
+    </div>
+  </div>
+</section>
+
+<section id="stack">
   <div class="wrap">
     <p class="eyebrow">Herramientas</p>
     <h2 class="sec-title">Stack</h2>
@@ -457,7 +517,7 @@ floor *= <span class="s">0.6</span>;</code></pre>
     </div>
     <div class="stack-group">
       <h4>Herramientas propias</h4>
-      <div class="chips"><span class="chip">Obsidian Plugin API</span><span class="chip">esbuild</span><span class="chip">Node.js</span><span class="chip">SVG</span><span class="chip">Álgebra lineal aplicada</span><span class="chip">k-means · PCA</span></div>
+      <div class="chips"><span class="chip">Obsidian Plugin API</span><span class="chip">esbuild</span><span class="chip">Node.js</span><span class="chip">SVG</span><span class="chip">Álgebra lineal aplicada</span><span class="chip">k-means · PCA</span><span class="chip">Node sin dependencias</span><span class="chip">APIs públicas · SEC EDGAR</span><span class="chip">Parseo de HTML y RSS</span></div>
     </div>
     <div class="stack-group">
       <h4>Análisis y diseño</h4>
@@ -466,7 +526,7 @@ floor *= <span class="s">0.6</span>;</code></pre>
   </div>
 </section>
 
-<section id="formacion">
+<section class="alt" id="formacion">
   <div class="wrap">
     <p class="eyebrow">Formación</p>
     <h2 class="sec-title">Estudios</h2>
@@ -486,7 +546,7 @@ floor *= <span class="s">0.6</span>;</code></pre>
   </div>
 </section>
 
-<section class="alt" id="contacto">
+<section id="contacto">
   <div class="wrap">
     <div class="contact">
       <h2>¿Buscás un desarrollador junior que entienda el problema antes de escribir código?</h2>
