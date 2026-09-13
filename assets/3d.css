@@ -173,9 +173,11 @@
 }
 .kbd-info p{color:var(--muted);font-size:15.5px}
 .kbd-hint{
-  margin-top:18px;font-size:13.5px;color:var(--light);
-  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  /* Nada de flex aca: convertia cada palabra en un item y abria un hueco
+     antes de la coma y del punto. */
+  margin-top:18px;font-size:13.5px;color:var(--light);line-height:2.1;
 }
+.kbd-hint kbd{margin-inline:3px}
 .kbd-hint kbd{
   font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;
   border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:6px;
