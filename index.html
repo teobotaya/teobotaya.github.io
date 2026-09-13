@@ -158,6 +158,7 @@ section.alt{background:var(--bg-alt);border-block:1px solid var(--border)}
 }
 .shot:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
 .shot img{width:100%;height:250px;object-fit:cover;object-position:top left;background:#fff;border-bottom:1px solid var(--border)}
+.shot.full img{height:auto;max-height:none;object-fit:contain;object-position:center;background:#0e1117}
 .shot figcaption .zoom{display:block;margin-top:6px;font-size:12.5px;color:var(--green);font-weight:600}
 .shot figcaption{padding:13px 16px;font-size:13.5px;color:var(--muted)}
 .shot figcaption b{display:block;color:var(--text);font-weight:600;font-size:14.5px;margin-bottom:2px}
@@ -482,7 +483,7 @@ floor *= <span class="s">0.6</span>;</code></pre>
 
     <h3 style="font-size:19px;margin:52px 0 14px">Corriendo dentro de Obsidian</h3>
     <div class="gallery">
-      <figure class="shot">
+      <figure class="shot full">
         <a href="assets/smart-atlas-mapa.jpg" target="_blank" rel="noopener"><img src="assets/smart-atlas-mapa-thumb.jpg" alt="El mapa, en una bóveda real" loading="lazy"></a>
         <figcaption><b>El mapa, en una bóveda real</b>22 notas y 26 conexiones, agrupadas por tema sin intervención<span class="zoom">Ver en tamaño completo →</span></figcaption>
       </figure>
@@ -548,7 +549,7 @@ floor *= <span class="s">0.6</span>;</code></pre>
 
     <h3 style="font-size:19px;margin:52px 0 14px">La aplicación</h3>
     <div class="gallery">
-      <figure class="shot">
+      <figure class="shot full">
         <a href="assets/market-desk-panel.jpg" target="_blank" rel="noopener"><img src="assets/market-desk-panel-thumb.jpg" alt="Panel de riesgo de corto plazo" loading="lazy"></a>
         <figcaption><b>Panel de riesgo de corto plazo</b>Volatilidad, ATR, drawdown y volumen relativo calculados en la máquina<span class="zoom">Ver en tamaño completo →</span></figcaption>
       </figure>
