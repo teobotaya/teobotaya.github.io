@@ -12,14 +12,14 @@
   /* Blanco sobre el verde de marca daba 3,99:1 y el minimo legible es 4,5.
      El boton usa un verde mas profundo; el color de marca sigue siendo el
      mismo para acentos, donde no lleva texto encima. */
-  --btn-bg:#0A6B42; --btn-fg:#FFFFFF;
+  --btn-bg:#15803D; --btn-fg:#FFFFFF;
   --anillo:0 0 0 3px color-mix(in srgb,var(--green) 55%,transparent);
   --nav-h:62px;
 }
 @media (prefers-color-scheme:dark){
   :root{
     /* En oscuro el verde es claro: el texto encima va oscuro, 8,6:1. */
-    --btn-bg:#2CB878; --btn-fg:#06130E;
+    --btn-bg:#22C55E; --btn-fg:#0F172A;
   }
 }
 
@@ -90,7 +90,7 @@ details:focus-visible,[tabindex]:focus-visible{
 /* -------------------------------------------------------------- codigo
    Los comentarios daban 4,09:1 sobre el fondo oscuro, apenas por debajo del
    minimo. Suben lo justo para pasar sin perder el gris de comentario. */
-.codeblock .c{color:#93AFA2}
+.codeblock .c{color:#93AFA2} /* 7,9:1 sobre el fondo del bloque */
 
 /* ------------------------------------------------------------ tarjetas
    El titulo era un enlace de 19 px de alto. Ahora la tarjeta entera lleva al
@@ -185,3 +185,112 @@ html{scroll-padding-top:calc(var(--nav-h) + 12px)}
 .key[aria-current="true"] .cap{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 0 0 2px rgba(255,255,255,.6)}
 
 @media (prefers-reduced-motion:reduce){ .kbd-btn{transition:none} }
+
+/* ===========================================================================
+   Carrusel de cartas + retícula del hero (tercera pasada)
+   =========================================================================== */
+
+/* Sin avance automático: así no hace falta un botón de pausa ni se le mueve
+   el contenido a nadie por debajo de la vista. Se arrastra, se desliza con
+   rueda, se maneja con los botones o con las flechas del teclado. */
+.carrusel{position:relative}
+.carrusel-pista{
+  display:flex;gap:var(--e2);
+  overflow-x:auto;overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  scrollbar-width:none;
+  padding:6px 4px 10px;margin-inline:-4px;
+}
+.carrusel-pista::-webkit-scrollbar{display:none}
+.carrusel-pista>*{flex:0 0 min(430px,82%);scroll-snap-align:start}
+.carrusel-pista:focus-visible{outline:2px solid var(--green);outline-offset:6px;border-radius:var(--r-lg)}
+
+.carrusel-mando{display:flex;align-items:center;gap:var(--e1);margin-top:var(--e1)}
+.carrusel-btn{
+  min-width:44px;min-height:44px;padding:0 14px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  font:inherit;font-size:17px;line-height:1;
+  color:var(--muted);background:var(--surface);
+  border:1px solid var(--border);border-radius:11px;
+  transition:color .15s var(--ease),border-color .15s var(--ease),transform .12s ease-out,opacity .2s var(--ease);
+}
+.carrusel-btn:hover:not([disabled]){color:var(--green);border-color:var(--green)}
+.carrusel-btn:active:not([disabled]){transform:scale(.94)}
+.carrusel-btn[disabled]{opacity:.38;cursor:default}
+.carrusel-pos{
+  margin-left:6px;font-size:13px;color:var(--light);font-weight:600;
+  font-variant-numeric:tabular-nums;letter-spacing:.04em;
+}
+
+/* ------------------------------------------------------------- la carta */
+.ficha{
+  position:relative;display:flex;flex-direction:column;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  overflow:hidden;box-shadow:var(--shadow);
+}
+.ficha-img{display:block;background:var(--bg-alt);overflow:hidden}
+.ficha-img img{
+  width:100%;height:192px;object-fit:cover;object-position:top center;
+  border-bottom:1px solid var(--border);
+  transition:transform .6s var(--ease);
+}
+.ficha:hover .ficha-img img{transform:scale(1.04)}
+.ficha-cuerpo{padding:22px;display:grid;gap:10px;align-content:start;justify-items:start}
+.ficha-cuerpo .tag{margin-bottom:0}
+.ficha h3{font-size:19px}
+.ficha h3 a{display:inline-flex;align-items:center;gap:8px}
+.ficha h3 a::before{content:'';position:absolute;inset:0;border-radius:var(--r-lg)}
+.ficha h3 a::after{
+  content:'→';font-weight:400;opacity:.45;
+  transition:transform .3s var(--ease),opacity .3s var(--ease);
+}
+.ficha:hover h3 a::after{transform:translateX(5px);opacity:1}
+.ficha p{color:var(--muted);font-size:15px;margin:0}
+.ficha-stack{font-size:12.5px;color:var(--light);font-weight:600;letter-spacing:.02em}
+.ficha:focus-within{border-color:var(--green);box-shadow:var(--anillo)}
+
+/* Las figuras sueltas comparten el lenguaje de la carta. */
+.shot{box-shadow:var(--shadow)}
+
+/* --------------------------------------------------- la retícula del hero */
+.hero::before{
+  content:'';position:absolute;inset:-40px -24px auto;height:560px;z-index:-1;
+  pointer-events:none;opacity:.55;
+  background-image:
+    linear-gradient(var(--border) 1px,transparent 1px),
+    linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:68px 68px;
+  -webkit-mask-image:radial-gradient(64% 58% at 26% 38%,#000 0%,transparent 76%);
+  mask-image:radial-gradient(64% 58% at 26% 38%,#000 0%,transparent 76%);
+  transform:translate3d(calc(var(--px,0) * -10px),calc(var(--py,0) * -8px),0);
+}
+
+@media (max-width:640px){
+  .carrusel-pista>*{flex:0 0 86%}
+  .ficha-img img{height:160px}
+}
+@media (prefers-reduced-motion:reduce){
+  .carrusel-pista{scroll-behavior:auto}
+  .ficha-img img,.carrusel-btn{transition:none}
+  .ficha:hover .ficha-img img{transform:none}
+  .hero::before{transform:none}
+}
+@media (prefers-reduced-transparency:reduce){ .hero::before{opacity:.25} }
+@media (prefers-contrast:more){ .hero::before{display:none} }
+
+/* --------------------------------------------------- correcciones medidas
+   Los chips llevaban un fondo con alfa y el resultado real caia a 4,0:1. Con
+   colores solidos el contraste deja de depender de sobre que se apoyen:
+   verde 7,05 · azul 7,51 · violeta 8,6 · ambar 7,98. */
+.tag-g{background:#DCFCE7;color:#0E5C2F}
+.tag-b{background:#E0EAFF;color:#1A3FA8}
+.tag-i{background:#EDE9FE;color:#5B21B6}
+@media (prefers-color-scheme:dark){
+  .tag-g{background:#183B32;color:#4ADE80}
+  .tag-b{background:#1C2C58;color:#93C5FD}
+  .tag-i{background:#281948;color:#C4B5FD}
+}
+/* El rotulo del panel daba 3,55:1 sobre el fondo verde claro. */
+.panel h3{color:var(--text);opacity:.85}
+/* El titulo de la carta medía 22 px de alto; el minimo operable es 24. */
+.ficha h3 a{padding-block:3px}

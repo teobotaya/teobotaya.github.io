@@ -358,7 +358,7 @@
      X e Y llevan resortes independientes: un solo resorte sobre la distancia
      en dos dimensiones se desincroniza cuando cada eje trae otra velocidad. */
   if (!quieto) {
-    document.querySelectorAll('.card,.shot,.panel,.layer,.edu,.kbd-info,.stat').forEach((el) => {
+    document.querySelectorAll('.card,.ficha,.shot,.panel,.layer,.edu,.kbd-info,.stat').forEach((el) => {
       el.dataset.tilt = '';
       const sx = new Resorte(0), sy = new Resorte(0), sz = new Resorte(0);
       let vivo = false;
@@ -390,7 +390,7 @@
 
   /* ================================================ 4. entradas al scroll */
   const revelables = document.querySelectorAll(
-    '.sec-title,.sec-intro,.eyebrow,.card,.split,.codeblock,.layer,.shot,.edu,.contact,.stats,.kbd-wrap,.stack-group,.cta-row,.hero-meta'
+    '.sec-title,.sec-intro,.eyebrow,.card,.carrusel,.split,.codeblock,.layer,.shot,.edu,.contact,.stats,.kbd-wrap,.stack-group,.cta-row,.hero-meta'
   );
   const io = new IntersectionObserver((entradas) => {
     entradas.forEach((e) => {
@@ -439,7 +439,74 @@
     addEventListener('scroll', mirar, { passive: true });
   }
 
-  /* =========================================== 6. donde estoy en la pagina
+  /* ====================================================== 6. el carrusel
+
+     No avanza solo. Un carrusel que se mueve por su cuenta le saca la lectura
+     de las manos al que esta leyendo, y obliga a poner un boton de pausa para
+     devolversela; es mas simple no quitarsela nunca. Se arrastra, se desliza
+     con la rueda, se maneja con los botones o con las flechas. El encastre lo
+     hace el navegador con scroll-snap, que es mas suave que cualquier calculo
+     nuestro y no pelea con el dedo. */
+  document.querySelectorAll('[data-carrusel]').forEach((car) => {
+    const pista = car.querySelector('.carrusel-pista');
+    const items = [...pista.children];
+    const atras = car.querySelector('[data-ir="-1"]');
+    const adelante = car.querySelector('[data-ir="1"]');
+    const pos = car.querySelector('.carrusel-pos');
+    if (!pista || items.length < 2) { if (car.querySelector('.carrusel-mando')) car.querySelector('.carrusel-mando').hidden = true; return; }
+
+    const base = items[0].offsetLeft;
+    const donde = () => {
+      let mejor = 0, dmin = Infinity;
+      items.forEach((it, i) => {
+        const d = Math.abs(it.offsetLeft - base - pista.scrollLeft);
+        if (d < dmin) { dmin = d; mejor = i; }
+      });
+      return mejor;
+    };
+    const ir = (i) => {
+      const n = Math.max(0, Math.min(i, items.length - 1));
+      pista.scrollTo({ left: items[n].offsetLeft - base, behavior: quieto ? 'auto' : 'smooth' });
+    };
+
+    let pedido = 0;
+    const HOLGURA = 8;
+    const pintar = () => {
+      /* Antes del layout ancho y desplazamiento valen cero, y con eso los dos
+         botones nacerian apagados. Sin medida no se decide nada. */
+      if (!pista.clientWidth) return;
+      const i = donde();
+      if (pos) pos.textContent = `${i + 1} / ${items.length}`;
+      /* El boton que no lleva a ningun lado se apaga y deja de ser foco:
+         un control que no hace nada es peor que no tenerlo. */
+      const resto = pista.scrollWidth - pista.clientWidth;
+      atras.disabled = pista.scrollLeft <= HOLGURA;
+      adelante.disabled = resto <= HOLGURA || pista.scrollLeft >= resto - HOLGURA;
+    };
+    /* El primer pintado tiene que esperar a que exista el ancho real: si se
+       mide antes del layout, la pista parece no desbordar y los dos botones
+       nacen apagados. */
+    pintar();
+    requestAnimationFrame(pintar);
+    addEventListener('load', pintar);
+    if (window.ResizeObserver) new ResizeObserver(pintar).observe(pista);
+    pista.addEventListener('scroll', () => {
+      if (pedido) return;
+      pedido = requestAnimationFrame(() => { pedido = 0; pintar(); });
+    }, { passive: true });
+    addEventListener('resize', pintar, { passive: true });
+
+    atras.addEventListener('click', () => ir(donde() - 1));
+    adelante.addEventListener('click', () => ir(donde() + 1));
+    pista.addEventListener('keydown', (ev) => {
+      if (ev.key === 'ArrowRight') { ev.preventDefault(); ir(donde() + 1); }
+      else if (ev.key === 'ArrowLeft') { ev.preventDefault(); ir(donde() - 1); }
+      else if (ev.key === 'Home') { ev.preventDefault(); ir(0); }
+      else if (ev.key === 'End') { ev.preventDefault(); ir(items.length - 1); }
+    });
+  });
+
+  /* =========================================== 7. donde estoy en la pagina
 
      Una navegacion que no dice donde estas obliga a adivinar. El enlace de la
      seccion visible queda marcado, y el nav se desliza para mostrarlo cuando
@@ -485,7 +552,7 @@
     addEventListener('resize', mirarSecciones, { passive: true });
   }
 
-  /* ================================================== 7. numeros que suben */
+  /* ================================================== 8. numeros que suben */
   document.querySelectorAll('.stat-n').forEach((el) => {
     if (quieto) return;
     const m = el.textContent.trim().match(/^(\D*)([\d.,]+)(\D*)$/);
