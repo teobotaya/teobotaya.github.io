@@ -55,7 +55,7 @@ details:focus-visible,[tabindex]:focus-visible{
 /* En el telefono la navegacion estaba directamente oculta: no habia forma de
    moverse por la pagina sin hacer scroll a ciegas. Ahora es una fila que se
    desliza, que no tapa contenido ni necesita abrir nada. */
-@media (max-width:820px){
+@media (max-width:1320px){
   .nav-links{
     display:flex;overflow-x:auto;width:100%;
     scrollbar-width:none;-webkit-overflow-scrolling:touch;
@@ -131,7 +131,7 @@ details:focus-visible,[tabindex]:focus-visible{
 /* focus-not-obscured (WCAG 2.2 AA) — el nav pegajoso tapaba el elemento que
    acababa de recibir el foco al tabular. scroll-padding reserva su alto. */
 html{scroll-padding-top:calc(var(--nav-h) + 12px)}
-@media (max-width:820px){ :root{--nav-h:118px} }
+@media (max-width:1320px){ :root{--nav-h:118px} }
 
 /* heading-line-balance — titulos cortos con medida acotada y reparto
    equilibrado de lineas, dejando que el navegador decida el corte. */
@@ -302,7 +302,7 @@ html{scroll-padding-top:calc(var(--nav-h) + 12px)}
   border:1px solid var(--border);
 }
 .nav-tema{min-width:96px;justify-content:center}
-@media (max-width:820px){
+@media (max-width:1320px){
   .nav-k-txt{display:none}
   .nav-btn{padding:0 10px}
   .nav-acciones{order:2}
@@ -389,3 +389,10 @@ main section .eyebrow::before{
 @media (prefers-reduced-motion:reduce){
   .paleta-caja,.nav-btn{transition:none}
 }
+
+.nav-brand{white-space:nowrap;flex-shrink:0}
+.nav-links a{white-space:nowrap}
+.nav-links{min-width:0}
+/* El nav puede ser mas ancho que el texto: el cuerpo se lee mejor a 1080,
+   pero la barra con siete secciones y dos botones necesita mas aire. */
+@media (min-width:1321px){ .nav .wrap{max-width:1280px} }

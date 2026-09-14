@@ -270,6 +270,7 @@ try{var t=localStorage.getItem('tema');if(t&&t!=='sistema')document.documentElem
       <a href="#proyecto">Sports Complex</a>
       <a href="#plugin">Smart Atlas</a>
       <a href="#mesa">Market Desk</a>
+      <a href="#lab">DevOps Lab</a>
       <a href="#stack">Stack</a>
       <a href="#contacto">Contacto</a>
     </div>
@@ -308,10 +309,10 @@ try{var t=localStorage.getItem('tema');if(t&&t!=='sistema')document.documentElem
 <section id="vistazo">
   <div class="wrap">
     <p class="eyebrow">Los tres, de un vistazo</p>
-    <h2 class="sec-title">Tres sistemas construidos de punta a punta</h2>
+    <h2 class="sec-title">Cuatro sistemas construidos de punta a punta</h2>
     <p class="sec-intro">
       Cada uno resuelve un problema distinto y tiene su decisión de diseño explicada
-      más abajo. El código de los tres está publicado.
+      más abajo. El código de los cuatro está publicado.
     </p>
     <div class="carrusel" data-carrusel>
       <div class="carrusel-pista" role="group" aria-label="Proyectos" tabindex="0">
@@ -346,6 +347,17 @@ try{var t=localStorage.getItem('tema');if(t&&t!=='sistema')document.documentElem
             <h3><a href="#mesa">Market Desk</a></h3>
             <p>Análisis financiero sobre estados contables de la SEC: márgenes, ROIC, flujo de caja y valuación. Sin una sola clave de API, y por eso publicable.</p>
             <p class="ficha-stack">Node sin dependencias · XBRL · APIs públicas</p>
+          </div>
+        </article>
+        <article class="ficha">
+          <a class="ficha-img" href="#lab" tabindex="-1" aria-hidden="true">
+            <img src="assets/devops-lab-panel-thumb.jpg" width="880" height="509" alt="" loading="lazy">
+          </a>
+          <div class="ficha-cuerpo">
+            <span class="tag tag-g">Infraestructura</span>
+            <h3><a href="#lab">DevOps Lab</a></h3>
+            <p>Un clúster de Kubernetes que se puede empujar desde cinco botones. Cada acción muestra la llamada exacta a la API, la respuesta y el mecanismo que la explica.</p>
+            <p class="ficha-stack">Docker · Kubernetes · GitHub Actions · Node sin dependencias</p>
           </div>
         </article>
       </div>
@@ -637,7 +649,60 @@ floor *= <span class="s">0.6</span>;</code></pre>
   </div>
 </section>
 
-<section id="stack">
+<section id="lab">
+  <div class="wrap">
+    <p class="eyebrow">Infraestructura</p>
+    <h2 class="sec-title">DevOps Lab — un clúster que se puede romper</h2>
+    <p class="sec-intro">
+      Una app empaquetada en una imagen de contenedor, corriendo en Kubernetes, con un
+      panel de cinco botones: escalar, matar un pod, generar carga, lanzar un pipeline.
+      Después de cada acción la pantalla muestra la llamada exacta a la API, lo que
+      contestó el clúster y el mecanismo que lo explica. La idea es que cualquiera pueda
+      verificarlo sin creerme nada.
+    </p>
+
+    <div class="grid-3">
+      <article class="card">
+        <span class="tag tag-g">Decisión de diseño</span>
+        <h3>Cada botón se explica solo</h3>
+        <p>Un panel que dice «escalado a 4» no enseña nada. Este devuelve cuatro cosas:
+        el pedido, la respuesta cruda del clúster, el estado después y por qué pasó. Matar
+        un pod no baja el número deseado —eso vive en el Deployment— así que el ReplicaSet
+        crea el reemplazo en el mismo ciclo: eso es la autorreparación, y se ve.</p>
+      </article>
+      <article class="card">
+        <span class="tag tag-i">Seguridad</span>
+        <h3>El Role se escribe desde el código</h3>
+        <p>El panel habla con la API de Kubernetes usando el token del ServiceAccount, sin
+        ningún SDK: son cuarenta líneas de <code>fetch</code>. Lo que ese token puede hacer
+        lo decide un Role con los verbos exactos que el código usa, en un solo namespace.
+        Si alguien se mete en el panel, eso es todo lo que alcanza.</p>
+      </article>
+      <article class="card">
+        <span class="tag tag-b">Entrega continua</span>
+        <h3>No existe una imagen sin pruebas</h3>
+        <p>Las pruebas corren dentro del Dockerfile, en una etapa intermedia, con el mismo
+        Node que va a producción. Si fallan, el build se detiene y la imagen no llega a
+        existir. GitHub Actions valida además los manifiestos con kubeconform y publica en
+        GHCR con una etiqueta por commit.</p>
+      </article>
+    </div>
+
+    <h3 style="font-size:19px;margin:52px 0 14px">El panel</h3>
+    <div class="gallery">
+      <figure class="shot full">
+        <a href="assets/devops-lab-panel.jpg" target="_blank" rel="noopener"><img src="assets/devops-lab-panel-thumb.jpg" width="880" height="509" alt="Panel del DevOps Lab después de matar un pod" loading="lazy"></a>
+        <figcaption><b>Un pod recién matado</b>Entró en Terminating, el reemplazo ya está en Pending y el número deseado no se movió<span class="zoom">Ver en tamaño completo →</span></figcaption>
+      </figure>
+    </div>
+
+    <div class="cta-row" style="margin-top:34px">
+      <a class="btn btn-ghost" href="https://github.com/teobotaya/devops-lab" target="_blank" rel="noopener">Código en GitHub</a>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="stack">
   <div class="wrap">
     <p class="eyebrow">Herramientas</p>
     <h2 class="sec-title">Stack</h2>
@@ -698,7 +763,7 @@ floor *= <span class="s">0.6</span>;</code></pre>
   </div>
 </section>
 
-<section class="alt" id="formacion">
+<section id="formacion">
   <div class="wrap">
     <p class="eyebrow">Formación</p>
     <h2 class="sec-title">Estudios</h2>
