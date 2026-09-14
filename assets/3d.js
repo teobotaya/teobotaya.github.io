@@ -122,10 +122,15 @@
       texto: ficha.querySelector('p'),
     };
 
-    TECLAS.forEach((k) => {
+    const orden = [];
+    TECLAS.forEach((k, i) => {
       const b = document.createElement('button');
       b.className = 'key';
       b.type = 'button';
+      /* Tabulacion itinerante: 18 teclas serian 18 paradas de tabulador antes
+         de poder seguir leyendo. El grupo entero es una sola parada y las
+         flechas se mueven adentro, que es el patron esperado en una grilla. */
+      b.tabIndex = i === 0 ? 0 : -1;
       b.style.cssText = `--x:${k.x};--r:${k.r};--w:${k.w || 1};--kc:${k.c}`;
       b.setAttribute('aria-label', `${k.n} — ${k.g}`);
       b.innerHTML =
@@ -151,9 +156,12 @@
 
       placa.appendChild(b);
       porTecla.set(k.t, { k, b });
+      orden.push({ k, b });
     });
 
     function hundir(k, b) {
+      orden.forEach((o) => o.b.removeAttribute('aria-current'));
+      b.setAttribute('aria-current', 'true');
       campos.punto.style.setProperty('--kc', k.c);
       campos.nombre.textContent = k.n;
       campos.grupo.textContent = k.g;
@@ -162,6 +170,40 @@
       b.classList.add('down');
     }
     const soltar = (b) => b.classList.remove('down');
+
+    /* Las flechas recorren la grilla: arriba y abajo saltan de fila buscando
+       la tecla mas cercana en horizontal, que es como la lee el ojo. */
+    const irA = (destino) => {
+      if (!destino) return;
+      orden.forEach((o) => { o.b.tabIndex = -1; });
+      destino.b.tabIndex = 0;
+      destino.b.focus();
+      hundir(destino.k, destino.b);
+      setTimeout(() => soltar(destino.b), 160);
+    };
+    placa.addEventListener('keydown', (ev) => {
+      const i = orden.findIndex((o) => o.b === ev.target);
+      if (i < 0) return;
+      const yo = orden[i];
+      let destino = null;
+      if (ev.key === 'ArrowRight') destino = orden[i + 1];
+      else if (ev.key === 'ArrowLeft') destino = orden[i - 1];
+      else if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
+        const fila = yo.k.r + (ev.key === 'ArrowDown' ? 1 : -1);
+        const candidatas = orden.filter((o) => o.k.r === fila);
+        if (candidatas.length) {
+          const centro = yo.k.x + (yo.k.w || 1) / 2;
+          destino = candidatas.reduce((mejor, o) =>
+            Math.abs(o.k.x + (o.k.w || 1) / 2 - centro) <
+            Math.abs(mejor.k.x + (mejor.k.w || 1) / 2 - centro) ? o : mejor);
+        }
+      }
+      else if (ev.key === 'Home') destino = orden[0];
+      else if (ev.key === 'End') destino = orden[orden.length - 1];
+      if (!destino) return;
+      ev.preventDefault();
+      irA(destino);
+    });
 
     /* Una tecla fisica hunde la de la pantalla mientras esta apretada, y la
        suelta cuando el dedo se va: igual que un teclado de verdad. */
@@ -286,6 +328,29 @@
       rz.a(BASE_Z); rx.a(BASE_X); correr();
     });
     if (!quieto) escenario.style.touchAction = 'pan-y';
+
+    /* Arrastrar no puede ser la unica forma de girar la placa: quien no puede
+       sostener un arrastre —o navega con teclado— necesita el mismo control
+       por otra via. Los botones mueven los mismos resortes que el dedo. */
+    const mando = document.querySelector('.kbd-mando');
+    if (mando) {
+      const PASO = 9, LIMITE = 26;
+      const fijar = (resorte, base, delta) => {
+        const objetivo = delta === null
+          ? base
+          : limitar(resorte.objetivo + delta * PASO, base - LIMITE, base + LIMITE);
+        resorte.respuesta = 0.4; resorte.amortiguacion = 1;
+        resorte.a(objetivo);
+        correr();
+      };
+      mando.addEventListener('click', (ev) => {
+        const b = ev.target.closest('button');
+        if (!b) return;
+        if (b.hasAttribute('data-reset')) { fijar(rz, BASE_Z, null); fijar(rx, BASE_X, null); return; }
+        if (b.dataset.girar) fijar(rz, BASE_Z, +b.dataset.girar);
+        if (b.dataset.inclinar) fijar(rx, BASE_X, +b.dataset.inclinar);
+      });
+    }
   }
 
   /* ============================================ 3. las tarjetas, con resorte

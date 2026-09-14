@@ -263,7 +263,7 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
   <div class="cta-row">
     <a class="btn btn-primary" href="#vistazo">Ver los proyectos</a>
     <a class="btn btn-ghost" href="assets/CV-Teo-Botaya.pdf" target="_blank" rel="noopener">Descargar CV (PDF)</a>
-    <a class="btn-quiet" href="https://github.com/teobotaya" target="_blank" rel="noopener">GitHub ↗</a>
+    <a class="btn-quiet" href="https://github.com/teobotaya" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
     <a class="btn-quiet" href="mailto:teobotaya@gmail.com">teobotaya@gmail.com</a>
   </div>
 </header>
@@ -580,8 +580,20 @@ floor *= <span class="s">0.6</span>;</code></pre>
       de tu teclado —o hacé clic en una— y te cuento para qué la usé.
     </p>
     <div class="kbd-wrap">
-      <div class="kbd-stage">
-        <div class="kbd" id="kbd" role="group" aria-label="Teclado interactivo con el stack"></div>
+      <div class="kbd-col">
+        <div class="kbd-stage">
+          <div class="kbd" id="kbd" role="group"
+               aria-label="Teclado con el stack. Usá las flechas para moverte entre las teclas."></div>
+        </div>
+        <!-- Alternativa sin arrastrar: girar la placa tambien con botones y con
+             el teclado. Arrastrar no puede ser la unica forma de hacerlo. -->
+        <div class="kbd-mando" role="group" aria-label="Girar el teclado">
+          <button type="button" class="kbd-btn" data-girar="-1" aria-label="Girar a la izquierda">↺</button>
+          <button type="button" class="kbd-btn" data-girar="1" aria-label="Girar a la derecha">↻</button>
+          <button type="button" class="kbd-btn" data-inclinar="-1" aria-label="Inclinar hacia atrás">↑</button>
+          <button type="button" class="kbd-btn" data-inclinar="1" aria-label="Inclinar hacia adelante">↓</button>
+          <button type="button" class="kbd-btn kbd-reset" data-reset>Restablecer vista</button>
+        </div>
       </div>
       <aside class="kbd-info" id="kbd-info" aria-live="polite">
         <div class="kbd-dot"></div>
@@ -592,7 +604,7 @@ floor *= <span class="s">0.6</span>;</code></pre>
           aleatoria— y un servidor Node que no instala nada. Menos superficie que mantener
           y nada que se rompa solo.
         </p>
-        <p class="kbd-hint">Probá con <kbd>C</kbd>, <kbd>S</kbd> o la <kbd>barra espaciadora</kbd>.</p>
+        <p class="kbd-hint">Probá con <kbd>C</kbd>, <kbd>S</kbd> o la <kbd>barra espaciadora</kbd>. Con el teclado, las <kbd>flechas</kbd> recorren la grilla.</p>
       </aside>
     </div>
     <details class="stack-rest">
