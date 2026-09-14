@@ -22,21 +22,49 @@
   --green:#15803D; --green-dark:#116232; --green-soft:#DCFCE7;
   --blue:#1D4ED8; --blue-soft:#E0EAFF; --indigo:#6D28D9; --indigo-soft:#EDE9FE;
   --amber:#B45309; --amber-soft:#FEF3C7;
+  --tag-g-bg:#DCFCE7; --tag-g-fg:#0E5C2F;
+  --tag-b-bg:#E0EAFF; --tag-b-fg:#1A3FA8;
+  --tag-i-bg:#EDE9FE; --tag-i-fg:#5B21B6;
+  --btn-bg:#15803D; --btn-fg:#FFFFFF;
+  color-scheme:light;
   --r:12px; --r-lg:18px;
   --shadow:0 1px 2px rgba(15,23,42,.06),0 2px 10px rgba(15,23,42,.05);
   --shadow-lg:0 14px 44px rgba(15,23,42,.14);
   --ease:cubic-bezier(.32,.72,.35,1);
 }
+/* El tema lo elige la persona, no solo el sistema. Todo lo que cambia entre
+   claro y oscuro son estos tokens, asi que el bloque se escribe una vez y se
+   aplica en dos lugares: cuando el sistema pide oscuro y nadie eligio lo
+   contrario, y cuando la eleccion guardada dice oscuro. */
 @media (prefers-color-scheme:dark){
-  :root{
+  :root:not([data-tema="claro"]){
     --bg:#0F172A; --bg-alt:#131D33; --surface:#1B2336; --border:#2B3952;
     --border-strong:#3F5273; --text:#F8FAFC; --muted:#94A3B8; --light:#7C8DA6;
     --green:#22C55E; --green-dark:#16A34A; --green-soft:#14532D80;
     --blue:#60A5FA; --blue-soft:#1E3A8A66; --indigo:#A78BFA; --indigo-soft:#3B0A6466;
     --amber:#FBBF24; --amber-soft:#78350F66;
+    --tag-g-bg:#183B32; --tag-g-fg:#4ADE80;
+    --tag-b-bg:#1C2C58; --tag-b-fg:#93C5FD;
+    --tag-i-bg:#281948; --tag-i-fg:#C4B5FD;
+    --btn-bg:#22C55E; --btn-fg:#0F172A;
     --shadow:0 1px 2px rgba(0,0,0,.4),0 2px 10px rgba(0,0,0,.28);
     --shadow-lg:0 14px 44px rgba(0,0,0,.5);
+    color-scheme:dark;
   }
+}
+:root[data-tema="oscuro"]{
+    --bg:#0F172A; --bg-alt:#131D33; --surface:#1B2336; --border:#2B3952;
+    --border-strong:#3F5273; --text:#F8FAFC; --muted:#94A3B8; --light:#7C8DA6;
+    --green:#22C55E; --green-dark:#16A34A; --green-soft:#14532D80;
+    --blue:#60A5FA; --blue-soft:#1E3A8A66; --indigo:#A78BFA; --indigo-soft:#3B0A6466;
+    --amber:#FBBF24; --amber-soft:#78350F66;
+    --tag-g-bg:#183B32; --tag-g-fg:#4ADE80;
+    --tag-b-bg:#1C2C58; --tag-b-fg:#93C5FD;
+    --tag-i-bg:#281948; --tag-i-fg:#C4B5FD;
+    --btn-bg:#22C55E; --btn-fg:#0F172A;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 2px 10px rgba(0,0,0,.28);
+    --shadow-lg:0 14px 44px rgba(0,0,0,.5);
+    color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -117,10 +145,9 @@ section.alt{background:var(--bg-alt);border-block:1px solid var(--border)}
   display:inline-block;font-size:11.5px;font-weight:600;letter-spacing:.06em;
   text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:14px;
 }
-.tag-g{background:var(--green-soft);color:var(--green-dark)}
-.tag-b{background:var(--blue-soft);color:var(--blue)}
-.tag-i{background:var(--indigo-soft);color:var(--indigo)}
-@media (prefers-color-scheme:dark){.tag-g{color:var(--green)}}
+.tag-g{background:var(--tag-g-bg);color:var(--tag-g-fg)}
+.tag-b{background:var(--tag-b-bg);color:var(--tag-b-fg)}
+.tag-i{background:var(--tag-i-bg);color:var(--tag-i-fg)}
 
 /* PROBLEMA / SOLUCION */
 .split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
@@ -179,8 +206,7 @@ section.alt{background:var(--bg-alt);border-block:1px solid var(--border)}
 
 /* FORMACION */
 .edu{display:flex;gap:20px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:26px}
-.edu-mark{width:46px;height:46px;border-radius:12px;background:var(--green-soft);color:var(--green-dark);display:grid;place-items:center;flex-shrink:0}
-@media (prefers-color-scheme:dark){.edu-mark{color:var(--green)}}
+.edu-mark{width:46px;height:46px;border-radius:12px;background:var(--tag-g-bg);color:var(--tag-g-fg);display:grid;place-items:center;flex-shrink:0}
 .edu h3{font-size:17px;margin-bottom:4px}
 .edu p{color:var(--muted);font-size:15px}
 
@@ -226,6 +252,11 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
 </script>
 <link rel="stylesheet" href="assets/3d.css">
 <link rel="stylesheet" href="assets/ui.css">
+<script>
+/* Antes de pintar: si hay un tema guardado se aplica ya. Si esto corriera
+   despues, la pagina parpadearia del tema del sistema al elegido. */
+try{var t=localStorage.getItem('tema');if(t&&t!=='sistema')document.documentElement.setAttribute('data-tema',t);}catch(e){}
+</script>
 </head>
 <body>
 
@@ -242,7 +273,16 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
       <a href="#stack">Stack</a>
       <a href="#contacto">Contacto</a>
     </div>
+    <div class="nav-acciones">
+      <button type="button" class="nav-btn nav-k" data-abrir-paleta aria-haspopup="dialog">
+        <span class="nav-k-txt">Buscar</span><kbd aria-hidden="true">⌘K</kbd>
+      </button>
+      <button type="button" class="nav-btn nav-tema" data-tema-btn aria-live="polite">
+        <span class="sr">Tema:</span><span data-tema-txt>Sistema</span>
+      </button>
+    </div>
   </div>
+  <div class="nav-progreso"><span data-progreso></span></div>
 </nav>
 
 <main id="contenido">
@@ -700,6 +740,19 @@ floor *= <span class="s">0.6</span>;</code></pre>
     <span>Hecho a mano con HTML y CSS. El teclado es 3D nativo del navegador, sin librerías.</span>
   </div>
 </footer>
+
+<dialog class="paleta" id="paleta" aria-label="Ir a una sección">
+  <form method="dialog" class="paleta-caja">
+    <div class="paleta-arriba">
+      <span class="paleta-prompt" aria-hidden="true">›</span>
+      <input type="search" class="paleta-input" id="paleta-input" autocomplete="off"
+             placeholder="Ir a…" aria-label="Buscar una sección" aria-controls="paleta-lista">
+      <kbd>esc</kbd>
+    </div>
+    <ul class="paleta-lista" id="paleta-lista" role="listbox" aria-label="Resultados"></ul>
+    <p class="paleta-vacio" hidden>Sin resultados.</p>
+  </form>
+</dialog>
 
 <script src="assets/3d.js" defer></script>
 </body>

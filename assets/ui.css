@@ -9,18 +9,10 @@
      escala, el ritmo vertical es el mismo en toda la pagina. */
   --e1:8px; --e2:16px; --e3:24px; --e4:40px; --e5:64px; --e6:96px;
 
-  /* Blanco sobre el verde de marca daba 3,99:1 y el minimo legible es 4,5.
-     El boton usa un verde mas profundo; el color de marca sigue siendo el
-     mismo para acentos, donde no lleva texto encima. */
-  --btn-bg:#15803D; --btn-fg:#FFFFFF;
+  /* Los tokens de color del boton y de los chips viven en index.html, en el
+     unico bloque que cambia entre claro y oscuro. */
   --anillo:0 0 0 3px color-mix(in srgb,var(--green) 55%,transparent);
   --nav-h:62px;
-}
-@media (prefers-color-scheme:dark){
-  :root{
-    /* En oscuro el verde es claro: el texto encima va oscuro, 8,6:1. */
-    --btn-bg:#22C55E; --btn-fg:#0F172A;
-  }
 }
 
 /* El resplandor del hero se salia 116 px por el costado y hacia que la pagina
@@ -282,15 +274,118 @@ html{scroll-padding-top:calc(var(--nav-h) + 12px)}
    Los chips llevaban un fondo con alfa y el resultado real caia a 4,0:1. Con
    colores solidos el contraste deja de depender de sobre que se apoyen:
    verde 7,05 · azul 7,51 · violeta 8,6 · ambar 7,98. */
-.tag-g{background:#DCFCE7;color:#0E5C2F}
-.tag-b{background:#E0EAFF;color:#1A3FA8}
-.tag-i{background:#EDE9FE;color:#5B21B6}
-@media (prefers-color-scheme:dark){
-  .tag-g{background:#183B32;color:#4ADE80}
-  .tag-b{background:#1C2C58;color:#93C5FD}
-  .tag-i{background:#281948;color:#C4B5FD}
-}
 /* El rotulo del panel daba 3,55:1 sobre el fondo verde claro. */
 .panel h3{color:var(--text);opacity:.85}
 /* El titulo de la carta medía 22 px de alto; el minimo operable es 24. */
 .ficha h3 a{padding-block:3px}
+
+/* ===========================================================================
+   Cuarta pasada: tema elegible, paleta de comandos, progreso y grano.
+   =========================================================================== */
+
+.sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+    clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+
+/* ------------------------------------------------------- acciones del nav */
+.nav-acciones{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.nav-btn{
+  min-height:38px;padding:0 12px;display:inline-flex;align-items:center;gap:8px;
+  font:inherit;font-size:13.5px;font-weight:600;line-height:1;cursor:pointer;
+  color:var(--muted);background:transparent;
+  border:1px solid var(--border);border-radius:10px;
+  transition:color .15s var(--ease),border-color .15s var(--ease),background .15s var(--ease);
+}
+.nav-btn:hover{color:var(--text);border-color:var(--border-strong);background:var(--surface)}
+.nav-btn kbd{
+  font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;font-weight:600;
+  padding:2px 5px;border-radius:5px;background:var(--bg-alt);color:var(--light);
+  border:1px solid var(--border);
+}
+.nav-tema{min-width:96px;justify-content:center}
+@media (max-width:820px){
+  .nav-k-txt{display:none}
+  .nav-btn{padding:0 10px}
+  .nav-acciones{order:2}
+  .nav-links{order:3}
+}
+
+/* --------------------------------------------------------- barra de avance
+   Dice cuanto queda, que en una pagina larga es la pregunta muda de todos. */
+.nav-progreso{height:2px;background:transparent;overflow:hidden}
+.nav-progreso span{
+  /* scaleX y no width: el ancho obliga a recalcular el layout en cada cuadro,
+     la escala la resuelve el compositor. */
+  display:block;height:100%;width:100%;
+  background:linear-gradient(90deg,var(--green),var(--blue));
+  transform:scaleX(0);transform-origin:left center;will-change:transform;
+}
+
+/* ----------------------------------------------------- paleta de comandos */
+.paleta{
+  width:min(560px,92vw);padding:0;border:0;border-radius:16px;
+  background:transparent;color:var(--text);margin-top:12vh;
+}
+.paleta::backdrop{background:rgba(2,6,23,.62);backdrop-filter:blur(6px)}
+.paleta-caja{
+  background:color-mix(in srgb,var(--surface) 92%,transparent);
+  backdrop-filter:blur(22px) saturate(180%);
+  border:1px solid var(--border-strong);border-radius:16px;
+  box-shadow:0 28px 70px -20px rgba(0,0,0,.6);
+  overflow:hidden;
+}
+.paleta-arriba{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--border)}
+.paleta-prompt{font-family:'JetBrains Mono',monospace;color:var(--green);font-weight:700}
+.paleta-input{
+  flex:1;min-width:0;border:0;background:transparent;color:var(--text);
+  font:inherit;font-size:16px;outline:none;
+}
+.paleta-input::-webkit-search-cancel-button{display:none}
+.paleta-arriba kbd{
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--light);
+  border:1px solid var(--border);border-radius:5px;padding:2px 6px;
+}
+.paleta-lista{list-style:none;margin:0;padding:6px;max-height:min(52vh,420px);overflow-y:auto}
+.paleta-lista li{margin:0}
+.paleta-op{
+  width:100%;display:flex;align-items:center;gap:12px;
+  padding:11px 12px;border:0;border-radius:10px;background:transparent;
+  font:inherit;font-size:15px;color:var(--text);text-align:left;cursor:pointer;
+}
+.paleta-op[aria-selected="true"]{background:var(--bg-alt);box-shadow:inset 2px 0 0 var(--green)}
+.paleta-op .op-tipo{
+  margin-left:auto;font-size:11px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--light);
+}
+.paleta-op .op-ico{
+  width:26px;height:26px;flex-shrink:0;display:grid;place-items:center;border-radius:7px;
+  background:var(--tag-g-bg);color:var(--tag-g-fg);
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;
+}
+.paleta-vacio{padding:18px 16px;color:var(--muted);font-size:14.5px}
+
+/* ---------------------------------------------------------------- grano
+   Una capa de ruido muy tenue: rompe el plano liso de los degradados y le
+   saca el aspecto de plantilla sin costar una sola peticion. */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@media (prefers-reduced-transparency:reduce){ body::after{display:none} }
+@media (prefers-contrast:more){ body::after{display:none} }
+
+/* ------------------------------------------------- numeracion de secciones */
+main{counter-reset:sec}
+main section{counter-increment:sec}
+main section .eyebrow::before{
+  content:counter(sec,decimal-leading-zero) " / ";
+  color:var(--light);font-variant-numeric:tabular-nums;
+}
+
+/* ------------------------------------------------------------ tipografia */
+.hero h1{font-size:clamp(40px,6.6vw,68px)}
+.sec-title{font-size:clamp(27px,3.6vw,38px)}
+.hero-lede{font-size:clamp(17px,1.7vw,19px)}
+
+@media (prefers-reduced-motion:reduce){
+  .paleta-caja,.nav-btn{transition:none}
+}

@@ -578,4 +578,132 @@
     }, { threshold: .5 });
     obs.observe(el);
   });
+
+  /* ========================================================= 9. el tema
+
+     El sistema propone y la persona dispone: tres estados, y "sistema" es el
+     que no fuerza nada. Se guarda porque una preferencia que hay que volver a
+     elegir en cada visita no es una preferencia. */
+  const TEMAS = ['sistema', 'claro', 'oscuro'];
+  const NOMBRES = { sistema: 'Sistema', claro: 'Claro', oscuro: 'Oscuro' };
+  const btnTema = document.querySelector('[data-tema-btn]');
+  const txtTema = document.querySelector('[data-tema-txt]');
+  const leerTema = () => {
+    try { return TEMAS.includes(localStorage.getItem('tema')) ? localStorage.getItem('tema') : 'sistema'; }
+    catch (e) { return 'sistema'; }
+  };
+  const ponerTema = (t) => {
+    if (t === 'sistema') root.removeAttribute('data-tema');
+    else root.setAttribute('data-tema', t);
+    if (txtTema) txtTema.textContent = NOMBRES[t];
+    if (btnTema) btnTema.setAttribute('title', `Tema: ${NOMBRES[t]}. Clic para cambiar.`);
+    try { localStorage.setItem('tema', t); } catch (e) {}
+  };
+  ponerTema(leerTema());
+  if (btnTema) btnTema.addEventListener('click', () => {
+    ponerTema(TEMAS[(TEMAS.indexOf(leerTema()) + 1) % TEMAS.length]);
+  });
+
+  /* ==================================================== 10. cuanto queda */
+  const barra = document.querySelector('[data-progreso]');
+  if (barra) {
+    let pide = 0;
+    const avance = () => {
+      const alto = document.documentElement.scrollHeight - innerHeight;
+      barra.style.transform = `scaleX(${alto > 0 ? Math.min(scrollY / alto, 1) : 0})`;
+    };
+    avance();
+    addEventListener('scroll', () => {
+      if (pide) return;
+      pide = requestAnimationFrame(() => { pide = 0; avance(); });
+    }, { passive: true });
+    addEventListener('resize', avance, { passive: true });
+  }
+
+  /* ============================================ 11. la paleta de comandos
+
+     Un <dialog> nativo: la trampa de foco, el fondo inerte y el Escape ya
+     vienen resueltos por el navegador y mejor de lo que los haria yo. */
+  const paleta = document.getElementById('paleta');
+  if (paleta && typeof paleta.showModal === 'function') {
+    const entrada = paleta.querySelector('.paleta-input');
+    const lista = paleta.querySelector('.paleta-lista');
+    const vacio = paleta.querySelector('.paleta-vacio');
+
+    const DESTINOS = [
+      ...[...document.querySelectorAll('.nav-links a[href^="#"]')].map((a) => ({
+        texto: a.textContent.trim(), url: a.getAttribute('href'), tipo: 'Sección', ico: '#',
+      })),
+      { texto: 'Descargar el CV en PDF', url: 'assets/CV-Teo-Botaya.pdf', tipo: 'Archivo', ico: '↓', fuera: true },
+      { texto: 'Repositorios en GitHub', url: 'https://github.com/teobotaya', tipo: 'Enlace', ico: '↗', fuera: true },
+      { texto: 'Escribirme por mail', url: 'mailto:teobotaya@gmail.com', tipo: 'Contacto', ico: '@' },
+    ];
+
+    let visibles = [], elegido = 0;
+    /* Sin acentos ni mayusculas: buscar "seccion" tiene que encontrar "Sección". */
+    const plano = (t) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+    const pintarLista = () => {
+      const q = plano(entrada.value.trim());
+      visibles = q ? DESTINOS.filter((d) => plano(d.texto + ' ' + d.tipo).includes(q)) : DESTINOS;
+      elegido = 0;
+      lista.innerHTML = visibles.map((d, i) => `<li role="presentation">
+        <button type="button" class="paleta-op" role="option" data-i="${i}" aria-selected="${i === 0}">
+          <span class="op-ico" aria-hidden="true">${d.ico}</span>
+          <span>${d.texto}</span><span class="op-tipo">${d.tipo}</span>
+        </button></li>`).join('');
+      vacio.hidden = visibles.length > 0;
+    };
+    const marcar = (i) => {
+      const ops = [...lista.querySelectorAll('.paleta-op')];
+      if (!ops.length) return;
+      elegido = (i + ops.length) % ops.length;
+      ops.forEach((o, n) => o.setAttribute('aria-selected', n === elegido));
+      ops[elegido].scrollIntoView({ block: 'nearest' });
+    };
+    const viajar = (d) => {
+      if (!d) return;
+      paleta.close();
+      if (d.fuera) { open(d.url, '_blank', 'noopener'); return; }
+      if (d.url.startsWith('#')) {
+        const destino = document.querySelector(d.url);
+        if (destino) {
+          destino.scrollIntoView({ behavior: quieto ? 'auto' : 'smooth' });
+          /* El foco sigue al contenido: si no, el teclado se queda arriba. */
+          destino.setAttribute('tabindex', '-1');
+          destino.focus({ preventScroll: true });
+        }
+        location.hash = d.url;
+      } else location.href = d.url;
+    };
+
+    const abrir = () => {
+      entrada.value = '';
+      pintarLista();
+      paleta.showModal();
+      entrada.focus();
+    };
+    /* El atajo se escribe como lo tiene el teclado de quien mira. */
+    const esMac = /mac|iphone|ipad/i.test(navigator.platform || navigator.userAgent);
+    document.querySelectorAll('[data-abrir-paleta] kbd').forEach((k) => {
+      k.textContent = esMac ? '⌘K' : 'Ctrl K';
+    });
+    document.querySelectorAll('[data-abrir-paleta]').forEach((b) => b.addEventListener('click', abrir));
+    addEventListener('keydown', (ev) => {
+      if ((ev.metaKey || ev.ctrlKey) && ev.key.toLowerCase() === 'k') { ev.preventDefault(); abrir(); }
+    });
+    entrada.addEventListener('input', pintarLista);
+    paleta.addEventListener('keydown', (ev) => {
+      if (ev.key === 'ArrowDown') { ev.preventDefault(); marcar(elegido + 1); }
+      else if (ev.key === 'ArrowUp') { ev.preventDefault(); marcar(elegido - 1); }
+      else if (ev.key === 'Enter') { ev.preventDefault(); viajar(visibles[elegido]); }
+    });
+    lista.addEventListener('click', (ev) => {
+      const op = ev.target.closest('.paleta-op');
+      if (op) viajar(visibles[+op.dataset.i]);
+    });
+    /* Clic en el fondo: cerrar, como en cualquier modal. */
+    paleta.addEventListener('click', (ev) => { if (ev.target === paleta) paleta.close(); });
+  }
+
 })();
