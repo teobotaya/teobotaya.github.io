@@ -374,7 +374,53 @@
     addEventListener('scroll', mirar, { passive: true });
   }
 
-  /* ================================================== 6. numeros que suben */
+  /* =========================================== 6. donde estoy en la pagina
+
+     Una navegacion que no dice donde estas obliga a adivinar. El enlace de la
+     seccion visible queda marcado, y el nav se desliza para mostrarlo cuando
+     la fila no entra entera en el telefono. */
+  const enlaces = [...document.querySelectorAll('.nav-links a[href^="#"]')];
+  const secciones = enlaces
+    .map((a) => ({ a, sec: document.querySelector(a.getAttribute('href')) }))
+    .filter((x) => x.sec);
+
+  if (secciones.length) {
+    let actual = null;
+    const marcar = (a) => {
+      if (a === actual) return;
+      enlaces.forEach((x) => x.removeAttribute('aria-current'));
+      if (a) {
+        a.setAttribute('aria-current', 'true');
+        const cont = a.parentElement;
+        if (cont.scrollWidth > cont.clientWidth) {
+          const r = a.getBoundingClientRect(), c = cont.getBoundingClientRect();
+          if (r.left < c.left + 8 || r.right > c.right - 8) {
+            cont.scrollTo({ left: a.offsetLeft - cont.clientWidth / 2 + a.offsetWidth / 2,
+                            behavior: quieto ? 'auto' : 'smooth' });
+          }
+        }
+      }
+      actual = a;
+    };
+    const mirarSecciones = () => {
+      const linea = innerHeight * 0.34;
+      let elegida = null;
+      for (const { a, sec } of secciones) {
+        const r = sec.getBoundingClientRect();
+        if (r.top <= linea && r.bottom > linea) elegida = a;
+      }
+      /* Al fondo de todo gana la ultima, aunque sea corta y no cruce la linea. */
+      if (!elegida && scrollY + innerHeight >= document.body.scrollHeight - 4) {
+        elegida = secciones[secciones.length - 1].a;
+      }
+      marcar(elegida);
+    };
+    mirarSecciones();
+    addEventListener('scroll', mirarSecciones, { passive: true });
+    addEventListener('resize', mirarSecciones, { passive: true });
+  }
+
+  /* ================================================== 7. numeros que suben */
   document.querySelectorAll('.stat-n').forEach((el) => {
     if (quieto) return;
     const m = el.textContent.trim().match(/^(\D*)([\d.,]+)(\D*)$/);

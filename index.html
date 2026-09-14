@@ -222,23 +222,27 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
 {"@context":"https://schema.org","@type":"Person","name":"Teo Matías Botaya","jobTitle":"Desarrollador Full Stack","email":"teobotaya@gmail.com","url":"https://teobotaya.github.io/","sameAs":["https://github.com/teobotaya"],"address":{"@type":"PostalAddress","addressLocality":"Malvinas Argentinas","addressRegion":"Buenos Aires","addressCountry":"AR"},"alumniOf":{"@type":"CollegeOrUniversity","name":"Universidad del Salvador"},"knowsAbout":["C#","ASP.NET Core","TypeScript","React","SQL Server","Node.js","Docker"]}
 </script>
 <link rel="stylesheet" href="assets/3d.css">
+<link rel="stylesheet" href="assets/ui.css">
 </head>
 <body>
 
-<nav class="nav">
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<nav class="nav" aria-label="Secciones">
   <div class="wrap nav-in">
     <a class="nav-brand" href="#top"><span class="nav-mark"><span class="nav-cube"><span>TB</span><span>TB</span></span></span> Teo Botaya</a>
     <div class="nav-links">
       <a href="#vistazo">Proyectos</a>
-      <a href="#proyecto">Sistema</a>
-      <a href="#arquitectura">Arquitectura</a>
-      <a href="#plugin">Plugin</a>
-      <a href="#mesa">Mesa de análisis</a>
+      <a href="#proyecto">Sports Complex</a>
+      <a href="#plugin">Smart Atlas</a>
+      <a href="#mesa">Market Desk</a>
       <a href="#stack">Stack</a>
       <a href="#contacto">Contacto</a>
     </div>
   </div>
 </nav>
+
+<main id="contenido">
 
 <header class="wrap hero" id="top">
   <div class="hero-aura" aria-hidden="true"></div>
@@ -257,17 +261,21 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
     <span><i class="dot"></i>Disponible para trabajar</span>
   </div>
   <div class="cta-row">
-    <a class="btn btn-primary" href="#proyecto">Ver el sistema</a>
-    <a class="btn btn-ghost" href="#plugin">Ver el plugin</a>
-    <a class="btn btn-ghost" href="https://github.com/teobotaya" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn btn-primary" href="#vistazo">Ver los proyectos</a>
     <a class="btn btn-ghost" href="assets/CV-Teo-Botaya.pdf" target="_blank" rel="noopener">Descargar CV (PDF)</a>
-    <a class="btn btn-ghost" href="mailto:teobotaya@gmail.com">teobotaya@gmail.com</a>
+    <a class="btn-quiet" href="https://github.com/teobotaya" target="_blank" rel="noopener">GitHub ↗</a>
+    <a class="btn-quiet" href="mailto:teobotaya@gmail.com">teobotaya@gmail.com</a>
   </div>
 </header>
 
 <section id="vistazo">
   <div class="wrap">
     <p class="eyebrow">Los tres, de un vistazo</p>
+    <h2 class="sec-title">Tres sistemas construidos de punta a punta</h2>
+    <p class="sec-intro">
+      Cada uno resuelve un problema distinto y tiene su decisión de diseño explicada
+      más abajo. El código de los tres está publicado.
+    </p>
     <div class="grid-3">
       <article class="card">
         <span class="tag tag-g">Sistema completo</span>
@@ -413,23 +421,23 @@ footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);
     </p>
     <div class="gallery">
       <figure class="shot">
-        <a href="assets/diagrama-relacional.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-relacional-thumb.jpg" alt="Diagrama relacional de la base de datos" loading="lazy"></a>
+        <a href="assets/diagrama-relacional.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-relacional-thumb.jpg" width="880" height="600" alt="Diagrama relacional de la base de datos" loading="lazy"></a>
         <figcaption><b>Diagrama relacional</b>12 tablas con claves, índices y restricciones<span class="zoom">Ver en tamaño completo →</span></figcaption>
       </figure>
       <figure class="shot">
-        <a href="assets/diagrama-der.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-der-thumb.jpg" alt="Diagrama entidad-relación" loading="lazy"></a>
+        <a href="assets/diagrama-der.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-der-thumb.jpg" width="880" height="600" alt="Diagrama entidad-relación" loading="lazy"></a>
         <figcaption><b>Entidad-Relación</b>Entidades del dominio y sus cardinalidades<span class="zoom">Ver en tamaño completo →</span></figcaption>
       </figure>
       <figure class="shot">
-        <a href="assets/diagrama-clases.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-clases-thumb.jpg" alt="Diagrama de clases" loading="lazy"></a>
+        <a href="assets/diagrama-clases.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-clases-thumb.jpg" width="880" height="600" alt="Diagrama de clases" loading="lazy"></a>
         <figcaption><b>Diagrama de clases</b>Entidades, servicios y sus dependencias<span class="zoom">Ver en tamaño completo →</span></figcaption>
       </figure>
       <figure class="shot">
-        <a href="assets/diagrama-secuencia-reserva.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-secuencia-reserva-thumb.jpg" alt="Diagrama de secuencia del alta de reserva" loading="lazy"></a>
+        <a href="assets/diagrama-secuencia-reserva.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-secuencia-reserva-thumb.jpg" width="880" height="600" alt="Diagrama de secuencia del alta de reserva" loading="lazy"></a>
         <figcaption><b>Secuencia: alta de reserva</b>Del formulario a la validación en la base<span class="zoom">Ver en tamaño completo →</span></figcaption>
       </figure>
       <figure class="shot">
-        <a href="assets/diagrama-casos-uso.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-casos-uso-thumb.jpg" alt="Diagrama de casos de uso" loading="lazy"></a>
+        <a href="assets/diagrama-casos-uso.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-casos-uso-thumb.jpg" width="880" height="600" alt="Diagrama de casos de uso" loading="lazy"></a>
         <figcaption><b>Casos de uso</b>Qué puede hacer cada rol en el sistema<span class="zoom">Ver en tamaño completo →</span></figcaption>
       </figure>
     </div>
@@ -486,7 +494,7 @@ floor *= <span class="s">0.6</span>;</code></pre>
     <h3 style="font-size:19px;margin:52px 0 14px">Corriendo dentro de Obsidian</h3>
     <div class="gallery">
       <figure class="shot full">
-        <a href="assets/smart-atlas-mapa.jpg" target="_blank" rel="noopener"><img src="assets/smart-atlas-mapa-thumb.jpg" alt="El mapa, en una bóveda real" loading="lazy"></a>
+        <a href="assets/smart-atlas-mapa.jpg" target="_blank" rel="noopener"><img src="assets/smart-atlas-mapa-thumb.jpg" width="729" height="800" alt="El mapa, en una bóveda real" loading="lazy"></a>
         <figcaption><b>El mapa, en una bóveda real</b>22 notas y 26 conexiones, agrupadas por tema sin intervención<span class="zoom">Ver en tamaño completo →</span></figcaption>
       </figure>
     </div>
@@ -552,7 +560,7 @@ floor *= <span class="s">0.6</span>;</code></pre>
     <h3 style="font-size:19px;margin:52px 0 14px">La aplicación</h3>
     <div class="gallery">
       <figure class="shot full">
-        <a href="assets/market-desk-panel.jpg" target="_blank" rel="noopener"><img src="assets/market-desk-panel-thumb.jpg" alt="Panel de riesgo de corto plazo" loading="lazy"></a>
+        <a href="assets/market-desk-panel.jpg" target="_blank" rel="noopener"><img src="assets/market-desk-panel-thumb.jpg" width="800" height="400" alt="Panel de riesgo de corto plazo" loading="lazy"></a>
         <figcaption><b>Panel de riesgo de corto plazo</b>Volatilidad, ATR, drawdown y volumen relativo calculados en la máquina<span class="zoom">Ver en tamaño completo →</span></figcaption>
       </figure>
     </div>
@@ -645,6 +653,8 @@ floor *= <span class="s">0.6</span>;</code></pre>
     </div>
   </div>
 </section>
+
+</main>
 
 <footer>
   <div class="wrap foot-in">
