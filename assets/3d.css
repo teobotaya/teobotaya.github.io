@@ -15,21 +15,21 @@
 
 /* ------------------------------------------------------- aparicion al scroll */
 .js [data-reveal]{
-  opacity:0;transform:translate3d(0,26px,0) rotateX(7deg);
-  transform-origin:50% 100%;
-  transition:opacity .7s var(--ease),transform .7s var(--ease);
+  opacity:0;transform:translate3d(0,20px,0);
+  transition:opacity .55s var(--ease),transform .55s var(--ease);
   transition-delay:var(--d,0ms);
 }
 .js [data-reveal].in{opacity:1;transform:none}
 
 /* -------------------------------------------------- inclinacion con el mouse */
+/* El transform lo escribe un resorte en JS, cuadro por cuadro: por eso aca
+   no hay transition. Una transicion de duracion fija no se puede agarrar en
+   el medio ni arranca del valor que se esta viendo. */
 [data-tilt]{
   transform:perspective(1000px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translate3d(0,var(--ty,0px),0);
-  transform-style:preserve-3d;
-  will-change:transform;
+  transform-style:preserve-3d;transition:none;will-change:transform;
 }
-[data-tilt]:hover{--ty:-4px}
-.card[data-tilt]:hover,.shot[data-tilt]:hover{transform:perspective(1000px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translate3d(0,-4px,0)}
+.card[data-tilt]:hover,.shot[data-tilt]:hover{transform:perspective(1000px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translate3d(0,var(--ty,0px),0)}
 [data-tilt]>*{transform:translateZ(var(--z,0px))}
 .card[data-tilt] h3{--z:22px}
 .card[data-tilt] .tag{--z:30px}
@@ -54,17 +54,13 @@
     radial-gradient(340px 260px at 52% 66%,color-mix(in srgb,var(--blue) 14%,transparent),transparent 70%);
   filter:blur(18px);
   transform:translate3d(calc(var(--px,0) * -18px),calc(var(--py,0) * -14px),0);
-  transition:transform .6s var(--ease);
-  animation:aura 18s ease-in-out infinite alternate;
+  animation:aura 22s ease-in-out infinite alternate;
 }
 @keyframes aura{
   from{background-position:0 0,0 0,0 0}
   to{background-position:40px -20px,-30px 25px,20px 30px}
 }
-.hero h1,.hero-lede{
-  transform:translate3d(calc(var(--px,0) * 7px),calc(var(--py,0) * 5px),0);
-  transition:transform .5s var(--ease);
-}
+.hero h1,.hero-lede{transform:translate3d(calc(var(--px,0) * 7px),calc(var(--py,0) * 5px),0)}
 .hero h1 .accent{
   background:linear-gradient(96deg,var(--green),var(--blue) 55%,var(--indigo));
   -webkit-background-clip:text;background-clip:text;color:transparent;
@@ -74,12 +70,14 @@
 
 /* la marca del nav, un cubo de verdad */
 .nav-mark{perspective:120px;background:none;padding:0}
+/* En reposo es una marca plana; la cara lateral queda de canto, invisible.
+   Solo al pasar por encima se revela que era un cubo. */
 .nav-cube{
   position:relative;width:30px;height:30px;transform-style:preserve-3d;
-  transform:rotateX(-14deg) rotateY(var(--ry,-22deg));
-  transition:transform .6s var(--ease);
+  transform:rotateY(0deg);
+  transition:transform .7s cubic-bezier(.32,.72,.35,1);
 }
-.nav-brand:hover .nav-cube{transform:rotateX(-14deg) rotateY(calc(var(--ry,-22deg) + 360deg))}
+.nav-brand:hover .nav-cube{transform:rotateX(-10deg) rotateY(360deg)}
 .nav-cube span{
   position:absolute;inset:0;border-radius:8px;display:grid;place-items:center;
   font-size:12px;font-weight:700;color:#fff;background:var(--green);
@@ -98,7 +96,10 @@
   display:grid;place-items:center;
   min-height:clamp(290px,40vw,430px);
   perspective:1500px;perspective-origin:50% 42%;
+  cursor:grab;
 }
+.kbd-stage:active{cursor:grabbing}
+.kbd.agarrada{box-shadow:0 52px 80px -30px rgba(0,0,0,.72)}
 .kbd{
   position:relative;
   width:calc(var(--pad)*2 + 4.6*(var(--u) + var(--g)) + var(--u));
@@ -108,7 +109,7 @@
   box-shadow:0 40px 70px -28px rgba(0,0,0,.65);
   transform-style:preserve-3d;
   transform:rotateX(calc(55deg + var(--tx,0deg))) rotateZ(calc(-31deg + var(--tz,0deg)));
-  transition:transform .45s var(--ease);
+  will-change:transform;
 }
 .kbd::before,.kbd::after{
   content:'';position:absolute;background:linear-gradient(#0b1115,#05080a);
@@ -124,8 +125,11 @@
   top:calc(var(--pad) + var(--r) * (var(--u) + var(--g)));
   width:calc(var(--w,1) * var(--u) + (var(--w,1) - 1) * var(--g));
   height:var(--u);
-  transition:--kh .12s var(--ease);
+  /* Baja casi instantanea y vuelve mas lenta: es como responde una tecla
+     real, y es lo que separa un boton vivo de uno muerto. */
+  transition:--kh .16s var(--ease);
 }
+.key.down{transition:--kh .05s linear}
 .key .cap{
   position:absolute;inset:0;border-radius:calc(var(--u)*.17);
   transform:translateZ(var(--kh));
@@ -177,7 +181,7 @@
      antes de la coma y del punto. */
   margin-top:18px;font-size:13.5px;color:var(--light);line-height:2.1;
 }
-.kbd-hint kbd{margin-inline:3px}
+.kbd-hint kbd{margin-inline:1px}
 .kbd-hint kbd{
   font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;
   border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:6px;
@@ -199,9 +203,55 @@
   :root{--u:clamp(40px,12.5vw,54px)}
   .kbd{transform:rotateX(50deg) rotateZ(-26deg) scale(.92)}
 }
+/* Movimiento reducido no es "sin respuesta": es la misma informacion sin
+   desplazamiento. Se cambia el traslado por un fundido corto y se quitan el
+   paralaje, el rebote y los bucles lentos. */
 @media (prefers-reduced-motion:reduce){
-  .js [data-reveal]{opacity:1!important;transform:none!important}
+  .js [data-reveal]{transform:none;transition:opacity .2s ease}
   [data-tilt]{transform:none!important}
+  [data-tilt]::after{transition:opacity .15s ease}
   .hero-aura,.hero h1 .accent{animation:none}
-  .kbd{transition:none}
+  .hero h1,.hero-lede{transform:none}
+  .kbd{transform:rotateX(55deg) rotateZ(-31deg)}
+  .kbd-stage{cursor:default}
+  .key{transition:--kh .05s linear}
+  .btn:active,.chip:active{transform:none}
+}
+
+/* --------------------------------------------- respuesta en el apretar (§1) */
+.btn:active,.chip:active,.stack-rest summary:active{
+  transform:scale(.97);transition:transform 100ms ease-out;
+}
+
+/* ------------------------------------------- material del nav y filo (§12)
+   El borde no es permanente: aparece solo cuando hay contenido pasando por
+   debajo del vidrio. Un divisor fijo separa donde todavia no hay nada. */
+.nav{border-bottom-color:transparent;transition:border-color .3s var(--ease),background .3s var(--ease)}
+.nav.con-filo{
+  border-bottom-color:var(--border);
+  background:color-mix(in srgb,var(--bg) 78%,transparent);
+  backdrop-filter:saturate(180%) blur(16px);
+}
+
+/* ------------------------------------------------------- tipografia (§15)
+   El tracking es propio de cada tamano: un solo valor para todos los titulos
+   aprieta de mas los chicos. Se cierra al crecer y se abre al achicarse. */
+h1,.hero h1{letter-spacing:-.035em;line-height:1.04}
+.sec-title{letter-spacing:-.025em;line-height:1.1}
+.card h3,.kbd-info h3,.edu h3,.layer-name{letter-spacing:-.012em}
+.eyebrow,.kbd-grp,.stack-group h4,.tag{letter-spacing:.11em}
+body{font-optical-sizing:auto}
+.stat-n{letter-spacing:-.035em}
+
+/* ------------------------------------------------- preferencias del sistema */
+@media (prefers-reduced-transparency:reduce){
+  .nav,.nav.con-filo{background:var(--bg);backdrop-filter:none}
+  [data-tilt]::after{display:none}
+  .hero-aura{opacity:.35;filter:none}
+}
+@media (prefers-contrast:more){
+  .nav{background:var(--bg);backdrop-filter:none;border-bottom-color:var(--text)}
+  .card,.shot,.panel,.layer,.edu,.kbd-info{border-color:var(--border-strong)}
+  .hero-aura{display:none}
+  .key .cap b{text-shadow:none}
 }
