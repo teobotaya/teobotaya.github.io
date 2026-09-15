@@ -92,12 +92,12 @@
 
     { t:'z', x:0.6, r:2, l:'Node',    c:'#16A34A', n:'Node.js',            g:'Herramientas propias',
       d:'Market Desk corre en Node sin una sola dependencia instalada: el servidor, el parseo y las métricas son código propio.' },
-    { t:'x', x:1.6, r:2, l:'Docker',  c:'#0284C7', n:'Docker y Compose',   g:'Infraestructura',
-      d:'Base de datos y API levantan juntas con un comando, para que el entorno no dependa de lo que cada máquina tenga instalado.' },
+    { t:'x', x:1.6, r:2, l:'Docker',  c:'#0284C7', n:'Docker y Kubernetes', g:'Infraestructura',
+      d:'Imagen multi-stage con las pruebas adentro del build, y un clúster kind de tres nodos en DevOps Lab: Deployment, Service, HPA, PodDisruptionBudget y RBAC acotado.' },
     { t:'c', x:2.6, r:2, l:'Git',     c:'#EA580C', n:'Git',                g:'Infraestructura',
       d:'Una rama por funcionalidad y un historial que se puede leer. Cada decisión de diseño queda fechada en el mensaje del commit.' },
     { t:'v', x:3.6, r:2, l:'CI',      c:'#64748B', n:'GitHub Actions',     g:'Infraestructura',
-      d:'Build y pruebas automáticas en cada push. Si algo rompe, se entera el pipeline antes que el usuario.' },
+      d:'En cada push: pruebas, validación de los manifiestos con kubeconform y publicación de la imagen en GHCR para amd64 y arm64, etiquetada por commit.' },
     { t:'b', x:4.6, r:2, l:'SVG',     c:'#D97706', n:'SVG',                g:'Herramientas propias',
       d:'El mapa de Smart Atlas se dibuja nodo por nodo en SVG: sin canvas, sin WebGL y sin motor de gráficos de terceros.' },
 

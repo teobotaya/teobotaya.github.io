@@ -688,6 +688,22 @@ floor *= <span class="s">0.6</span>;</code></pre>
       </article>
     </div>
 
+    <h3 style="font-size:19px;margin:52px 0 14px">El permiso, escrito desde el código</h3>
+    <pre class="codeblock"><code><span class="c"># El Role sale de las llamadas que el panel hace, nunca al revés.</span>
+<span class="c"># Esto es todo lo que su token alcanza, y solo en el namespace demo.</span>
+<span class="k">rules:</span>
+  - <span class="k">apiGroups:</span> [<span class="s">""</span>]
+    <span class="k">resources:</span> [<span class="s">"pods"</span>]
+    <span class="k">verbs:</span> [<span class="s">"get"</span>, <span class="s">"list"</span>, <span class="s">"delete"</span>]        <span class="c"># matar un pod</span>
+  - <span class="k">apiGroups:</span> [<span class="s">"apps"</span>]
+    <span class="k">resources:</span> [<span class="s">"deployments/scale"</span>]
+    <span class="k">verbs:</span> [<span class="s">"get"</span>, <span class="s">"patch"</span>]                  <span class="c"># escalar, y nada más</span></code></pre>
+
+    <h3 style="font-size:19px;margin:52px 0 14px">Correrlo entero</h3>
+    <pre class="codeblock"><code><span class="c"># Las pruebas corren dentro del build: si fallan, la imagen no existe.</span>
+make imagen &amp;&amp; make cluster &amp;&amp; make desplegar
+<span class="c"># El panel queda en localhost:30090</span></code></pre>
+
     <h3 style="font-size:19px;margin:52px 0 14px">El panel</h3>
     <div class="gallery">
       <figure class="shot full">
@@ -698,6 +714,8 @@ floor *= <span class="s">0.6</span>;</code></pre>
 
     <div class="cta-row" style="margin-top:34px">
       <a class="btn btn-ghost" href="https://github.com/teobotaya/devops-lab" target="_blank" rel="noopener">Código en GitHub</a>
+      <a class="btn btn-ghost" href="https://github.com/teobotaya/devops-lab/pkgs/container/devops-lab" target="_blank" rel="noopener">La imagen en GHCR</a>
+      <a class="btn-quiet" href="https://github.com/teobotaya/devops-lab/actions" target="_blank" rel="noopener">Ver el pipeline corriendo <span aria-hidden="true">↗</span></a>
     </div>
   </div>
 </section>
