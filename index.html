@@ -271,7 +271,7 @@ try{var t=localStorage.getItem('tema');if(t&&t!=='sistema')document.documentElem
       <a href="#contacto">Contacto</a>
     </div>
     <div class="nav-acciones">
-      <button type="button" class="nav-btn nav-k" data-abrir-paleta aria-haspopup="dialog">
+      <button type="button" class="nav-btn nav-k" data-abrir-paleta aria-haspopup="dialog" aria-label="Buscar en el sitio">
         <span class="nav-k-txt">Buscar</span><kbd aria-hidden="true">⌘K</kbd>
       </button>
       <button type="button" class="nav-btn nav-tema" data-tema-btn aria-live="polite">
@@ -435,7 +435,7 @@ try{var t=localStorage.getItem('tema');if(t&&t!=='sistema')document.documentElem
     </div>
 
     <h3 style="font-size:19px;margin:52px 0 14px">Integridad garantizada en el motor</h3>
-    <pre class="codeblock"><code><span class="c">-- Una cancha no puede tener dos reservas vigentes en el mismo horario.</span>
+    <pre class="codeblock" tabindex="0"><code><span class="c">-- Una cancha no puede tener dos reservas vigentes en el mismo horario.</span>
 <span class="c">-- El filtro deja libre el turno cuando la reserva fue cancelada.</span>
 <span class="k">CREATE UNIQUE INDEX</span> UX_Reserva_Cancha_Fecha_Horario
     <span class="k">ON</span> dbo.Reserva (id_cancha, fecha, hora_inicio)
@@ -563,7 +563,7 @@ try{var t=localStorage.getItem('tema');if(t&&t!=='sistema')document.documentElem
     </div>
 
     <h3 style="font-size:19px;margin:52px 0 14px">El umbral se adapta a la escala del motor</h3>
-    <pre class="codeblock"><code><span class="c">// La similitud coseno de TF-IDF y la de los embeddings no viven en la misma escala.</span>
+    <pre class="codeblock" tabindex="0"><code><span class="c">// La similitud coseno de TF-IDF y la de los embeddings no viven en la misma escala.</span>
 <span class="c">// Si el grafo queda disperso, el umbral se relaja solo en vez de dibujar un mapa vacío.</span>
 <span class="k">if</span> (this.edges.length &gt;= n * <span class="s">0.6</span> || floor &lt;= <span class="s">0.08</span>) <span class="k">return</span>;
 floor *= <span class="s">0.6</span>;</code></pre>
@@ -623,7 +623,7 @@ floor *= <span class="s">0.6</span>;</code></pre>
     </div>
 
     <h3 style="font-size:19px;margin:52px 0 14px">Separar el riesgo real del relleno</h3>
-    <pre class="codeblock"><code><span class="c">// Todo 10-K advierte sobre "volatilidad del mercado". Pocos declaran</span>
+    <pre class="codeblock" tabindex="0"><code><span class="c">// Todo 10-K advierte sobre "volatilidad del mercado". Pocos declaran</span>
 <span class="c">// que un solo cliente explica el 40% de los ingresos.</span>
 <span class="k">const</span> SPECIFIC = [
   /\b\d{1,3}(\.\d)?%\s+of\s+(our\s+)?(total\s+)?(revenue|net sales)/i,
@@ -688,7 +688,7 @@ floor *= <span class="s">0.6</span>;</code></pre>
     </div>
 
     <h3 style="font-size:19px;margin:52px 0 14px">El permiso, escrito desde el código</h3>
-    <pre class="codeblock"><code><span class="c"># El Role sale de las llamadas que el panel hace, nunca al revés.</span>
+    <pre class="codeblock" tabindex="0"><code><span class="c"># El Role sale de las llamadas que el panel hace, nunca al revés.</span>
 <span class="c"># Esto es todo lo que su token alcanza, y solo en el namespace demo.</span>
 <span class="k">rules:</span>
   - <span class="k">apiGroups:</span> [<span class="s">""</span>]
@@ -699,7 +699,7 @@ floor *= <span class="s">0.6</span>;</code></pre>
     <span class="k">verbs:</span> [<span class="s">"get"</span>, <span class="s">"patch"</span>]                  <span class="c"># escalar, y nada más</span></code></pre>
 
     <h3 style="font-size:19px;margin:52px 0 14px">Correrlo entero</h3>
-    <pre class="codeblock"><code><span class="c"># Las pruebas corren dentro del build: si fallan, la imagen no existe.</span>
+    <pre class="codeblock" tabindex="0"><code><span class="c"># Las pruebas corren dentro del build: si fallan, la imagen no existe.</span>
 make imagen &amp;&amp; make cluster &amp;&amp; make desplegar
 <span class="c"># El panel queda en localhost:30090</span></code></pre>
 

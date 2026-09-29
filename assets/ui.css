@@ -396,3 +396,11 @@ main section .eyebrow::before{
 /* El nav puede ser mas ancho que el texto: el cuerpo se lee mejor a 1080,
    pero la barra con siete secciones y dos botones necesita mas aire. */
 @media (min-width:1321px){ .nav .wrap{max-width:1280px} }
+
+/* accesibilidad — contraste AA en textos chicos y regiones con desplazamiento usables con teclado */
+button.nav-k > kbd{color:var(--muted)}
+.stack-rest > summary{color:var(--green-dark)}
+pre.codeblock:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+/* el monograma TB sobre el verde claro del tema oscuro necesita texto oscuro para leerse */
+@media (prefers-color-scheme:dark){ :root:not([data-tema="claro"]) .nav-cube span{color:#052E16} }
+:root[data-tema="oscuro"] .nav-cube span{color:#052E16}
