@@ -323,7 +323,7 @@ try{var t=localStorage.getItem('tema');if(t&&t!=='sistema')document.documentElem
           <div class="ficha-cuerpo">
             <span class="tag tag-g">Sistema completo</span>
             <h3><a href="#proyecto">Sports Complex Admin</a></h3>
-            <p>48 endpoints REST, 12 tablas y 24 pruebas. La integridad de las reservas está garantizada en el motor de base de datos, no en el formulario.</p>
+            <p>55 endpoints REST, 14 tablas y 54 pruebas. La integridad de las reservas está garantizada en el motor de base de datos, no en el formulario.</p>
             <p class="ficha-stack">ASP.NET Core 8 · React · SQL Server</p>
           </div>
         </article>
@@ -382,10 +382,10 @@ try{var t=localStorage.getItem('tema');if(t&&t!=='sistema')document.documentElem
     </p>
 
     <div class="stats" style="margin-top:0;margin-bottom:44px">
-      <div class="stat"><div class="stat-n">~9.700</div><div class="stat-l">líneas de código</div></div>
-      <div class="stat"><div class="stat-n">48</div><div class="stat-l">endpoints REST</div></div>
-      <div class="stat"><div class="stat-n">12</div><div class="stat-l">tablas relacionales</div></div>
-      <div class="stat"><div class="stat-n">24</div><div class="stat-l">pruebas unitarias</div></div>
+      <div class="stat"><div class="stat-n">~11.700</div><div class="stat-l">líneas de código</div></div>
+      <div class="stat"><div class="stat-n">55</div><div class="stat-l">endpoints REST</div></div>
+      <div class="stat"><div class="stat-n">14</div><div class="stat-l">tablas relacionales</div></div>
+      <div class="stat"><div class="stat-n">54</div><div class="stat-l">pruebas unitarias</div></div>
     </div>
 
     <div class="split" style="margin-bottom:44px">
@@ -432,7 +432,7 @@ try{var t=localStorage.getItem('tema');if(t&&t!=='sistema')document.documentElem
         <span class="tag tag-i">Arquitectura</span>
         <h3>Lógica en servicios, no en controllers</h3>
         <p>
-          Los controllers solo validan la entrada y traducen DTOs. Las reglas viven en 16 servicios
+          Los controllers solo validan la entrada y traducen DTOs. Las reglas viven en 18 servicios
           de dominio, que son además los que están cubiertos por pruebas unitarias con base en memoria.
         </p>
       </article>
@@ -468,15 +468,15 @@ try{var t=localStorage.getItem('tema');if(t&&t!=='sistema')document.documentElem
       </div>
       <div class="layer">
         <div class="layer-name">API <small>ASP.NET Core 8</small></div>
-        <div class="layer-desc">12 controllers y 48 endpoints REST. Autenticación JWT Bearer, autorización por rol, CORS configurado por origen y documentación automática con Swagger.</div>
+        <div class="layer-desc">13 controllers y 55 endpoints REST. Autenticación JWT Bearer, autorización por rol, CORS configurado por origen y documentación automática con Swagger.</div>
       </div>
       <div class="layer">
-        <div class="layer-name">Dominio <small>16 servicios</small></div>
+        <div class="layer-name">Dominio <small>18 servicios</small></div>
         <div class="layer-desc">Disponibilidad, reservas, pagos, cancelaciones, devoluciones, torneos, partidos, estadísticas y reportes. Es donde viven las reglas del negocio.</div>
       </div>
       <div class="layer">
         <div class="layer-name">Datos <small>EF Core 8 · SQL Server</small></div>
-        <div class="layer-desc">12 entidades mapeadas, migraciones versionadas, índices y constraints declarados en el schema, y scripts de creación y carga inicial en el repositorio.</div>
+        <div class="layer-desc">14 entidades mapeadas (con auditoría automática de cada cambio), migraciones versionadas, índices y constraints declarados en el schema, y scripts de creación y carga inicial en el repositorio.</div>
       </div>
     </div>
   </div>
@@ -487,14 +487,14 @@ try{var t=localStorage.getItem('tema');if(t&&t!=='sistema')document.documentElem
     <p class="eyebrow">Documentación</p>
     <h2 class="sec-title">El sistema, documentado</h2>
     <p class="sec-intro">
-      Los diagramas están versionados como código fuente Mermaid junto al repositorio, no como
-      imágenes sueltas: se regeneran y evolucionan con el sistema.
+      Los diagramas se generan con código a partir del modelo real de la base de datos y se
+      verifican solos: ninguna línea se cruza y ninguna etiqueta queda ambigua. Se regeneran cada vez que cambia el sistema.
     </p>
     <div class="carrusel" data-carrusel>
       <div class="carrusel-pista" role="group" aria-label="Diagramas del sistema" tabindex="0">
 <figure class="shot">
         <a href="assets/diagrama-relacional.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-relacional-thumb.jpg" width="880" height="600" alt="Diagrama relacional de la base de datos" loading="lazy"></a>
-        <figcaption><b>Diagrama relacional</b>12 tablas con claves, índices y restricciones<span class="zoom">Ver en tamaño completo →</span></figcaption>
+        <figcaption><b>Diagrama relacional</b>14 tablas con claves, índices y restricciones<span class="zoom">Ver en tamaño completo →</span></figcaption>
       </figure>
       <figure class="shot">
         <a href="assets/diagrama-der.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-der-thumb.jpg" width="880" height="600" alt="Diagrama entidad-relación" loading="lazy"></a>
@@ -502,7 +502,7 @@ try{var t=localStorage.getItem('tema');if(t&&t!=='sistema')document.documentElem
       </figure>
       <figure class="shot">
         <a href="assets/diagrama-clases.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-clases-thumb.jpg" width="880" height="600" alt="Diagrama de clases" loading="lazy"></a>
-        <figcaption><b>Diagrama de clases</b>Entidades, servicios y sus dependencias<span class="zoom">Ver en tamaño completo →</span></figcaption>
+        <figcaption><b>Diagrama de clases</b>Las 14 entidades del dominio y sus asociaciones<span class="zoom">Ver en tamaño completo →</span></figcaption>
       </figure>
       <figure class="shot">
         <a href="assets/diagrama-secuencia-reserva.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-secuencia-reserva-thumb.jpg" width="880" height="600" alt="Diagrama de secuencia del alta de reserva" loading="lazy"></a>
@@ -776,7 +776,7 @@ make imagen &amp;&amp; make cluster &amp;&amp; make desplegar
     </div>
     <div class="stack-group">
       <h4>Análisis y diseño</h4>
-      <div class="chips"><span class="chip">UML</span><span class="chip">Casos de uso</span><span class="chip">Diagramas de secuencia</span><span class="chip">Mermaid</span><span class="chip">Planificación y Gantt</span></div>
+      <div class="chips"><span class="chip">UML</span><span class="chip">Casos de uso</span><span class="chip">Diagramas de secuencia</span><span class="chip">DER y DFD</span><span class="chip">Planificación y Gantt</span></div>
     </details>
   </div>
 </section>

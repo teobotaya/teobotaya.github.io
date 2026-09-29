@@ -69,13 +69,13 @@
   /* ========================================================== 2. el teclado */
   const TECLAS = [
     { t:'q', x:0,   r:0, l:'C#',      c:'#8B5CF6', n:'C#',                 g:'Backend',
-      d:'El lenguaje del backend de Sports Complex Admin: 48 endpoints REST y 24 pruebas que corren en cada push.' },
+      d:'El lenguaje del backend de Sports Complex Admin: 55 endpoints REST y 54 pruebas que corren en cada push.' },
     { t:'w', x:1,   r:0, l:'.NET',    c:'#6D46D9', n:'ASP.NET Core 8',     g:'Backend',
       d:'La API, el control de acceso por rol con JWT y la capa de servicios donde vive la lógica de negocio.' },
     { t:'e', x:2,   r:0, l:'EF',      c:'#4F46E5', n:'Entity Framework Core', g:'Backend',
       d:'El mapeo relacional y las migraciones del esquema. El modelo de dominio se escribe una vez y la base lo sigue.' },
     { t:'r', x:3,   r:0, l:'SQL',     c:'#DC2626', n:'SQL Server',         g:'Datos',
-      d:'12 tablas. La regla de que dos reservas no se pisan vive acá, en el motor: un formulario se puede esquivar, una restricción no.' },
+      d:'14 tablas. La regla de que dos reservas no se pisan vive acá, en el motor: un formulario se puede esquivar, una restricción no.' },
     { t:'t', x:4,   r:0, l:'JWT',     c:'#DB2777', n:'JWT',                g:'Backend',
       d:'Autenticación por token y permisos resueltos por rol, verificados del lado del servidor en cada pedido.' },
 
@@ -88,7 +88,7 @@
     { t:'f', x:3.3, r:1, l:'CSS',     c:'#3B82F6', n:'CSS a mano',         g:'Frontend',
       d:'Diseño responsive escrito sin frameworks. Esta página incluida: el teclado que estás mirando son transformaciones 3D nativas.' },
     { t:'g', x:4.3, r:1, l:'test',    c:'#10B981', n:'xUnit y Vitest',     g:'Calidad',
-      d:'24 pruebas del lado del backend y pruebas de componentes en el frontend. Lo que no se prueba, no se sabe si funciona.' },
+      d:'54 pruebas del lado del backend y pruebas de componentes en el frontend. Lo que no se prueba, no se sabe si funciona.' },
 
     { t:'z', x:0.6, r:2, l:'Node',    c:'#16A34A', n:'Node.js',            g:'Herramientas propias',
       d:'Market Desk corre en Node sin una sola dependencia instalada: el servidor, el parseo y las métricas son código propio.' },
@@ -105,8 +105,8 @@
       d:'Vistas laterales, modales y pestaña de ajustes. Smart Atlas se integra con Smart Connections y, si no está, arma su propio índice.' },
     { t:' ', x:1.6, r:3, w:2.2, l:'0 deps',   c:'#334155', n:'Cero dependencias', g:'Decisión de diseño',
       d:'Un plugin de 29 kB con el álgebra lineal escrita a mano —k-means, PCA, proyección aleatoria— y un servidor Node que no instala nada. Menos superficie que mantener y nada que se rompa solo.' },
-    { t:'m', x:4.0, r:3, w:1.4, l:'Mermaid',  c:'#0D9488', n:'UML y Mermaid',  g:'Análisis y diseño',
-      d:'Casos de uso, diagramas de secuencia y modelo relacional, versionados como texto junto al código que describen.' },
+    { t:'m', x:4.0, r:3, w:1.4, l:'UML',  c:'#0D9488', n:'UML, DER y DFD',  g:'Análisis y diseño',
+      d:'Casos de uso, secuencias, DER, DFD y modelo relacional, generados con código desde el modelo real y verificados automáticamente.' },
   ];
 
   const placa = document.getElementById('kbd');
