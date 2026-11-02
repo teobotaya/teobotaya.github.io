@@ -3,840 +3,363 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Teo Matías Botaya — Desarrollador Full Stack</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  /* Paleta "terminal": base pizarra casi negra y un verde de consola. Sale de
-     la tabla Developer Tool / IDE de ui-ux-pro-max. Todos los pares de
-     texto/fondo estan medidos: el mas bajo da 4,55:1. */
-  --bg:#F8FAFC; --bg-alt:#EEF2F7; --bg-deep:#0B1220;
-  --surface:#FFFFFF; --border:#E2E8F0; --border-strong:#CBD5E1;
-  --text:#0F172A; --muted:#475569; --light:#64748B;
-  --green:#15803D; --green-dark:#116232; --green-soft:#DCFCE7;
-  --blue:#1D4ED8; --blue-soft:#E0EAFF; --indigo:#6D28D9; --indigo-soft:#EDE9FE;
-  --amber:#B45309; --amber-soft:#FEF3C7;
-  --tag-g-bg:#DCFCE7; --tag-g-fg:#0E5C2F;
-  --tag-b-bg:#E0EAFF; --tag-b-fg:#1A3FA8;
-  --tag-i-bg:#EDE9FE; --tag-i-fg:#5B21B6;
-  --btn-bg:#15803D; --btn-fg:#FFFFFF;
-  color-scheme:light;
-  --r:12px; --r-lg:18px;
-  --shadow:0 1px 2px rgba(15,23,42,.06),0 2px 10px rgba(15,23,42,.05);
-  --shadow-lg:0 14px 44px rgba(15,23,42,.14);
-  --ease:cubic-bezier(.32,.72,.35,1);
-}
-/* El tema lo elige la persona, no solo el sistema. Todo lo que cambia entre
-   claro y oscuro son estos tokens, asi que el bloque se escribe una vez y se
-   aplica en dos lugares: cuando el sistema pide oscuro y nadie eligio lo
-   contrario, y cuando la eleccion guardada dice oscuro. */
-@media (prefers-color-scheme:dark){
-  :root:not([data-tema="claro"]){
-    --bg:#0F172A; --bg-alt:#131D33; --surface:#1B2336; --border:#2B3952;
-    --border-strong:#3F5273; --text:#F8FAFC; --muted:#94A3B8; --light:#7C8DA6;
-    --green:#22C55E; --green-dark:#16A34A; --green-soft:#14532D80;
-    --blue:#60A5FA; --blue-soft:#1E3A8A66; --indigo:#A78BFA; --indigo-soft:#3B0A6466;
-    --amber:#FBBF24; --amber-soft:#78350F66;
-    --tag-g-bg:#183B32; --tag-g-fg:#4ADE80;
-    --tag-b-bg:#1C2C58; --tag-b-fg:#93C5FD;
-    --tag-i-bg:#281948; --tag-i-fg:#C4B5FD;
-    --btn-bg:#22C55E; --btn-fg:#0F172A;
-    --shadow:0 1px 2px rgba(0,0,0,.4),0 2px 10px rgba(0,0,0,.28);
-    --shadow-lg:0 14px 44px rgba(0,0,0,.5);
-    color-scheme:dark;
-  }
-}
-:root[data-tema="oscuro"]{
-    --bg:#0F172A; --bg-alt:#131D33; --surface:#1B2336; --border:#2B3952;
-    --border-strong:#3F5273; --text:#F8FAFC; --muted:#94A3B8; --light:#7C8DA6;
-    --green:#22C55E; --green-dark:#16A34A; --green-soft:#14532D80;
-    --blue:#60A5FA; --blue-soft:#1E3A8A66; --indigo:#A78BFA; --indigo-soft:#3B0A6466;
-    --amber:#FBBF24; --amber-soft:#78350F66;
-    --tag-g-bg:#183B32; --tag-g-fg:#4ADE80;
-    --tag-b-bg:#1C2C58; --tag-b-fg:#93C5FD;
-    --tag-i-bg:#281948; --tag-i-fg:#C4B5FD;
-    --btn-bg:#22C55E; --btn-fg:#0F172A;
-    --shadow:0 1px 2px rgba(0,0,0,.4),0 2px 10px rgba(0,0,0,.28);
-    --shadow-lg:0 14px 44px rgba(0,0,0,.5);
-    color-scheme:dark;
-}
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;
-}
-h1,h2,h3,h4{margin:0;letter-spacing:-.03em;line-height:1.15;font-weight:700}
-p{margin:0}
-a{color:inherit;text-decoration:none}
-code,.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
-img{max-width:100%;display:block}
-.wrap{width:100%;max-width:1080px;margin:0 auto;padding-inline:24px}
-.eyebrow{
-  font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--green);margin-bottom:14px;
-}
-section{padding-block:88px;scroll-margin-top:72px}
-section.alt{background:var(--bg-alt);border-block:1px solid var(--border)}
-.sec-title{font-size:clamp(26px,3.4vw,34px);margin-bottom:14px}
-.sec-intro{color:var(--muted);font-size:17px;max-width:62ch;margin-bottom:44px}
-
-/* NAV */
-.nav{
-  position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);
-  backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--border);
-}
-.nav-in{display:flex;align-items:center;justify-content:space-between;height:62px;gap:16px}
-.nav-brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px}
-.nav-mark{
-  width:30px;height:30px;border-radius:8px;background:var(--green);color:#fff;
-  display:grid;place-items:center;font-size:12px;font-weight:700;flex-shrink:0;
-}
-.nav-links{display:flex;gap:28px;font-size:14.5px;color:var(--muted);font-weight:500}
-.nav-links a{transition:color .15s var(--ease)}
-.nav-links a:hover{color:var(--green)}
-
-/* HERO */
-.hero{padding-block:104px 76px}
-.hero h1{font-size:clamp(38px,6.2vw,62px);margin-bottom:20px}
-.hero h1 .accent{color:var(--green)}
-.hero-lede{font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:60ch;margin-bottom:14px}
-.hero-meta{display:flex;flex-wrap:wrap;gap:8px 22px;color:var(--light);font-size:14.5px;margin-bottom:34px}
-.hero-meta span{display:inline-flex;align-items:center;gap:7px}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
-.cta-row{display:flex;flex-wrap:wrap;gap:12px}
-.btn{
-  display:inline-flex;align-items:center;gap:9px;padding:11px 20px;border-radius:10px;
-  font-size:14.5px;font-weight:600;border:1px solid transparent;cursor:pointer;
-  transition:transform .15s var(--ease),box-shadow .15s var(--ease),background .15s var(--ease),border-color .15s var(--ease);
-}
-.btn-primary{background:var(--green);color:#fff}
-.btn-primary:hover{background:var(--green-dark);transform:translateY(-1px);box-shadow:0 6px 18px rgba(14,138,85,.3)}
-.btn-ghost{border-color:var(--border-strong);color:var(--text);background:var(--surface)}
-.btn-ghost:hover{border-color:var(--green);color:var(--green);transform:translateY(-1px)}
-
-/* STATS */
-.stats{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:1px;background:var(--border);border:1px solid var(--border);
-  border-radius:var(--r-lg);overflow:hidden;margin-top:60px;
-}
-.stat{background:var(--surface);padding:22px 20px}
-.stat-n{font-size:30px;font-weight:700;letter-spacing:-.04em;color:var(--green);line-height:1}
-.stat-l{font-size:13px;color:var(--muted);margin-top:6px}
-
-/* CARDS */
-.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
-.card{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
-  padding:26px;transition:transform .2s var(--ease),box-shadow .2s var(--ease),border-color .2s var(--ease);
-}
-.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--border-strong)}
-.card h3{font-size:17px;margin-bottom:10px}
-.card p{color:var(--muted);font-size:15px}
-.tag{
-  display:inline-block;font-size:11.5px;font-weight:600;letter-spacing:.06em;
-  text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:14px;
-}
-.tag-g{background:var(--tag-g-bg);color:var(--tag-g-fg)}
-.tag-b{background:var(--tag-b-bg);color:var(--tag-b-fg)}
-.tag-i{background:var(--tag-i-bg);color:var(--tag-i-fg)}
-
-/* PROBLEMA / SOLUCION */
-.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.panel{border-radius:var(--r-lg);padding:30px;border:1px solid var(--border)}
-.panel-before{background:var(--bg-alt)}
-.panel-after{background:var(--green-soft);border-color:color-mix(in srgb,var(--green) 26%,transparent)}
-.panel h3{font-size:15px;margin-bottom:16px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-size:12.5px}
-.panel ul{margin:0;padding-left:18px;color:var(--muted);font-size:15.5px;display:grid;gap:9px}
-.panel-after ul{color:var(--text)}
-
-/* CODE */
-.codeblock{
-  background:var(--bg-deep);color:#CBD5E1;border-radius:var(--r);padding:20px 22px;
-  overflow-x:auto;font-size:13.5px;line-height:1.7;border:1px solid #1E293B;
-}
-.codeblock .k{color:#4ADE80}.codeblock .s{color:#93C5FD}.codeblock .c{color:#93AFA2}
-
-/* ARQUITECTURA */
-.arch{display:grid;gap:14px;margin-top:8px}
-.layer{
-  display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center;
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
-  padding:18px 22px;border-left:4px solid var(--green);
-}
-.layer:nth-child(2){border-left-color:var(--blue)}
-.layer:nth-child(3){border-left-color:var(--indigo)}
-.layer:nth-child(4){border-left-color:var(--amber)}
-.layer-name{font-weight:650;font-size:15px}
-.layer-name small{display:block;color:var(--light);font-weight:500;font-size:12.5px;margin-top:2px}
-.layer-desc{color:var(--muted);font-size:14.5px}
-
-/* GALERIA */
-.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:18px}
-@media (max-width:520px){.gallery{grid-template-columns:1fr}.shot img{height:190px}}
-.shot{
-  border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--surface);
-  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
-}
-.shot:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
-.shot img{width:100%;height:250px;object-fit:cover;object-position:top left;background:#fff;border-bottom:1px solid var(--border)}
-.shot.full img{height:auto;max-height:none;object-fit:contain;object-position:center;background:#0e1117}
-.shot figcaption .zoom{display:block;margin-top:6px;font-size:12.5px;color:var(--green);font-weight:600}
-.shot figcaption{padding:13px 16px;font-size:13.5px;color:var(--muted)}
-.shot figcaption b{display:block;color:var(--text);font-weight:600;font-size:14.5px;margin-bottom:2px}
-
-/* STACK */
-.stack-group{margin-bottom:26px}
-.stack-group h4{font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--light);margin-bottom:12px;font-weight:600}
-.chips{display:flex;flex-wrap:wrap;gap:9px}
-.chip{
-  background:var(--surface);border:1px solid var(--border);border-radius:999px;
-  padding:7px 15px;font-size:14px;font-weight:500;
-  transition:border-color .15s var(--ease),color .15s var(--ease);
-}
-.chip:hover{border-color:var(--green);color:var(--green)}
-
-/* FORMACION */
-.edu{display:flex;gap:20px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:26px}
-.edu-mark{width:46px;height:46px;border-radius:12px;background:var(--tag-g-bg);color:var(--tag-g-fg);display:grid;place-items:center;flex-shrink:0}
-.edu h3{font-size:17px;margin-bottom:4px}
-.edu p{color:var(--muted);font-size:15px}
-
-/* CONTACTO */
-.contact{background:var(--bg-deep);color:#fff;border-radius:var(--r-lg);padding:52px 40px;text-align:center}
-.contact h2{font-size:clamp(24px,3.4vw,32px);margin-bottom:12px}
-.contact p{color:#A7B6CC;max-width:48ch;margin:0 auto 28px;font-size:16.5px}
-.contact .btn-ghost{background:transparent;border-color:#33456B;color:#fff}
-.contact .btn-ghost:hover{border-color:var(--green);color:#4ADE80}
-
-footer{padding-block:36px;border-top:1px solid var(--border);color:var(--light);font-size:14px}
-.foot-in{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
-
-@media (max-width:820px){
-  section{padding-block:64px}
-  .split{grid-template-columns:1fr}
-  .layer{grid-template-columns:1fr;gap:8px;padding:16px 18px}
-  .nav-links{display:none}
-  .hero{padding-block:72px 56px}
-  .contact{padding:40px 24px}
-}
-@media (prefers-reduced-motion:reduce){
-  *{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
-}
-</style>
-<meta name="description" content="Teo Matías Botaya — desarrollador full stack. Sistema de gestión en .NET y React, plugin de Obsidian en TypeScript y mesa de análisis financiero en Node y laboratorio de Kubernetes. Código y decisiones de diseño.">
+<title>Teo Matías Botaya — Desarrollador full stack</title>
+<meta name="description" content="Teo Matías Botaya, desarrollador full stack en Buenos Aires. Seis proyectos construidos de punta a punta, del modelo de datos a la interfaz, con la decisión de diseño de cada uno.">
 <meta name="author" content="Teo Matías Botaya">
 <link rel="canonical" href="https://teobotaya.github.io/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://teobotaya.github.io/">
-<meta property="og:title" content="Teo Matías Botaya — Desarrollador Full Stack">
-<meta property="og:description" content="Cuatro sistemas construidos de punta a punta: backoffice en .NET y React, plugin de Obsidian con motor de clustering propio, análisis financiero sobre filings de la SEC y un laboratorio de Kubernetes.">
-<meta property="og:image" content="https://teobotaya.github.io/assets/diagrama-relacional-thumb.jpg">
+<meta property="og:title" content="Teo Matías Botaya — Desarrollador full stack">
+<meta property="og:description" content="Pongo cada regla en la capa que nadie puede saltear. Seis proyectos, del modelo de datos a la interfaz.">
+<meta property="og:image" content="https://teobotaya.github.io/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="es_AR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Teo Matías Botaya — Desarrollador Full Stack">
-<meta name="twitter:description" content="Cuatro sistemas construidos de punta a punta, con las decisiones de diseño explicadas.">
-<meta name="twitter:image" content="https://teobotaya.github.io/assets/diagrama-relacional-thumb.jpg">
-<meta name="theme-color" content="#0F172A">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2315803D'/><text y='68' x='50' text-anchor='middle' font-size='52' font-family='system-ui' font-weight='700' fill='white'>TB</text></svg>">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Person","name":"Teo Matías Botaya","jobTitle":"Desarrollador Full Stack","email":"teobotaya@gmail.com","url":"https://teobotaya.github.io/","sameAs":["https://github.com/teobotaya"],"address":{"@type":"PostalAddress","addressLocality":"Malvinas Argentinas","addressRegion":"Buenos Aires","addressCountry":"AR"},"alumniOf":{"@type":"CollegeOrUniversity","name":"Universidad del Salvador"},"knowsAbout":["C#","ASP.NET Core","TypeScript","React","SQL Server","Node.js","Docker","Kubernetes"]}
-</script>
-<link rel="stylesheet" href="assets/3d.css">
-<link rel="stylesheet" href="assets/ui.css">
+<meta name="twitter:title" content="Teo Matías Botaya — Desarrollador full stack">
+<meta name="twitter:description" content="Seis proyectos, del modelo de datos a la interfaz, con la decisión de diseño de cada uno.">
+<meta name="twitter:image" content="https://teobotaya.github.io/assets/og.jpg">
+<meta name="theme-color" content="#F3F2EE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%232A36D6'/><text x='32' y='43' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-weight='800' font-size='30' fill='white' letter-spacing='-1'>TB</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/sitio.css">
 <script>
-/* Antes de pintar: si hay un tema guardado se aplica ya. Si esto corriera
-   despues, la pagina parpadearia del tema del sistema al elegido. */
-try{var t=localStorage.getItem('tema');if(t&&t!=='sistema')document.documentElement.setAttribute('data-tema',t);}catch(e){}
+/* Antes de pintar: el tema guardado y el modo de los proyectos. Si esto
+   corriera despues, la pagina parpadearia o saltaria de alto al cargar. */
+(function(){
+  var d=document.documentElement;
+  d.classList.add('js');
+  try{var t=localStorage.getItem('tema');if(t==='claro'||t==='oscuro')d.setAttribute('data-tema',t);}catch(e){}
+  if(window.matchMedia&&matchMedia('(min-width: 1024px) and (min-height: 660px) and (prefers-reduced-motion: no-preference)').matches)d.classList.add('fijo');
+})();
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Teo Matías Botaya","jobTitle":"Desarrollador full stack","email":"mailto:teobotaya@gmail.com","url":"https://teobotaya.github.io/","sameAs":["https://github.com/teobotaya"],"address":{"@type":"PostalAddress","addressLocality":"Malvinas Argentinas","addressRegion":"Buenos Aires","addressCountry":"AR"},"alumniOf":{"@type":"CollegeOrUniversity","name":"Universidad del Salvador"},"knowsAbout":["C#","ASP.NET Core","Entity Framework Core","SQL Server","PostgreSQL","Supabase","TypeScript","React","Node.js","Docker","Kubernetes","GitHub Actions"]}
 </script>
 </head>
 <body>
 
 <a class="saltar" href="#contenido">Saltar al contenido</a>
 
-<nav class="nav" aria-label="Secciones">
-  <div class="wrap nav-in">
-    <a class="nav-brand" href="#top"><span class="nav-mark"><span class="nav-cube"><span>TB</span><span>TB</span></span></span> Teo Botaya</a>
-    <div class="nav-links">
-      <a href="#vistazo">Proyectos</a>
-      <a href="#proyecto">Sports Complex</a>
-      <a href="#plugin">Smart Atlas</a>
-      <a href="#mesa">Market Desk</a>
-      <a href="#lab">DevOps Lab</a>
-      <a href="#stack">Stack</a>
+<header class="barra">
+  <div class="contenedor barra-in">
+    <a class="firma" href="#inicio" aria-label="Teo Botaya, volver al inicio"><span class="firma-marca" aria-hidden="true">TB</span><span class="firma-nombre">Teo Botaya</span></a>
+    <nav class="barra-nav" aria-label="Secciones">
+      <a href="#proyectos">Proyectos</a>
+      <a href="#criterio">Criterio</a>
+      <a href="#sobre-mi">Sobre mí</a>
       <a href="#contacto">Contacto</a>
-    </div>
-    <div class="nav-acciones">
-      <button type="button" class="nav-btn nav-k" data-abrir-paleta aria-haspopup="dialog" aria-label="Buscar en el sitio">
-        <span class="nav-k-txt">Buscar</span><kbd aria-hidden="true">⌘K</kbd>
-      </button>
-      <button type="button" class="nav-btn nav-tema" data-tema-btn aria-live="polite">
-        <span class="sr">Tema:</span><span data-tema-txt>Sistema</span>
-      </button>
-    </div>
-  </div>
-  <div class="nav-progreso"><span data-progreso></span></div>
-</nav>
-
-<main id="contenido">
-
-<header class="wrap hero" id="top">
-  <div class="hero-aura" aria-hidden="true"></div>
-  <p class="eyebrow">Desarrollador Full Stack</p>
-  <h1>Construyo el sistema entero: <span class="accent">la base, la API y la pantalla.</span></h1>
-  <p class="hero-lede">Cuatro proyectos propios, con el código publicado y cada decisión explicada.</p>
-  <div class="hero-meta">
-    <span><i class="dot"></i>Malvinas Argentinas, Buenos Aires</span>
-    <span><i class="dot"></i>Lic. en Sistemas de Información (en curso, 2026)</span>
-    <span><i class="dot"></i>Disponible para trabajar</span>
-  </div>
-  <div class="cta-row">
-    <a class="btn btn-primary" href="#vistazo">Ver los proyectos</a>
-    <a class="btn btn-ghost" href="assets/CV-Teo-Botaya.pdf" target="_blank" rel="noopener">Descargar CV (PDF)</a>
-    <a class="btn-quiet" href="https://github.com/teobotaya" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
-    <a class="btn-quiet" href="mailto:teobotaya@gmail.com">teobotaya@gmail.com</a>
+    </nav>
+    <button type="button" class="tema" data-tema-btn>
+      <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16"><circle cx="10" cy="10" r="7.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 2.75a7.25 7.25 0 0 1 0 14.5z" fill="currentColor"/></svg>
+      <span class="sr">Tema:</span> <span data-tema-txt>Auto</span>
+    </button>
   </div>
 </header>
 
-<section id="vistazo">
-  <div class="wrap">
-    <p class="eyebrow">Los cuatro, de un vistazo</p>
-    <h2 class="sec-title">Cuatro sistemas construidos de punta a punta</h2>
-    <p class="sec-intro">
-      Cada uno resuelve un problema distinto y tiene su decisión de diseño explicada
-      más abajo. El código de los cuatro está publicado.
+<main id="contenido">
+
+<section class="portada contenedor" id="inicio" aria-labelledby="titular">
+  <p class="kicker revela" style="--i:0">
+    <span>Teo Matías Botaya</span>
+    <span>Desarrollador full stack</span>
+    <span>Malvinas Argentinas, Buenos Aires</span>
+  </p>
+  <h1 class="titular revela" id="titular" style="--i:1">Pongo cada regla en <em>la capa que nadie puede saltear.</em></h1>
+  <div class="portada-pie">
+    <p class="bajada revela" style="--i:2">
+      Estudio la Licenciatura en Sistemas de Información en la USAL y construyo sistemas
+      enteros: el modelo de datos, la API y la pantalla. Lo que hago llega con pruebas,
+      documentación e integración continua.
     </p>
-    <div class="carrusel" data-carrusel>
-      <div class="carrusel-pista" role="group" aria-label="Proyectos" tabindex="0">
-        <article class="ficha">
-          <a class="ficha-img" href="#proyecto" tabindex="-1" aria-hidden="true">
-            <img src="assets/diagrama-relacional-thumb.jpg" width="880" height="600" alt="" loading="lazy">
-          </a>
-          <div class="ficha-cuerpo">
-            <span class="tag tag-g">Sistema completo</span>
-            <h3><a href="#proyecto">Sports Complex Admin</a></h3>
-            <p>55 endpoints REST, 14 tablas y 54 pruebas. La integridad de las reservas está garantizada en el motor de base de datos, no en el formulario.</p>
-            <p class="ficha-stack">ASP.NET Core 8 · React · SQL Server</p>
-          </div>
-        </article>
-        <article class="ficha">
-          <a class="ficha-img" href="#plugin" tabindex="-1" aria-hidden="true">
-            <img src="assets/smart-atlas-mapa-thumb.jpg" width="729" height="800" alt="" loading="lazy">
-          </a>
-          <div class="ficha-cuerpo">
-            <span class="tag tag-i">Herramienta</span>
-            <h3><a href="#plugin">Smart Atlas</a></h3>
-            <p>Plugin de Obsidian que proyecta una bóveda de notas a dos dimensiones y la agrupa por temas. Álgebra lineal y clustering escritos a mano.</p>
-            <p class="ficha-stack">TypeScript · esbuild · SVG</p>
-          </div>
-        </article>
-        <article class="ficha">
-          <a class="ficha-img" href="#mesa" tabindex="-1" aria-hidden="true">
-            <img src="assets/market-desk-panel-thumb.jpg" width="800" height="400" alt="" loading="lazy">
-          </a>
-          <div class="ficha-cuerpo">
-            <span class="tag tag-b">Datos</span>
-            <h3><a href="#mesa">Market Desk</a></h3>
-            <p>Análisis financiero sobre estados contables de la SEC: márgenes, ROIC, flujo de caja y valuación. Sin una sola clave de API, y por eso publicable.</p>
-            <p class="ficha-stack">Node sin dependencias · XBRL · APIs públicas</p>
-          </div>
-        </article>
-        <article class="ficha">
-          <a class="ficha-img" href="#lab" tabindex="-1" aria-hidden="true">
-            <img src="assets/devops-lab-panel-thumb.jpg" width="880" height="509" alt="" loading="lazy">
-          </a>
-          <div class="ficha-cuerpo">
-            <span class="tag tag-g">Infraestructura</span>
-            <h3><a href="#lab">DevOps Lab</a></h3>
-            <p>Un clúster de Kubernetes que se puede empujar desde cinco botones. Cada acción muestra la llamada exacta a la API, la respuesta y el mecanismo que la explica.</p>
-            <p class="ficha-stack">Docker · Kubernetes · GitHub Actions · Node sin dependencias</p>
-          </div>
-        </article>
-      </div>
-      <div class="carrusel-mando">
-        <button type="button" class="carrusel-btn" data-ir="-1" aria-label="Proyecto anterior">←</button>
-        <p class="carrusel-pos" aria-live="polite"></p>
-        <button type="button" class="carrusel-btn" data-ir="1" aria-label="Proyecto siguiente">→</button>
-      </div>
-    </div>
+    <p class="acciones revela" style="--i:3">
+      <a class="boton" href="mailto:teobotaya@gmail.com">Escribime</a>
+      <a class="enlace" href="assets/CV-Teo-Botaya.pdf" target="_blank" rel="noopener">CV en PDF</a>
+      <a class="enlace" href="https://github.com/teobotaya" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
+    </p>
   </div>
+
+  <div class="indice-cabeza revela" style="--i:4">
+    <h2 class="rotulo">Índice</h2>
+    <p class="rotulo">Seis proyectos</p>
+  </div>
+  <ol class="indice" data-indice>
+    <li class="revela" style="--i:5"><a href="#p-botburg" data-espia="0"><span class="n">01</span><span class="nombre">Botburg Taller</span><span class="que">Gestión para talleres mecánicos, con factura electrónica</span><span class="con">Supabase · ARCA</span></a></li>
+    <li class="revela" style="--i:6"><a href="#p-sports" data-espia="1"><span class="n">02</span><span class="nombre">Sports Complex Admin</span><span class="que">Backoffice para un complejo deportivo</span><span class="con">.NET 8 · React</span></a></li>
+    <li class="revela" style="--i:7"><a href="#p-atlas" data-espia="2"><span class="n">03</span><span class="nombre">Smart Atlas</span><span class="que">Plugin de Obsidian que convierte las notas en un mapa</span><span class="con">TypeScript</span></a></li>
+    <li class="revela" style="--i:8"><a href="#p-market" data-espia="3"><span class="n">04</span><span class="nombre">Market Desk</span><span class="que">Análisis financiero sin una sola clave de API</span><span class="con">Node.js</span></a></li>
+    <li class="revela" style="--i:9"><a href="#p-devops" data-espia="4"><span class="n">05</span><span class="nombre">DevOps Lab</span><span class="que">Un clúster de Kubernetes que se puede romper</span><span class="con">Kubernetes</span></a></li>
+    <li class="revela" style="--i:10"><a href="#p-lol" data-espia="5"><span class="n">06</span><span class="nombre">LoL Auto Accept</span><span class="que">Acepta la partida y avisa al teléfono</span><span class="con">Node.js</span></a></li>
+  </ol>
 </section>
 
-<section class="alt" id="proyecto">
-  <div class="wrap">
-    <p class="eyebrow">Proyecto destacado</p>
-    <h2 class="sec-title">Sports Complex Admin</h2>
-    <p class="sec-intro">
-      Sistema de gestión integral para un complejo deportivo: canchas, reservas, clientes,
-      pagos, cancelaciones, torneos, equipos y partidos en un único backoffice, con control
-      de acceso por rol. Desarrollado de forma individual, incluyendo el modelado de datos,
-      la API, el frontend y la documentación técnica.
-    </p>
+<section class="proyectos" id="proyectos" aria-labelledby="proyectos-titulo">
+  <div class="contenedor seccion-cabeza aparece">
+    <h2 class="seccion-titulo" id="proyectos-titulo">Proyectos</h2>
+    <p class="seccion-bajada">Cada uno con lo que hace, la decisión que más me enseñó y los números que se pueden verificar en el código.</p>
+  </div>
 
-    <div class="stats" style="margin-top:0;margin-bottom:44px">
-      <div class="stat"><div class="stat-n">~11.700</div><div class="stat-l">líneas de código</div></div>
-      <div class="stat"><div class="stat-n">55</div><div class="stat-l">endpoints REST</div></div>
-      <div class="stat"><div class="stat-n">14</div><div class="stat-l">tablas relacionales</div></div>
-      <div class="stat"><div class="stat-n">54</div><div class="stat-l">pruebas unitarias</div></div>
-    </div>
+  <div class="carril" data-carril style="--n:6">
+    <div class="escena" data-escena>
+      <div class="pista" data-pista>
 
-    <div class="split" style="margin-bottom:44px">
-      <div class="panel panel-before">
-        <h3>Antes</h3>
-        <ul>
-          <li>El turnero se lleva en cuaderno y planillas sueltas.</li>
-          <li>Una misma cancha puede terminar reservada dos veces en el mismo horario.</li>
-          <li>No hay forma rápida de saber qué está cobrado y qué no.</li>
-          <li>Las cancelaciones y devoluciones no quedan trazadas.</li>
-        </ul>
-      </div>
-      <div class="panel panel-after">
-        <h3>Después</h3>
-        <ul>
-          <li>Alta de reservas con verificación de disponibilidad en el momento.</li>
-          <li>La superposición es imposible: lo garantiza la base de datos.</li>
-          <li>Cada reserva arrastra su estado de pago y su historial.</li>
-          <li>Cancelación y devolución quedan registradas y auditables.</li>
-        </ul>
-      </div>
-    </div>
+        <article class="slide" id="p-botburg" aria-labelledby="t-botburg" data-nombre="Botburg Taller">
+          <div class="slide-texto">
+            <p class="slide-meta"><span class="n">01</span> / 06 · Producto propio · Publicado</p>
+            <h3 class="slide-titulo" id="t-botburg">Botburg Taller</h3>
+            <p class="slide-bajada">Gestión para talleres mecánicos: turnos, órdenes, presupuestos, factura electrónica y caja. Se vende como instalación única, y cada taller factura con su propio CUIT.</p>
+            <p class="slide-rotulo">La decisión</p>
+            <p class="slide-decision">En la caja nada se edita ni se borra: solo se anula, con motivo. Así el registro sirve de constancia. La recepción abre la caja y cobra; el administrador controla. Quien mueve la plata no es quien la audita.</p>
+            <dl class="datos">
+              <div><dt>pruebas con PGlite, Postgres real y Playwright</dt><dd>193</dd></div>
+              <div><dt>de lectura por comercio; escritura solo por funciones</dt><dd>RLS</dd></div>
+              <div><dt>factura electrónica por WSAA y WSFEv1</dt><dd>ARCA</dd></div>
+            </dl>
+            <p class="slide-stack">Supabase · PostgreSQL · Netlify Functions · JavaScript sin build · Playwright + axe</p>
+            <p class="slide-links"><a class="enlace" href="https://botburg-taller.netlify.app" target="_blank" rel="noopener">botburg-taller.netlify.app <span aria-hidden="true">↗</span></a></p>
+          </div>
+          <div class="slide-media par">
+            <figure>
+              <img class="captura" src="assets/proyectos/botburg-portal.webp" width="390" height="760" alt="Portal del cliente: el seguimiento de una orden con sus etapas y el presupuesto vencido" loading="lazy" decoding="async">
+              <figcaption>El portal del cliente, a 390 px</figcaption>
+            </figure>
+            <figure>
+              <img class="captura" src="assets/proyectos/botburg-factura.webp" width="390" height="760" alt="Factura A de prueba con CAE, generada en homologación" loading="lazy" decoding="async">
+              <figcaption>Factura A de homologación</figcaption>
+            </figure>
+          </div>
+        </article>
 
-    <div class="grid-3">
-      <article class="card">
-        <span class="tag tag-g">Decisión de diseño</span>
-        <h3>La regla vive en la base, no en el formulario</h3>
-        <p>
-          La no superposición de reservas se garantiza con un índice único filtrado, de modo que
-          una reserva cancelada libera el horario pero una vigente lo bloquea. Validar solo en el
-          frontend habría dejado la puerta abierta a cualquier otra vía de entrada.
-        </p>
-      </article>
-      <article class="card">
-        <span class="tag tag-b">Modelo de dominio</span>
-        <h3>El cliente no es un usuario del sistema</h3>
-        <p>
-          En un complejo deportivo el cliente reserva por teléfono o en el mostrador. Por eso es
-          una entidad que el personal da de alta y administra, y no una cuenta con login. El modelo
-          sigue al negocio, no al revés.
-        </p>
-      </article>
-      <article class="card">
-        <span class="tag tag-i">Arquitectura</span>
-        <h3>Lógica en servicios, no en controllers</h3>
-        <p>
-          Los controllers solo validan la entrada y traducen DTOs. Las reglas viven en 18 servicios
-          de dominio, que son además los que están cubiertos por pruebas unitarias con base en memoria.
-        </p>
-      </article>
-    </div>
-
-    <h3 style="font-size:19px;margin:52px 0 14px">Integridad garantizada en el motor</h3>
-    <pre class="codeblock" tabindex="0"><code><span class="c">-- Una cancha no puede tener dos reservas vigentes en el mismo horario.</span>
-<span class="c">-- El filtro deja libre el turno cuando la reserva fue cancelada.</span>
+        <article class="slide" id="p-sports" aria-labelledby="t-sports" data-nombre="Sports Complex Admin">
+          <div class="slide-texto">
+            <p class="slide-meta"><span class="n">02</span> / 06 · Sistema completo · Trabajo de la carrera</p>
+            <h3 class="slide-titulo" id="t-sports">Sports Complex Admin</h3>
+            <p class="slide-bajada">Backoffice para un complejo deportivo: canchas, reservas, clientes, pagos, torneos y partidos, con permisos por rol. Lo hice solo, del modelo de datos a la interfaz.</p>
+            <p class="slide-rotulo">La decisión</p>
+            <p class="slide-decision">Que una cancha no se reserve dos veces no lo controla el formulario: lo garantiza un índice único filtrado en SQL Server. La reserva cancelada libera el turno y la vigente lo bloquea, entre por donde entre.</p>
+            <dl class="datos">
+              <div><dt>endpoints REST en 13 controllers</dt><dd>55</dd></div>
+              <div><dt>entidades, con auditoría de cada cambio</dt><dd>14</dd></div>
+              <div><dt>pruebas en cada push: 54 xUnit y 14 Vitest</dt><dd>68</dd></div>
+            </dl>
+            <p class="slide-stack">ASP.NET Core 8 · EF Core · SQL Server · React 17 + TypeScript · Docker Compose · GitHub Actions</p>
+            <p class="slide-links">
+              <a class="enlace" href="https://github.com/teobotaya/sports-complex-admin" target="_blank" rel="noopener">Código <span aria-hidden="true">↗</span></a>
+              <a class="enlace" href="assets/diagrama-relacional.jpg" target="_blank" rel="noopener">Diagrama relacional <span aria-hidden="true">↗</span></a>
+            </p>
+          </div>
+          <div class="slide-media pila">
+            <img class="captura captura-clara" src="assets/proyectos/sports-relacional.webp" width="880" height="600" alt="Detalle del diagrama relacional: la tabla Reserva marca id_cancha, fecha y hora_inicio como parte del índice único U1" loading="lazy" decoding="async">
+            <pre class="codigo" tabindex="0" aria-label="Índice único filtrado en SQL Server"><code><span class="c">-- Una cancha, un horario, una reserva vigente.</span>
 <span class="k">CREATE UNIQUE INDEX</span> UX_Reserva_Cancha_Fecha_Horario
     <span class="k">ON</span> dbo.Reserva (id_cancha, fecha, hora_inicio)
     <span class="k">WHERE</span> estado_reserva &lt;&gt; <span class="s">'Cancelada'</span>;</code></pre>
-    <p style="color:var(--muted);font-size:15px;margin-top:14px;max-width:70ch">
-      Se complementa con restricciones <code>CHECK</code> sobre horarios, montos y estados, y claves
-      foráneas en todas las relaciones. El servicio de disponibilidad hace la verificación previa
-      para dar un mensaje claro al usuario; la base es la última línea de defensa.
-    </p>
-    <div class="cta-row" style="margin-top:34px">
-      <a class="btn btn-ghost" href="https://github.com/teobotaya/sports-complex-admin" target="_blank" rel="noopener">Código en GitHub</a>
-    </div>
-  </div>
-</section>
+          </div>
+        </article>
 
-<section id="arquitectura">
-  <div class="wrap">
-    <p class="eyebrow">Cómo está construido</p>
-    <h2 class="sec-title">Arquitectura en tres capas</h2>
-    <p class="sec-intro">
-      Responsabilidades separadas y contratos explícitos entre capas. Todo el entorno se levanta
-      con un solo comando mediante Docker Compose, y cada push corre compilación, chequeo de tipos
-      y las dos suites de pruebas en GitHub Actions.
-    </p>
-    <div class="arch">
-      <div class="layer">
-        <div class="layer-name">Frontend <small>React 17 · TypeScript</small></div>
-        <div class="layer-desc">SPA con 19 páginas, ruteo con React Router, contexto de autenticación con JWT y un sistema de diseño propio en CSS con tokens, sin framework de componentes.</div>
+        <article class="slide" id="p-atlas" aria-labelledby="t-atlas" data-nombre="Smart Atlas">
+          <div class="slide-texto">
+            <p class="slide-meta"><span class="n">03</span> / 06 · Plugin de Obsidian · v1.0.0</p>
+            <h3 class="slide-titulo" id="t-atlas">Smart Atlas</h3>
+            <p class="slide-bajada">Convierte una bóveda de notas en un mapa: proyecta los embeddings a dos dimensiones, los agrupa por tema y deja explorarlos sin salir del editor.</p>
+            <p class="slide-rotulo">La decisión</p>
+            <p class="slide-decision">Nunca asume que la dependencia está. Si Smart Connections no está instalado o falla, arma su propio índice TF-IDF en memoria y sigue andando. El álgebra lineal, el k-means++ y el SVG están escritos a mano.</p>
+            <dl class="datos">
+              <div><dt>para agrupar 180 notas, antes varios segundos</dt><dd>~60 ms</dd></div>
+              <div><dt>dimensiones en vez de 4096, con Johnson–Lindenstrauss</dt><dd>64</dd></div>
+              <div><dt>de bundle, sin dependencias en ejecución</dt><dd>29 kB</dd></div>
+            </dl>
+            <p class="slide-stack">TypeScript · esbuild · SVG · API de plugins de Obsidian</p>
+            <p class="slide-links"><a class="enlace" href="https://github.com/teobotaya/smart-atlas" target="_blank" rel="noopener">Código <span aria-hidden="true">↗</span></a></p>
+          </div>
+          <div class="slide-media">
+            <a class="captura-enlace" href="assets/smart-atlas-mapa.jpg" target="_blank" rel="noopener" aria-label="Ver la captura de Smart Atlas en tamaño completo">
+              <img class="captura" src="assets/proyectos/smart-atlas.webp" width="911" height="1000" alt="El mapa de Smart Atlas sobre una bóveda real: 22 notas y 26 conexiones agrupadas por tema" loading="lazy" decoding="async">
+            </a>
+          </div>
+        </article>
+
+        <article class="slide" id="p-market" aria-labelledby="t-market" data-nombre="Market Desk">
+          <div class="slide-texto">
+            <p class="slide-meta"><span class="n">04</span> / 06 · Datos · Corre en tu máquina</p>
+            <h3 class="slide-titulo" id="t-market">Market Desk</h3>
+            <p class="slide-bajada">Mesa de análisis financiero: junta precios, estados contables de la SEC y noticias, calcula las métricas en la máquina y arma un dossier listo para pensar.</p>
+            <p class="slide-rotulo">La decisión</p>
+            <p class="slide-decision">Una clave de API en un repositorio público es una clave quemada, así que no tiene ninguna. Lo cuantitativo se calcula local —volatilidad, ATR, drawdown, márgenes, ROIC— y lo cualitativo sale como dossier con el prompt armado.</p>
+            <dl class="datos">
+              <div><dt>claves de API y dependencias de npm</dt><dd>0</dd></div>
+              <div><dt>riesgos del 10-K de NVIDIA que no eran relleno, de 120</dt><dd>22</dd></div>
+              <div><dt>estados contables de la SEC, leídos directo</dt><dd>XBRL</dd></div>
+            </dl>
+            <p class="slide-stack">Node.js sin dependencias · SEC EDGAR · XBRL · HTML y RSS</p>
+            <p class="slide-links"><a class="enlace" href="https://github.com/teobotaya/market-desk" target="_blank" rel="noopener">Código <span aria-hidden="true">↗</span></a></p>
+          </div>
+          <div class="slide-media">
+            <a class="captura-enlace" href="assets/market-desk-panel.jpg" target="_blank" rel="noopener" aria-label="Ver la captura de Market Desk en tamaño completo">
+              <img class="captura" src="assets/proyectos/market-desk.webp" width="1400" height="700" alt="Panel de Market Desk con el cierre diario de NVDA y las métricas de corto plazo" loading="lazy" decoding="async">
+            </a>
+          </div>
+        </article>
+
+        <article class="slide" id="p-devops" aria-labelledby="t-devops" data-nombre="DevOps Lab">
+          <div class="slide-texto">
+            <p class="slide-meta"><span class="n">05</span> / 06 · Infraestructura</p>
+            <h3 class="slide-titulo" id="t-devops">DevOps Lab</h3>
+            <p class="slide-bajada">Una app en contenedor, corriendo en Kubernetes, con un panel para escalar, matar pods y generar carga. Después de cada acción muestra la llamada exacta a la API y lo que contestó el clúster.</p>
+            <p class="slide-rotulo">La decisión</p>
+            <p class="slide-decision">Las pruebas corren dentro del Dockerfile, en una etapa intermedia: si fallan, la imagen no llega a existir. Y el panel habla con la API con un Role que tiene los verbos exactos que usa el código, en un solo namespace.</p>
+            <dl class="datos">
+              <div><dt>acciones que empujan un clúster real</dt><dd>5</dd></div>
+              <div><dt>imágenes publicadas sin pasar las pruebas</dt><dd>0</dd></div>
+              <div><dt>con los permisos justos, escritos desde el código</dt><dd>RBAC</dd></div>
+            </dl>
+            <p class="slide-stack">Docker · Kubernetes · GitHub Actions · GHCR · Node.js sin dependencias</p>
+            <p class="slide-links">
+              <a class="enlace" href="https://github.com/teobotaya/devops-lab" target="_blank" rel="noopener">Código <span aria-hidden="true">↗</span></a>
+              <a class="enlace" href="https://github.com/teobotaya/devops-lab/actions" target="_blank" rel="noopener">El pipeline <span aria-hidden="true">↗</span></a>
+            </p>
+          </div>
+          <div class="slide-media">
+            <a class="captura-enlace" href="assets/devops-lab-panel.jpg" target="_blank" rel="noopener" aria-label="Ver la captura de DevOps Lab en tamaño completo">
+              <img class="captura" src="assets/proyectos/devops-lab.webp" width="1280" height="740" alt="Panel de DevOps Lab justo después de matar un pod: uno en Terminating y su reemplazo en Pending" loading="lazy" decoding="async">
+            </a>
+          </div>
+        </article>
+
+        <article class="slide" id="p-lol" aria-labelledby="t-lol" data-nombre="LoL Auto Accept">
+          <div class="slide-texto">
+            <p class="slide-meta"><span class="n">06</span> / 06 · Utilidad · Windows y macOS</p>
+            <h3 class="slide-titulo" id="t-lol">LoL Auto Accept</h3>
+            <p class="slide-bajada">Acepta la partida de League of Legends y avisa al teléfono qué te toca en la selección. El problema no es aceptar: es que la compu acepte mientras estás tomando mate, y nadie elija.</p>
+            <p class="slide-rotulo">La decisión</p>
+            <p class="slide-decision">Habla solo con la API local del cliente, por HTTPS y comprobando que el certificado lo emitió Riot. No lee la pantalla, no mueve el mouse y no toca el proceso del juego. Acepta con un retardo que se puede cancelar.</p>
+            <dl class="datos">
+              <div><dt>pruebas contra un servidor falso del cliente</dt><dd>165</dd></div>
+              <div><dt>defectos de una revisión adversarial, cada uno con su prueba</dt><dd>6</dd></div>
+              <div><dt>canales de aviso: ntfy, Pushcut, webhook o iMessage</dt><dd>4</dd></div>
+            </dl>
+            <p class="slide-stack">Node.js · API local del cliente (LCU) · HTTPS · ntfy</p>
+            <p class="slide-links"><a class="enlace" href="https://github.com/teobotaya/lol-auto-accept" target="_blank" rel="noopener">Código <span aria-hidden="true">↗</span></a></p>
+          </div>
+          <div class="slide-media">
+            <img class="captura" src="assets/proyectos/lol-auto-accept.webp" width="900" height="875" alt="Panel de Auto Accept en pleno ready check: la cuenta regresiva, el retardo y los contadores" loading="lazy" decoding="async">
+          </div>
+        </article>
+
       </div>
-      <div class="layer">
-        <div class="layer-name">API <small>ASP.NET Core 8</small></div>
-        <div class="layer-desc">13 controllers y 55 endpoints REST. Autenticación JWT Bearer, autorización por rol, CORS configurado por origen y documentación automática con Swagger.</div>
-      </div>
-      <div class="layer">
-        <div class="layer-name">Dominio <small>18 servicios</small></div>
-        <div class="layer-desc">Disponibilidad, reservas, pagos, cancelaciones, devoluciones, torneos, partidos, estadísticas y reportes. Es donde viven las reglas del negocio.</div>
-      </div>
-      <div class="layer">
-        <div class="layer-name">Datos <small>EF Core 8 · SQL Server</small></div>
-        <div class="layer-desc">14 entidades mapeadas (con auditoría automática de cada cambio), migraciones versionadas, índices y constraints declarados en el schema, y scripts de creación y carga inicial en el repositorio.</div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<section class="alt" id="diagramas">
-  <div class="wrap">
-    <p class="eyebrow">Documentación</p>
-    <h2 class="sec-title">El sistema, documentado</h2>
-    <p class="sec-intro">
-      Los diagramas se generan con código a partir del modelo real de la base de datos y se
-      verifican solos: ninguna línea se cruza y ninguna etiqueta queda ambigua. Se regeneran cada vez que cambia el sistema.
-    </p>
-    <div class="carrusel" data-carrusel>
-      <div class="carrusel-pista" role="group" aria-label="Diagramas del sistema" tabindex="0">
-<figure class="shot">
-        <a href="assets/diagrama-relacional.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-relacional-thumb.jpg" width="880" height="600" alt="Diagrama relacional de la base de datos" loading="lazy"></a>
-        <figcaption><b>Diagrama relacional</b>14 tablas con claves, índices y restricciones<span class="zoom">Ver en tamaño completo →</span></figcaption>
-      </figure>
-      <figure class="shot">
-        <a href="assets/diagrama-der.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-der-thumb.jpg" width="880" height="600" alt="Diagrama entidad-relación" loading="lazy"></a>
-        <figcaption><b>Entidad-Relación</b>Entidades del dominio y sus cardinalidades<span class="zoom">Ver en tamaño completo →</span></figcaption>
-      </figure>
-      <figure class="shot">
-        <a href="assets/diagrama-clases.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-clases-thumb.jpg" width="880" height="600" alt="Diagrama de clases" loading="lazy"></a>
-        <figcaption><b>Diagrama de clases</b>Las 14 entidades del dominio y sus asociaciones<span class="zoom">Ver en tamaño completo →</span></figcaption>
-      </figure>
-      <figure class="shot">
-        <a href="assets/diagrama-secuencia-reserva.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-secuencia-reserva-thumb.jpg" width="880" height="600" alt="Diagrama de secuencia del alta de reserva" loading="lazy"></a>
-        <figcaption><b>Secuencia: alta de reserva</b>Del formulario a la validación en la base<span class="zoom">Ver en tamaño completo →</span></figcaption>
-      </figure>
-      <figure class="shot">
-        <a href="assets/diagrama-casos-uso.jpg" target="_blank" rel="noopener"><img src="assets/diagrama-casos-uso-thumb.jpg" width="880" height="600" alt="Diagrama de casos de uso" loading="lazy"></a>
-        <figcaption><b>Casos de uso</b>Qué puede hacer cada rol en el sistema<span class="zoom">Ver en tamaño completo →</span></figcaption>
-      </figure>
-      </div>
-      <div class="carrusel-mando">
-        <button type="button" class="carrusel-btn" data-ir="-1" aria-label="Diagrama anterior">←</button>
-        <p class="carrusel-pos" aria-live="polite"></p>
-        <button type="button" class="carrusel-btn" data-ir="1" aria-label="Diagrama siguiente">→</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="plugin">
-  <div class="wrap">
-    <p class="eyebrow">Segundo proyecto</p>
-    <h2 class="sec-title">Smart Atlas — plugin de Obsidian</h2>
-    <p class="sec-intro">
-      Plugin en TypeScript que convierte los embeddings de Smart Connections en un mapa semántico
-      navegable: proyecta la bóveda entera a dos dimensiones, la agrupa por temas y deja explorarla
-      sin salir del editor. Cero dependencias en tiempo de ejecución — el álgebra lineal, el
-      clustering y el renderizado SVG están escritos a mano.
-    </p>
-
-    <div class="grid-3">
-      <article class="card">
-        <span class="tag tag-i">Decisión de diseño</span>
-        <h3>Nunca asume que la dependencia está</h3>
-        <p>
-          El puente detecta el entorno de Smart Connections y normaliza las tres formas de respuesta
-          de sus distintas versiones. Si no está instalado o falla, degrada a un índice TF-IDF propio
-          construido en memoria. El plugin no queda inutilizable por una dependencia ausente.
-        </p>
-      </article>
-      <article class="card">
-        <span class="tag tag-g">Rendimiento</span>
-        <h3>Reducir dimensiones antes de comparar</h3>
-        <p>
-          Agrupar y buscar vecinos es O(n²). Una proyección Johnson–Lindenstrauss lleva 384 o 4096
-          dimensiones a 64 conservando las distancias coseno: 180 notas se procesan en ~60 ms
-          en lugar de varios segundos.
-        </p>
-      </article>
-      <article class="card">
-        <span class="tag tag-b">Interfaz</span>
-        <h3>Cinco superficies, una sola lógica</h3>
-        <p>
-          Vista lateral con mapa SVG (zoom, paneo, clústeres), modal de búsqueda con vista previa y
-          atajos de teclado, pestaña de ajustes, icono de ribbon, barra de estado y menú contextual.
-          Todas consumen el mismo bridge.
-        </p>
-      </article>
-    </div>
-
-    <h3 style="font-size:19px;margin:52px 0 14px">El umbral se adapta a la escala del motor</h3>
-    <pre class="codeblock" tabindex="0"><code><span class="c">// La similitud coseno de TF-IDF y la de los embeddings no viven en la misma escala.</span>
-<span class="c">// Si el grafo queda disperso, el umbral se relaja solo en vez de dibujar un mapa vacío.</span>
-<span class="k">if</span> (this.edges.length &gt;= n * <span class="s">0.6</span> || floor &lt;= <span class="s">0.08</span>) <span class="k">return</span>;
-floor *= <span class="s">0.6</span>;</code></pre>
-
-    <h3 style="font-size:19px;margin:52px 0 14px">Corriendo dentro de Obsidian</h3>
-    <div class="gallery">
-      <figure class="shot full">
-        <a href="assets/smart-atlas-mapa.jpg" target="_blank" rel="noopener"><img src="assets/smart-atlas-mapa-thumb.jpg" width="729" height="800" alt="El mapa, en una bóveda real" loading="lazy"></a>
-        <figcaption><b>El mapa, en una bóveda real</b>22 notas y 26 conexiones, agrupadas por tema sin intervención<span class="zoom">Ver en tamaño completo →</span></figcaption>
-      </figure>
-    </div>
-
-    <div class="cta-row" style="margin-top:34px">
-      <a class="btn btn-ghost" href="https://github.com/teobotaya/smart-atlas" target="_blank" rel="noopener">Código en GitHub</a>
-    </div>
-  </div>
-</section>
-
-<section class="alt" id="mesa">
-  <div class="wrap">
-    <p class="eyebrow">Tercer proyecto</p>
-    <h2 class="sec-title">Market Desk — mesa de análisis financiero</h2>
-    <p class="sec-intro">
-      Aplicación web local que reúne datos públicos de mercado, filings de la SEC y noticias
-      recientes, calcula las métricas cuantitativas en la máquina del usuario y arma dossieres
-      estructurados para análisis cualitativo. Node sin dependencias, y sin una sola clave de API.
-    </p>
-
-    <div class="grid-3">
-      <article class="card">
-        <span class="tag tag-g">Decisión de diseño</span>
-        <h3>Publicable porque no tiene secretos</h3>
-        <p>
-          Una clave de API en un repositorio público es una clave comprometida, y en una app con
-          frontend queda expuesta aunque el repo sea privado. En vez de incrustar una, la app
-          estructura los datos y genera el prompt: el análisis cualitativo se hace afuera.
-        </p>
-      </article>
-      <article class="card">
-        <span class="tag tag-b">Arquitectura</span>
-        <h3>El servidor existe por el navegador</h3>
-        <p>
-          Stooq, SEC EDGAR y Google News no admiten peticiones desde el navegador. El servidor
-          Node hace de proxy, parsea y calcula — y es también lo que identifica la app ante la
-          SEC, que exige un User-Agent con contacto.
-        </p>
-      </article>
-      <article class="card">
-        <span class="tag tag-i">Procesamiento</span>
-        <h3>Reglas antes que modelo</h3>
-        <p>
-          Retornos, volatilidad anualizada, ATR, drawdown y volumen relativo salen de la serie de
-          precios. Los factores de riesgo del 10-K se separan entre específicos de la empresa y
-          boilerplate con heurísticas léxicas. Nada de eso necesita inferencia.
-        </p>
-      </article>
-    </div>
-
-    <h3 style="font-size:19px;margin:52px 0 14px">Separar el riesgo real del relleno</h3>
-    <pre class="codeblock" tabindex="0"><code><span class="c">// Todo 10-K advierte sobre "volatilidad del mercado". Pocos declaran</span>
-<span class="c">// que un solo cliente explica el 40% de los ingresos.</span>
-<span class="k">const</span> SPECIFIC = [
-  /\b\d{1,3}(\.\d)?%\s+of\s+(our\s+)?(total\s+)?(revenue|net sales)/i,
-  /\bone customer\b|\ba single customer\b/i,
-  /\bsole source\b|\bsingle supplier\b/i,
-  /\bexport control|\bentity list\b|\bsanction/i
-];
-<span class="k">const</span> kind = signals &gt;= <span class="s">1</span> ? <span class="s">"especifico"</span>
-  : genericHits &gt;= <span class="s">2</span> ? <span class="s">"generico"</span> : <span class="s">"mixto"</span>;</code></pre>
-
-    <h3 style="font-size:19px;margin:52px 0 14px">La aplicación</h3>
-    <div class="gallery">
-      <figure class="shot full">
-        <a href="assets/market-desk-panel.jpg" target="_blank" rel="noopener"><img src="assets/market-desk-panel-thumb.jpg" width="800" height="400" alt="Panel de riesgo de corto plazo" loading="lazy"></a>
-        <figcaption><b>Panel de riesgo de corto plazo</b>Volatilidad, ATR, drawdown y volumen relativo calculados en la máquina<span class="zoom">Ver en tamaño completo →</span></figcaption>
-      </figure>
-    </div>
-
-    <div class="cta-row" style="margin-top:34px">
-      <a class="btn btn-ghost" href="https://github.com/teobotaya/market-desk" target="_blank" rel="noopener">Código en GitHub</a>
-    </div>
-  </div>
-</section>
-
-<section id="lab">
-  <div class="wrap">
-    <p class="eyebrow">Infraestructura</p>
-    <h2 class="sec-title">DevOps Lab — un clúster que se puede romper</h2>
-    <p class="sec-intro">
-      Una app empaquetada en una imagen de contenedor, corriendo en Kubernetes, con un
-      panel de cinco botones: escalar, matar un pod, generar carga, lanzar un pipeline.
-      Después de cada acción la pantalla muestra la llamada exacta a la API, lo que
-      contestó el clúster y el mecanismo que lo explica. La idea es que cualquiera pueda
-      verificarlo sin creerme nada.
-    </p>
-
-    <div class="grid-3">
-      <article class="card">
-        <span class="tag tag-g">Decisión de diseño</span>
-        <h3>Cada botón se explica solo</h3>
-        <p>Un panel que dice «escalado a 4» no enseña nada. Este devuelve cuatro cosas:
-        el pedido, la respuesta cruda del clúster, el estado después y por qué pasó. Matar
-        un pod no baja el número deseado —eso vive en el Deployment— así que el ReplicaSet
-        crea el reemplazo en el mismo ciclo: eso es la autorreparación, y se ve.</p>
-      </article>
-      <article class="card">
-        <span class="tag tag-i">Seguridad</span>
-        <h3>El Role se escribe desde el código</h3>
-        <p>El panel habla con la API de Kubernetes usando el token del ServiceAccount, sin
-        ningún SDK: son cuarenta líneas de <code>fetch</code>. Lo que ese token puede hacer
-        lo decide un Role con los verbos exactos que el código usa, en un solo namespace.
-        Si alguien se mete en el panel, eso es todo lo que alcanza.</p>
-      </article>
-      <article class="card">
-        <span class="tag tag-b">Entrega continua</span>
-        <h3>No existe una imagen sin pruebas</h3>
-        <p>Las pruebas corren dentro del Dockerfile, en una etapa intermedia, con el mismo
-        Node que va a producción. Si fallan, el build se detiene y la imagen no llega a
-        existir. GitHub Actions valida además los manifiestos con kubeconform y publica en
-        GHCR con una etiqueta por commit.</p>
-      </article>
-    </div>
-
-    <h3 style="font-size:19px;margin:52px 0 14px">El permiso, escrito desde el código</h3>
-    <pre class="codeblock" tabindex="0"><code><span class="c"># El Role sale de las llamadas que el panel hace, nunca al revés.</span>
-<span class="c"># Esto es todo lo que su token alcanza, y solo en el namespace demo.</span>
-<span class="k">rules:</span>
-  - <span class="k">apiGroups:</span> [<span class="s">""</span>]
-    <span class="k">resources:</span> [<span class="s">"pods"</span>]
-    <span class="k">verbs:</span> [<span class="s">"get"</span>, <span class="s">"list"</span>, <span class="s">"delete"</span>]        <span class="c"># matar un pod</span>
-  - <span class="k">apiGroups:</span> [<span class="s">"apps"</span>]
-    <span class="k">resources:</span> [<span class="s">"deployments/scale"</span>]
-    <span class="k">verbs:</span> [<span class="s">"get"</span>, <span class="s">"patch"</span>]                  <span class="c"># escalar, y nada más</span></code></pre>
-
-    <h3 style="font-size:19px;margin:52px 0 14px">Correrlo entero</h3>
-    <pre class="codeblock" tabindex="0"><code><span class="c"># Las pruebas corren dentro del build: si fallan, la imagen no existe.</span>
-make imagen &amp;&amp; make cluster &amp;&amp; make desplegar
-<span class="c"># El panel queda en localhost:30090</span></code></pre>
-
-    <h3 style="font-size:19px;margin:52px 0 14px">El panel</h3>
-    <div class="gallery">
-      <figure class="shot full">
-        <a href="assets/devops-lab-panel.jpg" target="_blank" rel="noopener"><img src="assets/devops-lab-panel-thumb.jpg" width="880" height="509" alt="Panel del DevOps Lab después de matar un pod" loading="lazy"></a>
-        <figcaption><b>Un pod recién matado</b>Entró en Terminating, el reemplazo ya está en Pending y el número deseado no se movió<span class="zoom">Ver en tamaño completo →</span></figcaption>
-      </figure>
-    </div>
-
-    <div class="cta-row" style="margin-top:34px">
-      <a class="btn btn-ghost" href="https://github.com/teobotaya/devops-lab" target="_blank" rel="noopener">Código en GitHub</a>
-      <a class="btn btn-ghost" href="https://github.com/teobotaya/devops-lab/pkgs/container/devops-lab" target="_blank" rel="noopener">La imagen en GHCR</a>
-      <a class="btn-quiet" href="https://github.com/teobotaya/devops-lab/actions" target="_blank" rel="noopener">Ver el pipeline corriendo <span aria-hidden="true">↗</span></a>
-    </div>
-  </div>
-</section>
-
-<section class="alt" id="stack">
-  <div class="wrap">
-    <p class="eyebrow">Herramientas</p>
-    <h2 class="sec-title">Stack</h2>
-    <p class="sec-intro">
-      Cada tecla es algo que uso de verdad en estos cuatro proyectos. Apretá una tecla
-      de tu teclado —o hacé clic en una— y te cuento para qué la usé.
-    </p>
-    <div class="kbd-wrap">
-      <div class="kbd-col">
-        <div class="kbd-stage">
-          <div class="kbd" id="kbd" role="group"
-               aria-label="Teclado con el stack. Usá las flechas para moverte entre las teclas."></div>
-        </div>
-        <!-- Alternativa sin arrastrar: girar la placa tambien con botones y con
-             el teclado. Arrastrar no puede ser la unica forma de hacerlo. -->
-        <div class="kbd-mando" role="group" aria-label="Girar el teclado">
-          <button type="button" class="kbd-btn" data-girar="-1" aria-label="Girar a la izquierda">↺</button>
-          <button type="button" class="kbd-btn" data-girar="1" aria-label="Girar a la derecha">↻</button>
-          <button type="button" class="kbd-btn" data-inclinar="-1" aria-label="Inclinar hacia atrás">↑</button>
-          <button type="button" class="kbd-btn" data-inclinar="1" aria-label="Inclinar hacia adelante">↓</button>
-          <button type="button" class="kbd-btn kbd-reset" data-reset>Restablecer vista</button>
+      <div class="mando contenedor" data-mando>
+        <p class="mando-actual"><span class="mando-num" data-num>01</span><span class="mando-de">/ 06</span><span class="mando-nombre" data-nombre-actual>Botburg Taller</span></p>
+        <div class="regla" data-regla role="group" aria-label="Ir a un proyecto"><span class="regla-cursor" data-cursor></span></div>
+        <div class="mando-botones">
+          <button type="button" class="flecha" data-ir="-1" aria-label="Proyecto anterior"><svg aria-hidden="true" viewBox="0 0 20 20" width="18" height="18"><path d="M12.5 4.5 7 10l5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button type="button" class="flecha" data-ir="1" aria-label="Proyecto siguiente"><svg aria-hidden="true" viewBox="0 0 20 20" width="18" height="18"><path d="M7.5 4.5 13 10l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
       </div>
-      <aside class="kbd-info" id="kbd-info" aria-live="polite">
-        <div class="kbd-dot"></div>
-        <h3>Cero dependencias</h3>
-        <span class="kbd-grp">Decisión de diseño</span>
-        <p>
-          Un plugin de 29 kB con el álgebra lineal escrita a mano —k-means, PCA, proyección
-          aleatoria— y un servidor Node que no instala nada. Menos superficie que mantener
-          y nada que se rompa solo.
-        </p>
-        <p class="kbd-hint">Probá con <kbd>C</kbd>, <kbd>S</kbd> o la <kbd>barra espaciadora</kbd>. Con el teclado, las <kbd>flechas</kbd> recorren la grilla.</p>
-      </aside>
-    </div>
-    <details class="stack-rest">
-      <summary>Ver la lista completa, en texto</summary>
-      <div class="stack-group">
-      <h4>Backend</h4>
-      <div class="chips"><span class="chip">C#</span><span class="chip">ASP.NET Core 8</span><span class="chip">Entity Framework Core</span><span class="chip">API REST</span><span class="chip">JWT</span><span class="chip">xUnit</span><span class="chip">Swagger</span></div>
-    </div>
-    <div class="stack-group">
-      <h4>Frontend</h4>
-      <div class="chips"><span class="chip">TypeScript</span><span class="chip">React</span><span class="chip">React Router</span><span class="chip">Vite</span><span class="chip">CSS / Diseño responsive</span><span class="chip">Vitest</span></div>
-    </div>
-    <div class="stack-group">
-      <h4>Datos e infraestructura</h4>
-      <div class="chips"><span class="chip">SQL Server</span><span class="chip">Modelado relacional</span><span class="chip">Docker · Compose</span><span class="chip">Kubernetes</span><span class="chip">GitHub Actions</span><span class="chip">Git</span></div>
-    </div>
-    <div class="stack-group">
-      <h4>Herramientas propias</h4>
-      <div class="chips"><span class="chip">Obsidian Plugin API</span><span class="chip">esbuild</span><span class="chip">Node.js</span><span class="chip">SVG</span><span class="chip">Álgebra lineal aplicada</span><span class="chip">k-means · PCA</span><span class="chip">Node sin dependencias</span><span class="chip">APIs públicas · SEC EDGAR</span><span class="chip">Parseo de HTML y RSS</span></div>
-    </div>
-    <div class="stack-group">
-      <h4>Análisis y diseño</h4>
-      <div class="chips"><span class="chip">UML</span><span class="chip">Casos de uso</span><span class="chip">Diagramas de secuencia</span><span class="chip">DER y DFD</span><span class="chip">Planificación y Gantt</span></div>
-    </div>
-    </details>
-  </div>
-</section>
-
-<section id="formacion">
-  <div class="wrap">
-    <p class="eyebrow">Formación</p>
-    <h2 class="sec-title">Estudios</h2>
-    <div class="edu">
-      <div class="edu-mark">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/></svg>
-      </div>
-      <div>
-        <h3>Licenciatura en Sistemas de Información</h3>
-        <p>Universidad del Salvador (USAL), sede Pilar — en curso (2026).</p>
-        <p style="margin-top:10px;font-size:14.5px">
-          Este sistema fue desarrollado en el marco de la carrera, cubriendo el ciclo completo:
-          relevamiento, modelado de datos, desarrollo, pruebas y documentación técnica.
-        </p>
-      </div>
     </div>
   </div>
 </section>
 
-<section id="contacto">
-  <div class="wrap">
-    <div class="contact">
-      <h2>¿Buscás un desarrollador junior que entienda el problema antes de escribir código?</h2>
-      <p>Estoy disponible para posiciones junior o pasantías, presencial en zona norte de Buenos Aires o remoto.</p>
-      <div class="cta-row" style="justify-content:center">
-        <a class="btn btn-primary" href="mailto:teobotaya@gmail.com">Escribirme</a>
-        <a class="btn btn-ghost" href="https://github.com/teobotaya" target="_blank" rel="noopener">Ver mi GitHub</a>
-        <a class="btn btn-ghost" href="assets/CV-Teo-Botaya.pdf" target="_blank" rel="noopener">Descargar CV</a>
-      </div>
+<section class="criterio contenedor" id="criterio" aria-labelledby="criterio-titulo">
+  <div class="seccion-cabeza aparece">
+    <h2 class="seccion-titulo" id="criterio-titulo">Criterio</h2>
+    <p class="seccion-bajada">Las mismas cuatro ideas aparecen en los seis proyectos.</p>
+  </div>
+  <ol class="principios">
+    <li class="aparece">
+      <span class="principio-n" aria-hidden="true">1</span>
+      <h3>La regla va en la capa que nadie puede saltear.</h3>
+      <p>Si una cancha no puede reservarse dos veces, eso no lo decide un formulario: lo decide un índice único en la base. Si un taller no puede ver los datos de otro, lo decide la seguridad por fila de Postgres, no un filtro en la pantalla.</p>
+      <p class="donde">En <a href="#p-sports">Sports Complex Admin</a> y <a href="#p-botburg">Botburg Taller</a></p>
+    </li>
+    <li class="aparece">
+      <span class="principio-n" aria-hidden="true">2</span>
+      <h3>Nada de secretos en el repositorio.</h3>
+      <p>Una clave en un repo público es una clave quemada. Market Desk funciona sin ninguna, Botburg guarda las suyas como secretos en Netlify y Sports Complex versiona solo las plantillas <code>.example</code>.</p>
+      <p class="donde">En <a href="#p-market">Market Desk</a>, <a href="#p-botburg">Botburg Taller</a> y <a href="#p-sports">Sports Complex Admin</a></p>
+    </li>
+    <li class="aparece">
+      <span class="principio-n" aria-hidden="true">3</span>
+      <h3>Si no se puede verificar, no está terminado.</h3>
+      <p>El panel de DevOps Lab muestra la llamada exacta a la API, las pruebas corren dentro del Dockerfile y Botburg se prueba con Playwright y axe a 390 y 1280 px. Prefiero que me puedan revisar a que me tengan que creer.</p>
+      <p class="donde">En <a href="#p-devops">DevOps Lab</a>, <a href="#p-botburg">Botburg Taller</a> y <a href="#p-lol">LoL Auto Accept</a></p>
+    </li>
+    <li class="aparece">
+      <span class="principio-n" aria-hidden="true">4</span>
+      <h3>Un error tiene que decir qué falló.</h3>
+      <p>En Market Desk, un mensaje que no nombraba la fuente me costó un ciclo entero de depuración. Cuando lo cambié por uno que decía qué había respondido cada fuente, los dos bugs siguientes salieron en una sola pasada.</p>
+      <p class="donde">En <a href="#p-market">Market Desk</a></p>
+    </li>
+  </ol>
+</section>
+
+<section class="sobre contenedor" id="sobre-mi" aria-labelledby="sobre-titulo">
+  <div class="seccion-cabeza aparece">
+    <h2 class="seccion-titulo" id="sobre-titulo">Sobre mí</h2>
+  </div>
+  <div class="sobre-cuerpo">
+    <div class="sobre-texto aparece">
+      <p>Casi todo lo que construí salió de un problema concreto: el turnero en cuaderno de un complejo deportivo, una bóveda de Obsidian a la que le quería ver la forma, las ganas de leer un balance antes de operar, la partida que se acepta mientras estoy lejos de la compu.</p>
+      <p>Me interesa la parte del trabajo que no se ve en la demo: dónde vive cada regla, qué pasa cuando una fuente no contesta y cómo se prueba que algo anda.</p>
     </div>
+    <dl class="ficha aparece">
+      <div><dt>Formación</dt><dd>Licenciatura en Sistemas de Información, Universidad del Salvador (USAL), sede Pilar. En curso, 2026.</dd></div>
+      <div><dt>Vivo en</dt><dd>Malvinas Argentinas, en el norte del conurbano de Buenos Aires.</dd></div>
+      <div><dt>Disponible para</dt><dd>Un puesto junior o una pasantía, presencial en zona norte o remoto.</dd></div>
+    </dl>
+  </div>
+
+  <div class="stack aparece" id="stack">
+    <h3 class="rotulo">Stack</h3>
+    <dl class="stack-lista">
+      <div><dt>Backend</dt><dd>C#, ASP.NET Core 8, Entity Framework Core, APIs REST, JWT, xUnit, Swagger</dd></div>
+      <div><dt>Frontend</dt><dd>TypeScript, React, React Router, Vite, CSS y diseño responsive, Vitest, Playwright</dd></div>
+      <div><dt>Datos</dt><dd>SQL Server, PostgreSQL, Supabase, seguridad por fila (RLS), modelado relacional, índices y restricciones, migraciones</dd></div>
+      <div><dt>Infraestructura</dt><dd>Docker y Compose, Kubernetes, GitHub Actions, GHCR, Netlify, Git, Node.js, esbuild</dd></div>
+      <div><dt>Análisis</dt><dd>UML, casos de uso, diagramas de secuencia, DER y DFD, minería de datos con Weka</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="contacto" id="contacto" aria-labelledby="contacto-titulo">
+  <div class="contenedor">
+    <p class="contacto-rotulo">Contacto</p>
+    <h2 class="contacto-titulo" id="contacto-titulo">Busco un puesto junior o una pasantía.</h2>
+    <p class="contacto-bajada">Presencial en zona norte de Buenos Aires o remoto.</p>
+    <p class="contacto-mail">
+      <a href="mailto:teobotaya@gmail.com">teobotaya@gmail.com</a>
+      <button type="button" class="copiar" data-copiar="teobotaya@gmail.com">Copiar</button>
+      <span class="sr" role="status" data-copiar-estado></span>
+    </p>
+    <p class="contacto-links">
+      <a href="https://github.com/teobotaya" target="_blank" rel="noopener">github.com/teobotaya <span aria-hidden="true">↗</span></a>
+      <a href="assets/CV-Teo-Botaya.pdf" target="_blank" rel="noopener">CV en PDF <span aria-hidden="true">↗</span></a>
+    </p>
   </div>
 </section>
 
 </main>
 
-<footer>
-  <div class="wrap foot-in">
-    <span>© 2026 Teo Matías Botaya</span>
-    <span>Hecho a mano con HTML y CSS. El teclado es 3D nativo del navegador, sin librerías.</span>
+<footer class="pie">
+  <div class="contenedor pie-in">
+    <p>Teo Matías Botaya, 2026</p>
+    <p>Hecho a mano: HTML, CSS y un poco de JavaScript, sin frameworks ni build.</p>
+    <p data-reloj hidden>En Buenos Aires son las <time data-hora></time></p>
   </div>
 </footer>
 
-<dialog class="paleta" id="paleta" aria-label="Ir a una sección">
-  <form method="dialog" class="paleta-caja">
-    <div class="paleta-arriba">
-      <span class="paleta-prompt" aria-hidden="true">›</span>
-      <input type="search" class="paleta-input" id="paleta-input" autocomplete="off"
-             placeholder="Ir a…" aria-label="Buscar una sección" aria-controls="paleta-lista">
-      <kbd>esc</kbd>
-    </div>
-    <ul class="paleta-lista" id="paleta-lista" role="listbox" aria-label="Resultados"></ul>
-    <p class="paleta-vacio" hidden>Sin resultados.</p>
-  </form>
-</dialog>
+<div class="espia" data-espia-caja aria-hidden="true">
+  <img src="assets/proyectos/botburg-portal.webp" alt="" width="390" height="760" loading="lazy">
+  <img src="assets/proyectos/sports-relacional.webp" alt="" width="880" height="600" loading="lazy">
+  <img src="assets/proyectos/smart-atlas.webp" alt="" width="911" height="1000" loading="lazy">
+  <img src="assets/proyectos/market-desk.webp" alt="" width="1400" height="700" loading="lazy">
+  <img src="assets/proyectos/devops-lab.webp" alt="" width="1280" height="740" loading="lazy">
+  <img src="assets/proyectos/lol-auto-accept.webp" alt="" width="900" height="875" loading="lazy">
+</div>
 
-<script src="assets/3d.js" defer></script>
+<script src="assets/sitio.js" defer></script>
 </body>
 </html>
